@@ -126,13 +126,21 @@
   <ItemGroup>
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="States\MenuState.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="UI\UIElement.cpp" />
+    <ClCompile Include="UI\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="States\MenuState.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="States\State.hpp" />
+    <ClInclude Include="UI\UIElement.h" />
+    <ClInclude Include="UI\Button.hpp" />
+    <ClInclude Include="UI\Events\MouseEvents.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

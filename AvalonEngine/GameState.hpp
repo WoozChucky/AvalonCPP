@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "UI/Button.hpp"
 
 namespace av {
 
@@ -12,11 +13,12 @@ namespace av {
 		~GameState();
 
 		void Update(float timestep);
-		void Render(sf::RenderWindow& l_Window);
+		void Render(sf::RenderWindow& l_window);
 		void HandleInput();
 	private:
-		Player m_Player;
-		std::vector<Enemy> m_Enemies;
+		Player m_player_;
+		std::vector<Enemy> m_enemies_;
+		ui::Button temp;
 	};
 
 }
