@@ -35,4 +35,5 @@ void av::GameState::Render(sf::RenderWindow& l_window)
 
 void av::GameState::HandleInput()
 {
+
 }

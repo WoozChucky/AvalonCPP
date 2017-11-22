@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "UI/Button.hpp"

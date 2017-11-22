@@ -8,6 +8,7 @@ av::ui::Button::Button(const sf::Vector2f l_size, const sf::Vector2f l_position,
 	m_text_.setFont(m_font_);
 	m_text_.setString(l_title);
 	m_text_.setCharacterSize(30);
+	m_text_.setFillColor(sf::Color::Black);
 	m_text_.setPosition(l_position.x + (l_size.x - m_text_.getLocalBounds().width) / 2, l_position.y + l_size.y / 2 - m_text_.getLocalBounds().height);
 
 	m_background_.setOutlineColor(sf::Color::Black);

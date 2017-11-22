@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Events/MouseEvents.hpp"
-#include "UIElement.h"
+#include "UIElement.hpp"
 
 namespace av {
 
