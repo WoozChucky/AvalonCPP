@@ -1,7 +1,7 @@
 #include "Enemy.hpp"
 
 
-av::Enemy::Enemy(const sf::Vector2f l_size, const av::Class l_class) 
+av::entities::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class) 
 	: m_body_(l_size), m_class_(l_class)
 {
 	//BODY
@@ -13,17 +13,17 @@ av::Enemy::Enemy(const sf::Vector2f l_size, const av::Class l_class)
 	m_body_.setFillColor(sf::Color::Red);
 }
 
-av::Enemy::~Enemy()
+av::entities::Enemy::~Enemy()
 {
 }
 
-void av::Enemy::Update(float timestep)
+void av::entities::Enemy::Update(float timestep)
 {
 
 }
 
 
-void av::Enemy::Render(sf::RenderWindow& l_window)
+void av::entities::Enemy::Render(sf::RenderWindow& l_window)
 {
 	l_window.draw(m_body_);
 }

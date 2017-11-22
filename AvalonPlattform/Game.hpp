@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "GameState.hpp"
+#include "States/State.hpp"
+#include "States/GameState.hpp"
+#include "States/MenuState.hpp"
 
 namespace av {
 
@@ -16,13 +18,22 @@ namespace av {
 		void Render();
 		void Run();
 		void RestartClock();
+		void Restart();
 
 		sf::RenderWindow* GetWindow();
 
+		void ChangeState(state::State* l_state);
+
 	private:
-		av::GameState m_game_state_;
+		//States
+		state::State* m_current_state_;
+		state::GameState m_game_state_;
+		state::MenuState m_menu_state_;
+
+		//SFML
 		sf::RenderWindow m_window_;
 		sf::Clock m_clock_;
+
 		double m_elapsed_;
 	};
 

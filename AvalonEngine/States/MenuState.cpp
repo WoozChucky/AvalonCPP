@@ -1,6 +1,6 @@
 #include "MenuState.hpp"
 
-av::MenuState::MenuState() :
+av::state::MenuState::MenuState() :
 	m_new_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 120.f), sf::String("New Game")),
 	m_high_scores_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 250.f), sf::String("High Scores")),
 	m_quit_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 380.f), sf::String("Quit Game")), 
@@ -18,11 +18,11 @@ av::MenuState::MenuState() :
 	}
 }
 
-av::MenuState::~MenuState()
+av::state::MenuState::~MenuState()
 {
 }
 
-void av::MenuState::Update(float timestep, sf::RenderWindow& l_window)
+void av::state::MenuState::Update(float timestep)
 {
 	auto temp{ 0 };
 	if (m_pressed_) {
@@ -42,7 +42,7 @@ void av::MenuState::Update(float timestep, sf::RenderWindow& l_window)
 	}
 }
 
-void av::MenuState::Render(sf::RenderWindow& l_window)
+void av::state::MenuState::Render(sf::RenderWindow& l_window)
 {
 	l_window.draw(m_background_);
 	m_new_game_.Render(l_window);
@@ -50,6 +50,36 @@ void av::MenuState::Render(sf::RenderWindow& l_window)
 	m_quit_game_.Render(l_window);
 }
 
-void av::MenuState::HandleInput()
+void av::state::MenuState::HandleInput()
 {
+}
+
+void av::state::MenuState::setPressed(bool l_status)
+{
+	this->m_pressed_ = l_status;
+}
+
+bool av::state::MenuState::getPressed()
+{
+	return this->m_pressed_;
+}
+
+void av::state::MenuState::setMousePosition(const sf::Vector2i l_position)
+{
+	//TODO
+}
+sf::Vector2i av::state::MenuState::getMousePosition() 
+{
+	sf::Vector2i o(0, 0);
+	return o;
+}
+
+void av::state::MenuState::setButtonPressed(int l_index, int l_value)
+{
+	this->m_button_pressed_[l_index] = l_value;
+}
+
+int av::state::MenuState::getButtonPressed(int l_index)
+{
+	return this->m_button_pressed_[l_index];
 }

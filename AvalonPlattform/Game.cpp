@@ -1,11 +1,11 @@
 #include "Game.hpp"
 
 av::Game::Game(const std::string window_title) : 
+	m_game_state_(),
+	m_menu_state_(),
 	m_window_(sf::VideoMode(800, 600, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
 {
-	m_clock_.restart();
-	m_elapsed_ = 0.0f;
-	m_window_.setFramerateLimit(60);
+	Restart();
 }
 
 av::Game::~Game()
@@ -15,13 +15,31 @@ av::Game::~Game()
 
 void av::Game::Update(const float timestep)
 {
-	this->m_game_state_.Update(timestep);
+	this->m_current_state_->Update(timestep);
+
+	if(this->m_current_state_ == &this->m_menu_state_)
+	{
+		if(this->m_menu_state_.getButtonPressed(0))
+		{
+			this->Restart();
+			this->m_menu_state_.setButtonPressed(0, false);
+		} 
+		else if (this->m_menu_state_.getButtonPressed(1))
+		{
+			// TODO: Highscore states
+		}
+		else if (this->m_menu_state_.getButtonPressed(2))
+		{
+			this->m_window_.close();
+			this->m_menu_state_.setButtonPressed(2, false);
+		}
+	}
 }
 
 void av::Game::Render()
 {
 	this->m_window_.clear(sf::Color(sf::Color(150, 207, 234)));
-	this->m_game_state_.Render(this->m_window_);
+	this->m_current_state_->Render(this->m_window_);
 	this->m_window_.display();
 }
 
@@ -58,9 +76,23 @@ void av::Game::Run()
 
 }
 
+void av::Game::Restart() 
+{
+	this->m_clock_.restart();
+	this->m_elapsed_ = 0.0f;
+	this->m_window_.setFramerateLimit(90);
+	this->m_current_state_ = &this->m_game_state_;
+	this->m_game_state_.Restart();
+}
+
 void av::Game::RestartClock()
 {
 	this->m_elapsed_ += m_clock_.restart().asSeconds();
+}
+
+void av::Game::ChangeState(av::state::State* l_state)
+{
+	this->m_current_state_ = l_state;
 }
 
 sf::RenderWindow* av::Game::GetWindow()

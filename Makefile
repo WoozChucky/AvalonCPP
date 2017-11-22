@@ -13,20 +13,20 @@ output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
 
-Main.o: $(PLATTFORM_PATH)/Main.cpp $(ENGINE_PATH)/GameState.hpp
+Main.o: $(PLATTFORM_PATH)/Main.cpp $(ENGINE_PATH)/States/GameState.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(PLATTFORM_PATH)/Main.cpp
 
 Game.o: $(PLATTFORM_PATH)/Game.cpp $(PLATTFORM_PATH)/Game.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(PLATTFORM_PATH)/Game.cpp 
 
-GameState.o: $(ENGINE_PATH)/GameState.cpp $(ENGINE_PATH)/GameState.hpp
-	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/GameState.cpp
+GameState.o: $(ENGINE_PATH)/States/GameState.cpp $(ENGINE_PATH)/States/GameState.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/States/GameState.cpp
 
-Player.o: $(ENGINE_PATH)/Player.cpp $(ENGINE_PATH)/Player.hpp
-	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Player.cpp
+Player.o: $(ENGINE_PATH)/Entities/Player.cpp $(ENGINE_PATH)/Entities/Player.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Entities/Player.cpp
 
-Enemy.o: $(ENGINE_PATH)/Enemy.cpp $(ENGINE_PATH)/Enemy.hpp
-	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Enemy.cpp
+Enemy.o: $(ENGINE_PATH)/Entities/Enemy.cpp $(ENGINE_PATH)/Entities/Enemy.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Entities/Enemy.cpp
 
 MenuState.o: $(ENGINE_PATH)/States/MenuState.cpp $(ENGINE_PATH)/States/MenuState.hpp
 	$(CC) $(INCLUDE_ENGINE)/States -c $(ENGINE_PATH)/States/MenuState.cpp
@@ -35,6 +35,7 @@ Button.o: $(ENGINE_PATH)/UI/Button.cpp $(ENGINE_PATH)/UI/Button.hpp
 	$(CC) $(INCLUDE_ENGINE)/UI -c $(ENGINE_PATH)/UI/Button.cpp
 
 clean:
+	rm *.o
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output
 run:
 	./$(BUILD_DIR)/output
