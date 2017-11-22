@@ -35,7 +35,8 @@ Button.o: $(ENGINE_PATH)/UI/Button.cpp $(ENGINE_PATH)/UI/Button.hpp
 	$(CC) $(INCLUDE_ENGINE)/UI -c $(ENGINE_PATH)/UI/Button.cpp
 
 clean:
-	rm *.o
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output
+	rm *.o
+	
 run:
 	./$(BUILD_DIR)/output

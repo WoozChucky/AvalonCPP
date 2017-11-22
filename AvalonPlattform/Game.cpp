@@ -5,7 +5,10 @@ av::Game::Game(const std::string window_title) :
 	m_menu_state_(),
 	m_window_(sf::VideoMode(800, 600, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
 {
-	Restart();
+	this->m_clock_.restart();
+	this->m_elapsed_ = 0.0f;
+	this->m_window_.setFramerateLimit(90);
+	this->m_current_state_ = &this->m_menu_state_;
 }
 
 av::Game::~Game()
@@ -49,9 +52,30 @@ void av::Game::HandleInput()
 
 	while (this->m_window_.pollEvent(event))
 	{
-		if (sf::Event::EventType::Closed == event.type)
+		if (sf::Event::EventType::Closed == event.type)					// Window Events
 		{
 			this->m_window_.close();
+		} 
+		else if (event.type == sf::Event::EventType::KeyPressed)		// Keyboard Events
+		{
+			if (event.key.code == sf::Keyboard::Key::Escape){
+                if (this->m_current_state_ == &this->m_menu_state_) {
+                    ChangeState(&this->m_game_state_);
+                } else {
+                    ChangeState(&this->m_menu_state_);
+                }
+            }
+		}
+		else if (event.type == sf::Event::EventType::MouseButtonPressed) //Mouse Events
+		{
+			if(event.mouseButton.button == sf::Mouse::Button::Left) 
+			{
+				if(this->m_current_state_ == &this->m_menu_state_) 
+				{
+					this->m_menu_state_.setPressed(true);
+					this->m_menu_state_.setMousePosition(sf::Mouse::getPosition(this->m_window_));
+				}
+			}
 		}
 	}
 }
