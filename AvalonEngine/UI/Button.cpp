@@ -1,66 +1,105 @@
 #include "Button.hpp"
+#include "Utils/Math.hpp"
 
 
-av::ui::Button::Button(const sf::Vector2f l_size, const sf::Vector2f l_position, const sf::String l_title)
-	: m_background_(l_size),
-	m_click_callback_(nullptr), m_enter_callback_(nullptr), m_exit_callback_(nullptr)
+av::ui::Button::Button(const sf::Vector2f l_size, const sf::Vector2f l_position)
+	: m_click_callback_(nullptr),
+	m_enter_callback_(nullptr), m_exit_callback_(nullptr), m_background_(l_size)
 {
-	m_font_.loadFromFile("titillium.otf");
-	m_text_.setFont(m_font_);
-	m_text_.setString(l_title);
-	m_text_.setCharacterSize(30);
-	m_text_.setFillColor(sf::Color::Black);
-	m_text_.setPosition(l_position.x + (l_size.x - m_text_.getLocalBounds().width) / 2, l_position.y + l_size.y / 2 - m_text_.getLocalBounds().height);
-
-	m_background_.setOutlineColor(sf::Color::White);
-	m_background_.setOutlineThickness(5.f);
-	m_background_.setFillColor(sf::Color::Red);
-	m_background_.setPosition(l_position);
+	m_inited_ = false;
+	Init(l_size, l_position, 30, sf::Color::Green, sf::Color::White, "Button");
 }
 
-void av::ui::setFont(sf::Font l_font)
+av::ui::Button::Button(const sf::Vector2f l_size, const sf::Vector2f l_position,
+                       const sf::Color l_button_color, const sf::Color l_text_color,
+                       const sf::String l_title, const sf::Uint32 l_text_size)
+	: m_click_callback_(nullptr),
+	m_enter_callback_(nullptr), m_exit_callback_(nullptr), m_background_(l_size)
+{
+	m_inited_ = false;
+	Init(l_size, l_position, l_text_size, l_button_color, l_text_color, l_title);
+}
+
+void av::ui::Button::Init(const sf::Vector2f l_size, 
+						  const sf::Vector2f l_position,
+                          const sf::Uint32 l_text_size, 
+						  const sf::Color l_button_color, 
+						  const sf::Color l_text_color,
+                          const sf::String l_text)
+{
+	this->m_font_.loadFromFile("titillium.otf");
+
+	this->m_text_.setFont(this->m_font_);
+	this->m_text_.setString(l_text);
+	this->m_text_.setCharacterSize(l_text_size);
+	this->m_text_.setFillColor(l_text_color);
+	this->m_text_.setPosition(utils::Math::getCenterCoordinates(l_position, l_size, m_text_.getLocalBounds()));
+
+	this->m_background_.setFillColor(l_button_color);
+	this->m_background_.setPosition(l_position);
+	this->m_inited_ = true;
+}
+
+void av::ui::Button::setFont(const sf::Font l_font)
 {
 	this->m_text_.setFont(l_font);
 }
-void av::ui::setTextSize(Uint32 l_size)
+
+void av::ui::Button::setTextSize(const sf::Uint32 l_size)
 {
 	this->m_text_.setCharacterSize(l_size);
 }
-void av::ui::setText(sf::String l_text)
+
+void av::ui::Button::setText(const sf::String l_text)
 {
 	this->m_text_.setString(l_text);
 }
-void av::ui::setTextColor(sf::Color l_color)
+
+void av::ui::Button::setTextColor(const sf::Color l_color)
 {
 	this->m_text_.setFillColor(l_color);
 }
-void av::ui::setTextBackgroundColor(sf::Color l_color)
+
+void av::ui::Button::setTextBackgroundColor(const sf::Color l_color)
 {
-	this->m_text_.setOutlineColor(l_color); //NOTE: Not sure if this is valid
+	this->m_text_.setOutlineColor(l_color);
 }
 
-void av::ui::setBackgroundColor()
+void av::ui::Button::setTextAlignment(enums::TextAlignment l_alignment)
 {
+	//TODO(Nuno): Think about how to implement this
+	
+	//auto position = utils::Math::getCenterCoordinates();
 
-}
-void av::ui::setBackgroundOutlineColor()
-{
-
-}
-void av::ui::setBackgroundOutlineThickness()
-{
-
+	//this->m_text_.setPosition(position);
 }
 
-void av::ui::setOnClick(events::MouseClickCallback* l_callback)
+void av::ui::Button::setBackgroundColor(const sf::Color l_color)
+{
+	this->m_background_.setFillColor(l_color);
+}
+
+void av::ui::Button::setBackgroundOutlineColor(const sf::Color l_color)
+{
+	this->m_background_.setOutlineColor(l_color);
+}
+
+void av::ui::Button::setBackgroundOutlineThickness(const float l_tickness)
+{
+	this->m_background_.setOutlineThickness(l_tickness);
+}
+
+void av::ui::Button::setOnClick(events::MouseClickCallback* l_callback)
 {
 	this->m_click_callback_ = l_callback;
 }
-void av::ui::setOnMouseEnter(events::MouseOverEnterCallback* l_callback)
+
+void av::ui::Button::setOnMouseEnter(events::MouseOverEnterCallback* l_callback)
 {
 	this->m_enter_callback_ = l_callback;
 }
-void av::ui::setOnMouseExit(events::MouseOverExitCallback* l_callback)
+
+void av::ui::Button::setOnMouseExit(events::MouseOverExitCallback* l_callback)
 {
 	this->m_exit_callback_ = l_callback;
 }
@@ -79,12 +118,19 @@ void av::ui::Button::onClick() const
 
 void av::ui::Button::Update(float timestep)
 {
+	if(this->m_inited_)
+	{
+		
+	}
 }
 
 void av::ui::Button::Render(sf::RenderWindow& l_window)
 {
-	l_window.draw(this->m_background_);
-	l_window.draw(this->m_text_);
+	if(this->m_inited_)
+	{
+		l_window.draw(this->m_background_);
+		l_window.draw(this->m_text_);
+	}
 }
 
 sf::FloatRect av::ui::Button::GetGlobalBounds()

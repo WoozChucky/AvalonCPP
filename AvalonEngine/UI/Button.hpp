@@ -8,24 +8,30 @@ namespace av {
 
 	namespace ui
 	{
-
 		class Button : public UIElement {
 
 		public:
 			
+			Button(sf::Vector2f l_size, sf::Vector2f l_position);
+
 			Button(sf::Vector2f l_size, sf::Vector2f l_position, 
-				sf::String l_title = sf::String("Button"));
+				sf::Color l_button_color = sf::Color::Blue, 
+				sf::Color l_text_color = sf::Color::Black,
+				sf::String l_title = sf::String("Button"),
+				sf::Uint32 l_text_size = 30);
+
 			virtual ~Button() = default;
 
 			void setFont(sf::Font l_font);
-			void setTextSize(Uint32 l_size);
+			void setTextSize(sf::Uint32 l_size);
 			void setText(sf::String l_text);
 			void setTextColor(sf::Color l_color);
 			void setTextBackgroundColor(sf::Color l_color);
+			void setTextAlignment(enums::TextAlignment l_alignment);
 
-			void setBackgroundColor();
-			void setBackgroundOutlineColor();
-			void setBackgroundOutlineThickness();
+			void setBackgroundColor(sf::Color l_color);
+			void setBackgroundOutlineColor(sf::Color l_color);
+			void setBackgroundOutlineThickness(float l_thickness);
 
 			void setOnClick(events::MouseClickCallback* l_callback);
 			void setOnMouseEnter(events::MouseOverEnterCallback* l_callback);
@@ -38,7 +44,9 @@ namespace av {
 			sf::FloatRect GetGlobalBounds() override;
 
 		private:
-			void Init();
+			void Init(sf::Vector2f l_size, sf::Vector2f l_position,
+				sf::Uint32 l_text_size, sf::Color l_button_color,
+				sf::Color l_text_color, sf::String l_text);
 
 			//Events
 			events::MouseClickCallback* m_click_callback_;
@@ -52,10 +60,7 @@ namespace av {
 			// Body
 			sf::RectangleShape m_background_;
 
-			// Colors
-			sf::Color m_textColor_;
-			sf::Color m_OutlineColor_;
-			sf::Color m_backgroundColor_;
+			bool m_inited_;
 
 		};
 	}

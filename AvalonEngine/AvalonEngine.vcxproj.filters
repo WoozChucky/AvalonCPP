@@ -15,30 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UIElement.cpp" />
     <ClCompile Include="States\MenuState.cpp" />
+    <ClCompile Include="States\GameState.cpp" />
+    <ClCompile Include="Entities\Enemy.cpp" />
+    <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="UI\Utils\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.hpp">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.hpp" />
-    <ClInclude Include="Enemy.hpp">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Class.hpp">
-      <Filter>Enums</Filter>
-    </ClInclude>
     <ClInclude Include="UI\Button.hpp">
       <Filter>UI</Filter>
     </ClInclude>
@@ -48,5 +34,11 @@
     <ClInclude Include="UI\UIElement.h" />
     <ClInclude Include="States\State.hpp" />
     <ClInclude Include="States\MenuState.hpp" />
+    <ClInclude Include="States\GameState.hpp" />
+    <ClInclude Include="Entities\Class.hpp" />
+    <ClInclude Include="Entities\Enemy.hpp" />
+    <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="UI\UIElement.hpp" />
+    <ClInclude Include="UI\Utils\Math.hpp" />
   </ItemGroup>
 </Project>

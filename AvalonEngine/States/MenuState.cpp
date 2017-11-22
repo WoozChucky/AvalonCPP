@@ -1,9 +1,9 @@
 #include "MenuState.hpp"
 
 av::state::MenuState::MenuState() :
-	m_new_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 120.f), sf::String("New Game")),
-	m_high_scores_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 250.f), sf::String("High Scores")),
-	m_quit_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 380.f), sf::String("Quit Game")), 
+	m_new_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 120.f), sf::Color::Green),
+	m_high_scores_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 250.f), sf::Color::Green),
+	m_quit_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 380.f), sf::Color::Green),
 	m_pressed_(false)
 {
 	m_background_.setPosition(sf::Vector2f(270.f, 90.f));

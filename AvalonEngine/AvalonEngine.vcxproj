@@ -124,23 +124,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Entities\Enemy.cpp" />
+    <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="UI\Utils\Math.cpp" />
+    <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="States\MenuState.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="UI\UIElement.cpp" />
     <ClCompile Include="UI\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Class.hpp" />
-    <ClInclude Include="Enemy.hpp" />
-    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="Entities\Class.hpp" />
+    <ClInclude Include="Entities\Enemy.hpp" />
+    <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="UI\Utils\Math.hpp" />
+    <ClInclude Include="States\GameState.hpp" />
     <ClInclude Include="States\MenuState.hpp" />
-    <ClInclude Include="Player.hpp" />
     <ClInclude Include="States\State.hpp" />
     <ClInclude Include="UI\UIElement.h" />
     <ClInclude Include="UI\Button.hpp" />
     <ClInclude Include="UI\Events\MouseEvents.hpp" />
+    <ClInclude Include="UI\UIElement.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,15 @@ namespace av
 {
 	namespace ui
 	{
+		namespace enums
+		{
+			enum TextAlignment : short {
+				Left = 0xE,
+				Right = 0xB,
+				Center = 0xC
+			};
+		}
+
 		class UIElement
 		{
 		protected:
