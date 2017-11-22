@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "UI/Button.hpp"
 
 av::Game::Game(const std::string window_title) : 
 	m_window_(sf::VideoMode(800, 600, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
@@ -8,7 +7,6 @@ av::Game::Game(const std::string window_title) :
 	m_elapsed_ = 0.0f;
 	m_window_.setFramerateLimit(60);
 }
-
 
 av::Game::~Game()
 {
