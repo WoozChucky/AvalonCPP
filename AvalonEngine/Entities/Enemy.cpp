@@ -8,8 +8,7 @@ av::entities::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 	m_body_.setOutlineThickness(2.f);
 	m_body_.setOutlineColor(sf::Color::Black);
 
-	//TODO(Nuno): Fix random spawn as it is the same on every lauch of the executable
-	m_body_.setPosition(float(rand() % 700 + 50), float(rand() % 100));
+	m_body_.setPosition(static_cast<float>(rand() % 690 + 50), static_cast<float>(rand() % 100));
 	m_body_.setFillColor(sf::Color::Red);
 }
 
