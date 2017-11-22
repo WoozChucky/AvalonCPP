@@ -9,7 +9,7 @@ av::state::MenuState::MenuState() :
 	m_background_.setPosition(sf::Vector2f(270.f, 90.f));
 	m_background_.setFillColor(sf::Color::Blue);
 	m_background_.setOutlineColor(sf::Color::Black);
-	m_background_.setOutlineThickness(2.f);
+	m_background_.setOutlineThickness(5.f);
 	m_background_.setSize(sf::Vector2f(260.f, 420.f));
 
 	for (auto i = 0; i < 3; i++)

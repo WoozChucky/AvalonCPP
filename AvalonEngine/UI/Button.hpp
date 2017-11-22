@@ -17,8 +17,19 @@ namespace av {
 				sf::String l_title = sf::String("Button"));
 			virtual ~Button() = default;
 
+			void setFont(sf::Font l_font);
+			void setTextSize(Uint32 l_size);
 			void setText(sf::String l_text);
+			void setTextColor(sf::Color l_color);
+			void setTextBackgroundColor(sf::Color l_color);
+
+			void setBackgroundColor();
+			void setBackgroundOutlineColor();
+			void setBackgroundOutlineThickness();
+
 			void setOnClick(events::MouseClickCallback* l_callback);
+			void setOnMouseEnter(events::MouseOverEnterCallback* l_callback);
+			void setOnMouseExit(events::MouseOverExitCallback* l_callback);
 			void onClick() const;
 
 			//Base class overrides
@@ -27,6 +38,7 @@ namespace av {
 			sf::FloatRect GetGlobalBounds() override;
 
 		private:
+			void Init();
 
 			//Events
 			events::MouseClickCallback* m_click_callback_;
