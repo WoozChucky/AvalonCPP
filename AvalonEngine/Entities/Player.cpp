@@ -5,7 +5,7 @@ av::entities::Player::Player() :
 {
 	this->m_player_velocity_ = 200.f;
 	this->m_velocity_ = {m_player_velocity_, m_player_velocity_};
-	this->setPosition(sf::Vector2f(400.f, 300.f));
+	this->setPosition(sf::Vector2f(400.f, 550.f));
 	this->setFillColor(sf::Color(48, 48, 48));
 	this->setOrigin(40, 40);
 	this->setOutlineColor(sf::Color::Black);
@@ -25,7 +25,13 @@ void av::entities::Player::Update(const float timestep)
 {
 	this->Move(timestep);
 
-	this->m_rifle_.setRotation(getRotationAngle());
+	auto angle = getRotationAngle();
+ 
+	//Lock rifle rotation
+	if(angle >= -90.1f && angle <= 90.1f)
+	{
+		this->m_rifle_.setRotation(angle);
+	}
 
 	this->Shoot(timestep);
 }
@@ -42,9 +48,69 @@ void av::entities::Player::Render(sf::RenderWindow& l_window)
 void av::entities::Player::HandleInput(const sf::Event l_event)
 {
 	//Update mouse position
-	this->m_mouse_position_ = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
+	if (l_event.type == sf::Event::EventType::MouseMoved) {
 
+		this->m_mouse_position_ = sf::Vector2f(l_event.mouseMove.x, l_event.mouseMove.y);
 
+	}
+
+}
+
+void av::entities::Player::Move(float timestep)
+{
+	// we move the player and the rifle accordingly based on the buttons pressed
+    sf::CircleShape::move(m_velocity_.x*timestep,m_velocity_.y*timestep);
+    this->m_rifle_.move(m_velocity_.x*timestep,m_velocity_.y*timestep);
+    if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){        
+        m_velocity_.x = m_player_velocity_;
+        if ((Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))){
+            m_velocity_.x = 0;
+        } /* else if ((Top() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))) {
+            m_velocity_.y = -m_player_velocity_;
+        } else if ((Bottom() < 600) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))){
+            m_velocity_.y = m_player_velocity_;
+        } */ else {
+            m_velocity_.y = 0;
+        }
+    } else if ((Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))) {
+        m_velocity_.x = -m_player_velocity_;
+        if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
+            m_velocity_.x = 0;
+        } /* else if ((Top() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))) {
+            m_velocity_.y = -m_player_velocity_;
+        } else if ((Bottom() < 600) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))){
+            m_velocity_.y = m_player_velocity_;
+        } */ else {
+            m_velocity_.y = 0;
+        }
+    } 
+	/*
+	else if ((Top() > 0 && Top() < 400) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))){
+        m_velocity_.y = -m_player_velocity_;
+        if ((Bottom() < 600) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))){
+            m_velocity_.y = 0;
+        } else if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
+            m_velocity_.x = m_player_velocity_;
+        } else if( (Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))) {
+            m_velocity_.x = -m_player_velocity_;
+        } else {
+            m_velocity_.x = 0;
+        }
+    } else if ((Bottom() < 600) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))){
+        m_velocity_.y = m_player_velocity_;
+        if ((Top() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))){
+            m_velocity_.y = 0;
+        } else if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
+            m_velocity_.x = m_player_velocity_;
+        } else if( (Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))) {
+            m_velocity_.x = -m_player_velocity_;
+        } else {
+            m_velocity_.x = 0;
+        }
+    }*/ else {
+        m_velocity_.x = 0.f;
+        m_velocity_.y = 0.f;
+    }
 }
 
 
@@ -61,10 +127,10 @@ void av::entities::Player::Shoot(float timestep) {
 
 		sf::Vector2f l_position{ getBulletSpawn() };
 
-		float magnitude{ sqrt(pow((l_position.x - this->m_rifle_.getPosition().x),2) + pow((l_position.y - this->m_rifle_.getPosition().y),2)) };
+		auto magnitude{ sqrt(pow((l_position.x - this->m_rifle_.getPosition().x),2) + pow((l_position.y - this->m_rifle_.getPosition().y),2)) };
 
-		float x_direction{ (l_position.x - this->m_rifle_.getPosition().x) / magnitude };
-		float y_direction{ (l_position.y - this->m_rifle_.getPosition().y) / magnitude };
+		auto x_direction{ (l_position.x - this->m_rifle_.getPosition().x) / magnitude };
+		auto y_direction{ (l_position.y - this->m_rifle_.getPosition().y) / magnitude };
 
 		if ((!m_bullets.empty()) && (std::chrono::duration_cast<std::chrono::milliseconds>(ms - m_bullets[m_bullets.size() - 1].GetSpawnTime()).count() > 300)) {
 			Bullet bullet(l_position, x_direction, y_direction);
@@ -149,7 +215,7 @@ sf::Vector2f av::entities::Player::getBulletSpawn() const
 
 void av::entities::Player::Restart() {
 	this->m_bullets.clear();
-	this->m_rifle_.setPosition(400.f, 400.f);
-	this->setPosition(400.f, 400.f);
+	this->m_rifle_.setPosition(400.f, 550.f);
+	this->setPosition(400.f, 550.f);
 }
 

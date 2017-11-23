@@ -3,6 +3,8 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <chrono>
+#include <math.h>
+#include <iostream>
 #include "Bullet.hpp"
 
 namespace av

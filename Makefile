@@ -7,8 +7,8 @@ INCLUDE_ENGINE=-I $(ENGINE_PATH)
 BUILD_DIR=Build/$(OS)
 LINK_LIBARIES=-lsfml-graphics -lsfml-window -lsfml-system
 
-output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o
-	g++ -std=c++14 Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o -o output $(LINK_LIBARIES)
+output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o
+	g++ -std=c++14 Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o -o output $(LINK_LIBARIES)
 	mkdir -p $(BUILD_DIR)
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
@@ -27,6 +27,9 @@ Player.o: $(ENGINE_PATH)/Entities/Player.cpp $(ENGINE_PATH)/Entities/Player.hpp
 
 Enemy.o: $(ENGINE_PATH)/Entities/Enemy.cpp $(ENGINE_PATH)/Entities/Enemy.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Entities/Enemy.cpp
+
+Bullet.o: $(ENGINE_PATH)/Entities/Bullet.cpp $(ENGINE_PATH)/Entities/Bullet.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Entities/Bullet.cpp
 
 MenuState.o: $(ENGINE_PATH)/States/MenuState.cpp $(ENGINE_PATH)/States/MenuState.hpp
 	$(CC) $(INCLUDE_ENGINE)/States -c $(ENGINE_PATH)/States/MenuState.cpp
