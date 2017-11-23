@@ -13,6 +13,8 @@
 # Compiled Object files
 *.o
 
+.DS_STORE
+
 # Build results
 [Oo]utput/
 [Bb]uild/
