@@ -53,6 +53,9 @@ void av::ui::Button::setTextSize(const sf::Uint32 l_size)
 void av::ui::Button::setText(const sf::String l_text)
 {
 	this->m_text_.setString(l_text);
+	//Experimenting
+	this->m_text_.setPosition(utils::Math::getCenterCoordinates(this->m_background_.getPosition(), 
+		this->m_background_.getSize(), this->m_text_.getLocalBounds()));
 }
 
 void av::ui::Button::setTextColor(const sf::Color l_color)
