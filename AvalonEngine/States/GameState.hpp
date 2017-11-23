@@ -18,7 +18,9 @@ namespace av {
 
 			void Update(float timestep) override;
 			void Render(sf::RenderWindow& l_window) override;
-			void HandleInput() override;
+			void HandleInput(sf::Event l_event) override;
+
+			bool m_requires_pause = false;
 
 			void Restart();
 		private:

@@ -10,7 +10,7 @@ namespace av
 		public:
 			void virtual Update(float timestep) = 0;
 			void virtual Render(sf::RenderWindow& l_window) = 0;
-			void virtual HandleInput() = 0;
+			void virtual HandleInput(sf::Event l_event) = 0;
 		};
 	}
 }

@@ -15,7 +15,7 @@ namespace av
 
 			void Update(float timestep) override;
 			void Render(sf::RenderWindow& l_window) override;
-			void HandleInput() override;
+			void HandleInput(sf::Event l_event) override;
 
 			// Getters and Setters
 

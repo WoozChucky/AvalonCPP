@@ -51,7 +51,7 @@ void av::state::MenuState::Render(sf::RenderWindow& l_window)
 	this->m_quit_game_.Render(l_window);
 }
 
-void av::state::MenuState::HandleInput()
+void av::state::MenuState::HandleInput(sf::Event l_event)
 {
 }
 

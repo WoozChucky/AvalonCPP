@@ -34,9 +34,25 @@ void av::state::GameState::Render(sf::RenderWindow& l_window)
 	temp.Render(l_window);
 }
 
-void av::state::GameState::HandleInput()
+void av::state::GameState::HandleInput(sf::Event l_event)
 {
 
+	if(l_event.type == sf::Event::LostFocus) 
+	{
+		std::cout << "lost focus" << std::endl;
+		this->m_requires_pause = true;
+	}
+
+	if(l_event.type == sf::Event::GainedFocus) 
+	{
+		std::cout << "regained focus" << std::endl;
+		this->m_requires_pause = false;
+	}
+
+	if (l_event.type == sf::Event::EventType::MouseMoved) {
+		std::cout << "new mouse x: " << l_event.mouseMove.x << std::endl;
+    	std::cout << "new mouse y: " << l_event.mouseMove.y << std::endl;
+	}
 }
 
 void av::state::GameState::Restart()
