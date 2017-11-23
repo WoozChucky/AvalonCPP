@@ -1,4 +1,4 @@
-language: cpp
+language: generic
 sudo: required
 dist: trusty
 compiler:
@@ -12,6 +12,12 @@ branches:
   - dev
 
 before_script:
+  # Update GCC Version
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq g++-6
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+  # Download and Install SFML and Dev Dependencies
   - wget https://www.sfml-dev.org/files/SFML-2.4.2-linux-gcc-64-bit.tar.gz -O /tmp/sfml.tar.gz
   - tar -zxvf /tmp/sfml.tar.gz
   - sudo cp -r SFML-2.4.2/* /usr/
