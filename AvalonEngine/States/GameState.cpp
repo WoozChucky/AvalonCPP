@@ -11,10 +11,6 @@ temp(sf::Vector2f(200.f, 50.f), sf::Vector2f(300.f, 250.f), sf::Color::Yellow)
 	temp.setText("OK");
 }
 
-av::state::GameState::~GameState()
-{
-}
-
 void av::state::GameState::Update(const float timestep)
 {
 	for(auto i = 0; i < this->m_enemies_.size(); i++)
@@ -39,14 +35,7 @@ void av::state::GameState::HandleInput(sf::Event l_event)
 
 	if(l_event.type == sf::Event::LostFocus) 
 	{
-		std::cout << "lost focus" << std::endl;
 		this->m_requires_pause = true;
-	}
-
-	if(l_event.type == sf::Event::GainedFocus) 
-	{
-		std::cout << "regained focus" << std::endl;
-		this->m_requires_pause = false;
 	}
 
 	if(l_event.type == sf::Event::EventType::KeyPressed)
@@ -56,9 +45,14 @@ void av::state::GameState::HandleInput(sf::Event l_event)
 		}
 	}
 
-	if (l_event.type == sf::Event::EventType::MouseMoved) {
-		std::cout << "new mouse x: " << l_event.mouseMove.x << std::endl;
-    	std::cout << "new mouse y: " << l_event.mouseMove.y << std::endl;
+	if (l_event.type == sf::Event::EventType::MouseButtonPressed) {
+
+		auto mouse_position = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
+		
+		if(temp.GetGlobalBounds().contains(mouse_position))
+		{
+			std::cout << "Mouse click over button" << std::endl;
+		}
 	}
 }
 

@@ -38,10 +38,44 @@ void av::state::PauseState::Render(sf::RenderWindow& l_window)
 
 void av::state::PauseState::HandleInput(sf::Event l_event)
 {
+    // Check if the event, was a keyboard event
     if(l_event.type == sf::Event::EventType::KeyPressed)
 	{
-		if(l_event.key.code == sf::Keyboard::Key::Escape) {
+		if(l_event.key.code == sf::Keyboard::Key::Escape) { //Escape pressed
 			this->m_exit_pause_ = true;
-		}
+		} 
+        else if (l_event.key.code == sf::Keyboard::Key::Space  // Space or Enter pressed
+              || l_event.key.code == sf::Keyboard::Key::Return)
+        {
+            //TODO: Handle Logic for selected option/button
+            std::cout << "Pressed " << l_event.key.code << std::endl;
+        }
 	}
+    else if (l_event.type == sf::Event::EventType::MouseButtonPressed)      // Mouse
+    {
+        auto mouse_position = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
+
+        if(l_event.mouseButton.button == sf::Mouse::Button::Left) // Left Click
+        {
+            this->HandleMouseClick(mouse_position);
+        }
+	}
+}
+
+void av::state::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position)
+{    
+    if(this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position))
+    {
+        // Continue was clicked
+        this->m_exit_pause_ = true;
+    } 
+    else if (this->m_options_.GetGlobalBounds().contains(l_mouse_position))
+    {
+        // Options was clicked
+    }
+    else if(this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position))
+    {
+        // Quit Game was clicked
+        this->m_exit_game_ = true;
+    }
 }

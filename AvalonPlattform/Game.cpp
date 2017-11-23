@@ -47,6 +47,11 @@ void av::Game::Update(const float timestep)
 			this->m_pause_state_.m_exit_pause_ = false;
 			this->ChangeState(this->m_previous_state_);
 		}
+		else if (this->m_pause_state_.m_exit_game_)
+		{
+			this->m_pause_state_.m_exit_game_ = false;
+			this->ChangeState(&this->m_menu_state_);
+		}
 	}
 }
 

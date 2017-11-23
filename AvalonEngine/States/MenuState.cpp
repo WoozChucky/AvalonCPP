@@ -12,21 +12,20 @@ av::state::MenuState::MenuState() :
 	m_background_.setOutlineThickness(5.f);
 	m_background_.setSize(sf::Vector2f(260.f, 420.f));
 
+	m_new_game_.setText("New Game");
+	m_high_scores_.setText("Highscores");
+	m_quit_game_.setText("Exit");
+
 	for (auto i = 0; i < 3; i++)
 	{
 		m_button_pressed_[i] = false;
 	}
 }
 
-av::state::MenuState::~MenuState()
-{
-}
-
 void av::state::MenuState::Update(float timestep)
 {
 	if (m_pressed_) {
 		std::cout << "X -> " << m_mouse_position_.x << std::endl << "Y -> " << m_mouse_position_.y << std::endl;
-		std::cout << "Box X -> " << m_new_game_.GetGlobalBounds().left << std::endl << "Box Y -> " << m_new_game_.GetGlobalBounds().top << std::endl;
 		if (m_new_game_.GetGlobalBounds().contains(m_mouse_position_.x, m_mouse_position_.y)) {
 			std::cout << "Pressed New Game" << std::endl;
 			m_button_pressed_[0] = true;

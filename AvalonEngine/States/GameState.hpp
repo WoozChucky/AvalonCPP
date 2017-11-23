@@ -14,7 +14,6 @@ namespace av {
 		{
 		public:
 			GameState();
-			~GameState();
 
 			void Update(float timestep) override;
 			void Render(sf::RenderWindow& l_window) override;
