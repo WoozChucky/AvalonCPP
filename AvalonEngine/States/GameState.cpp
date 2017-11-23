@@ -49,6 +49,13 @@ void av::state::GameState::HandleInput(sf::Event l_event)
 		this->m_requires_pause = false;
 	}
 
+	if(l_event.type == sf::Event::EventType::KeyPressed)
+	{
+		if(l_event.key.code == sf::Keyboard::Key::Escape) {
+			this->m_requires_pause = true;
+		}
+	}
+
 	if (l_event.type == sf::Event::EventType::MouseMoved) {
 		std::cout << "new mouse x: " << l_event.mouseMove.x << std::endl;
     	std::cout << "new mouse y: " << l_event.mouseMove.y << std::endl;

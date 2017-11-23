@@ -12,7 +12,6 @@ namespace av {
 	{
 	public:
 		explicit Game(std::string window_title = "Avalon : The Beginning");
-		~Game();
 
 		void HandleInput();
 		void Update(float timestep);
@@ -28,6 +27,7 @@ namespace av {
 	private:
 		//States
 		state::State* m_current_state_;
+		state::State* m_previous_state_;
 
 		state::GameState m_game_state_;
 		state::MenuState m_menu_state_;

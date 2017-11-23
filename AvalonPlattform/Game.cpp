@@ -12,11 +12,6 @@ av::Game::Game(const std::string window_title) :
 	this->m_current_state_ = &this->m_menu_state_;
 }
 
-av::Game::~Game()
-{
-
-}
-
 void av::Game::Update(const float timestep)
 {
 	this->m_current_state_->Update(timestep);
@@ -45,6 +40,14 @@ void av::Game::Update(const float timestep)
 			this->ChangeState(&this->m_pause_state_);
 		}
 	}
+	else if (this->m_current_state_ == &this->m_pause_state_) // Pause State
+	{
+		if(this->m_pause_state_.m_exit_pause_)
+		{
+			this->m_pause_state_.m_exit_pause_ = false;
+			this->ChangeState(this->m_previous_state_);
+		}
+	}
 }
 
 void av::Game::Render()
@@ -63,17 +66,6 @@ void av::Game::HandleInput()
 		if (sf::Event::EventType::Closed == event.type)					// Window Events
 		{
 			this->m_window_.close();
-		}
-
-		if (event.type == sf::Event::EventType::KeyPressed)				// Keyboard Events
-		{
-			if (event.key.code == sf::Keyboard::Key::Escape){
-                if (this->m_current_state_ == &this->m_menu_state_) {
-                    ChangeState(&this->m_game_state_);
-                } else {
-                    ChangeState(&this->m_menu_state_);
-                }
-            }
 		}
 
 		if (event.type == sf::Event::EventType::MouseButtonPressed) //Mouse Events
@@ -129,6 +121,7 @@ void av::Game::RestartClock()
 
 void av::Game::ChangeState(av::state::State* l_state)
 {
+	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
 }
 
