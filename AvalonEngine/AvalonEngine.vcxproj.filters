@@ -43,6 +43,6 @@
     <ClInclude Include="UI\UIElement.hpp" />
     <ClInclude Include="UI\Utils\Math.hpp" />
     <ClInclude Include="States\PauseState.hpp" />
-    <ClInclude Include="Entities\Bullet.h" />
+    <ClInclude Include="Entities\Bullet.hpp" />
   </ItemGroup>
 </Project>

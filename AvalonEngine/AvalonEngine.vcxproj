@@ -134,7 +134,7 @@
     <ClCompile Include="UI\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entities\Bullet.h" />
+    <ClInclude Include="Entities\Bullet.hpp" />
     <ClInclude Include="Entities\Class.hpp" />
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
