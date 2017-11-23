@@ -13,20 +13,13 @@ namespace av
 			MenuState();
 
 			void Update(float timestep) override;
-			void Render(sf::RenderWindow& l_window) override;
+			void Render(sf::RenderWindow& l_window) override;		
 			void HandleInput(sf::Event l_event) override;
 
-			// Getters and Setters
+			bool m_new;
+			bool m_high;
+			bool m_exit;
 
-			void setPressed(bool l_status);
-			bool getPressed();
-
-			void setMousePosition(const sf::Vector2i l_position);
-			sf::Vector2i getMousePosition();
-
-			void setButtonPressed(int l_index, int l_value);
-			int getButtonPressed(int l_index);
-			
 		private:
 
 			ui::Button m_new_game_;
@@ -34,9 +27,10 @@ namespace av
 			ui::Button m_quit_game_;
 			sf::RectangleShape m_background_;
 
-			bool m_pressed_;
-			sf::Vector2i m_mouse_position_;
-			int m_button_pressed_[3];
+			sf::Uint32 m_virtual_index_ = 0;
+
+			void HandleArrowSelection(int l_direction);
+			void HandleMouseClick(const sf::Vector2f& l_mouse_position);
 		};
 	}
 }

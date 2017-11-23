@@ -20,8 +20,6 @@ namespace av {
 		void RestartClock();
 		void Restart();
 
-		sf::RenderWindow* GetWindow();
-
 		void ChangeState(state::State* l_state);
 
 	private:

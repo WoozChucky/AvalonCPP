@@ -23,6 +23,8 @@
     <ClCompile Include="Entities\Enemy.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="UI\Utils\Math.cpp" />
+    <ClCompile Include="States\PauseState.cpp" />
+    <ClCompile Include="Entities\Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI\Button.hpp">
@@ -40,5 +42,7 @@
     <ClInclude Include="Entities\Player.hpp" />
     <ClInclude Include="UI\UIElement.hpp" />
     <ClInclude Include="UI\Utils\Math.hpp" />
+    <ClInclude Include="States\PauseState.hpp" />
+    <ClInclude Include="Entities\Bullet.h" />
   </ItemGroup>
 </Project>

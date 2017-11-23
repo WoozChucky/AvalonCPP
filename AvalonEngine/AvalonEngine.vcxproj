@@ -124,17 +124,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entities\Bullet.cpp" />
     <ClCompile Include="Entities\Enemy.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="States\PauseState.cpp" />
     <ClCompile Include="UI\Utils\Math.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="States\MenuState.cpp" />
     <ClCompile Include="UI\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Bullet.h" />
     <ClInclude Include="Entities\Class.hpp" />
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="States\PauseState.hpp" />
     <ClInclude Include="UI\Utils\Math.hpp" />
     <ClInclude Include="States\GameState.hpp" />
     <ClInclude Include="States\MenuState.hpp" />

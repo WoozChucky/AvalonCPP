@@ -12,7 +12,6 @@ namespace av
         {
             public:
                 PauseState();
-                ~PauseState();
 
                 void Update(float timestep) override;
                 void Render(sf::RenderWindow& l_window) override;
