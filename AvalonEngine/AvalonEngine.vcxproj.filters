@@ -1,48 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{80a766fa-8e45-4880-b3f5-430f5ba06524}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enums">
-      <UniqueIdentifier>{28e44638-33ed-4680-93bf-bdf2180956e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{4ed13564-044d-44e8-9716-a0f068ac15be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Events">
-      <UniqueIdentifier>{976410c4-81ca-4780-88da-b1b014d04280}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="UI\Button.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="States\MenuState.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="Entities\Enemy.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
-    <ClCompile Include="UI\Utils\Math.cpp" />
     <ClCompile Include="States\PauseState.cpp" />
     <ClCompile Include="Entities\Bullet.cpp" />
+    <ClCompile Include="GameUI\Healthbar.cpp" />
+    <ClCompile Include="EngineUI\Button.cpp" />
+    <ClCompile Include="EngineUI\Utils\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI\Button.hpp">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\Events\MouseEvents.hpp">
-      <Filter>UI\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\UIElement.h" />
     <ClInclude Include="States\State.hpp" />
     <ClInclude Include="States\MenuState.hpp" />
     <ClInclude Include="States\GameState.hpp" />
     <ClInclude Include="Entities\Class.hpp" />
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
-    <ClInclude Include="UI\UIElement.hpp" />
-    <ClInclude Include="UI\Utils\Math.hpp" />
     <ClInclude Include="States\PauseState.hpp" />
     <ClInclude Include="Entities\Bullet.hpp" />
+    <ClInclude Include="GameUI\Healthbar.hpp" />
+    <ClInclude Include="EngineUI\Events\MouseEvents.hpp" />
+    <ClInclude Include="EngineUI\Button.hpp" />
+    <ClInclude Include="EngineUI\UIElement.hpp" />
+    <ClInclude Include="EngineUI\Utils\Math.hpp" />
   </ItemGroup>
 </Project>

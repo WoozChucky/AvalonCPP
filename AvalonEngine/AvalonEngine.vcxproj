@@ -81,6 +81,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\SFML-2.4.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -124,29 +125,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EngineUI\Button.cpp" />
+    <ClCompile Include="EngineUI\Utils\Math.cpp" />
     <ClCompile Include="Entities\Bullet.cpp" />
     <ClCompile Include="Entities\Enemy.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="GameUI\Healthbar.cpp" />
     <ClCompile Include="States\PauseState.cpp" />
-    <ClCompile Include="UI\Utils\Math.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="States\MenuState.cpp" />
-    <ClCompile Include="UI\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EngineUI\Button.hpp" />
+    <ClInclude Include="EngineUI\Events\MouseEvents.hpp" />
+    <ClInclude Include="EngineUI\UIElement.hpp" />
+    <ClInclude Include="EngineUI\Utils\Math.hpp" />
     <ClInclude Include="Entities\Bullet.hpp" />
     <ClInclude Include="Entities\Class.hpp" />
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="GameUI\Healthbar.hpp" />
     <ClInclude Include="States\PauseState.hpp" />
-    <ClInclude Include="UI\Utils\Math.hpp" />
     <ClInclude Include="States\GameState.hpp" />
     <ClInclude Include="States\MenuState.hpp" />
     <ClInclude Include="States\State.hpp" />
-    <ClInclude Include="UI\UIElement.h" />
-    <ClInclude Include="UI\Button.hpp" />
-    <ClInclude Include="UI\Events\MouseEvents.hpp" />
-    <ClInclude Include="UI\UIElement.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

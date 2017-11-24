@@ -61,9 +61,9 @@ void av::entities::Player::Move(float timestep)
 	// we move the player and the rifle accordingly based on the buttons pressed
     sf::CircleShape::move(m_velocity_.x*timestep,m_velocity_.y*timestep);
     this->m_rifle_.move(m_velocity_.x*timestep,m_velocity_.y*timestep);
-    if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){        
+    if ((Right() < 800) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
         m_velocity_.x = m_player_velocity_;
-        if ((Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))){
+        if ((Left() > 0) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))){
             m_velocity_.x = 0;
         } /* else if ((Top() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))) {
             m_velocity_.y = -m_player_velocity_;
@@ -72,9 +72,9 @@ void av::entities::Player::Move(float timestep)
         } */ else {
             m_velocity_.y = 0;
         }
-    } else if ((Left() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))) {
+    } else if ((Left() > 0) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))) {
         m_velocity_.x = -m_player_velocity_;
-        if ((Right() < 800) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
+        if ((Right() < 800) && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))){
             m_velocity_.x = 0;
         } /* else if ((Top() > 0) and (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))) {
             m_velocity_.y = -m_player_velocity_;

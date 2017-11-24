@@ -11,17 +11,17 @@ public:
 
 	bool Update(float timestep);
 
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() const;
 
-	float Top();
-	float Bottom();
-	float Left();
-	float Right();
-	std::chrono::time_point<std::chrono::system_clock> GetSpawnTime();
+	float Top() const;
+	float Bottom() const;
+	float Left() const;
+	float Right() const;
+	std::chrono::time_point<std::chrono::system_clock> GetSpawnTime() const;
 	void IncreaseDamage(int l_damage);
 	void DecreaseDamage(int l_damage);
 	void SetDamage(int l_damage);
-	int GetDamage();
+	int GetDamage() const;
 	int m_damage;
 
 private:

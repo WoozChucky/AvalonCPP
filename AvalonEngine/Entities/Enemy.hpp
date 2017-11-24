@@ -19,16 +19,16 @@ namespace av
 			virtual void Update(float timestep);
 			virtual void Render(sf::RenderWindow& l_window);
 
-			sf::Vector2f getPosition();
-			sf::Vector2f getSize();
+			sf::Vector2f getPosition() const;
+			sf::Vector2f getSize() const;
 
 			void TakeDamage(sf::Uint32 l_damage);
-			bool IsAlive();
+			bool IsAlive() const;
 			bool Collide(Bullet& l_entity);
-			bool Collide(Player& l_entity);
+			bool Collide(Player& l_entity) const;
 
 		private:
-			sf::RectangleShape m_body_;
+			RectangleShape m_body_;
 
 			ui::Healthbar m_healthbar_;
 

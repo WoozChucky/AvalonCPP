@@ -29,21 +29,20 @@ void av::ui::Healthbar::setPosition(sf::Vector2f l_position)
 
 bool av::ui::Healthbar::Minus(sf::Uint32 l_damage)
 {
-    if (this->m_health_ - l_damage <= 0) {
+    if (this->m_health_ - static_cast<int>(l_damage) <= 0) {
         return false; // Entity is 'dead'
-    } else {
-
-        auto current_health_position = sf::Vector2f(static_cast<float>(((this->m_health_-l_damage))*HP_WIDTH/100), HP_HEIGHT);
-
-        this->m_current_health_.setSize(current_health_position);
-        this->m_health_ = this->m_health_ - l_damage; // Update health to calculate missing health
-
-        auto missing_health_position = sf::Vector2f(this->m_current_health_.getPosition().x + this->m_current_health_.getSize().x,
-                this->m_current_health_.getPosition().y);
-
-        this->m_missing_health_.setPosition(missing_health_position);
-        this->m_missing_health_.setSize(sf::Vector2f(HP_WIDTH - this->m_current_health_.getSize().x, HP_HEIGHT));
-        
-        return true;
     }
+
+	auto current_health_position = sf::Vector2f(static_cast<float>(((this->m_health_-l_damage))*HP_WIDTH/100), HP_HEIGHT);
+
+	this->m_current_health_.setSize(current_health_position);
+	this->m_health_ -= l_damage; // Update health to calculate missing health
+
+	auto missing_health_position = sf::Vector2f(this->m_current_health_.getPosition().x + this->m_current_health_.getSize().x,
+	                                            this->m_current_health_.getPosition().y);
+
+	this->m_missing_health_.setPosition(missing_health_position);
+	this->m_missing_health_.setSize(sf::Vector2f(HP_WIDTH - this->m_current_health_.getSize().x, HP_HEIGHT));
+        
+	return true;
 }
