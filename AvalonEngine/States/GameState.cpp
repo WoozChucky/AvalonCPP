@@ -1,14 +1,12 @@
 #include "GameState.hpp"
 
-av::state::GameState::GameState() : m_player_(),
-temp(sf::Vector2f(200.f, 50.f), sf::Vector2f(300.f, 250.f), sf::Color::Yellow)
+av::state::GameState::GameState() : m_player_()
 {
 	for (auto i = 0; i < 5; i++)
 	{
 		entities::Enemy temp(sf::Vector2f(50.f, 50.f), entities::Class::Warrior);
 		m_enemies_.push_back(temp);
 	}
-	temp.setText("OK");
 }
 
 void av::state::GameState::Update(const float timestep)
@@ -58,12 +56,6 @@ void av::state::GameState::HandleInput(const sf::Event l_event)
 		}
 	}
 
-	if (l_event.type == sf::Event::EventType::MouseButtonPressed) {
-
-		auto mouse_position = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
-		
-		//TODO: Handle cursor movement display
-	}
 }
 
 void av::state::GameState::Restart()

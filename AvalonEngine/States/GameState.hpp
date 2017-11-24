@@ -25,7 +25,6 @@ namespace av {
 		private:
 			entities::Player m_player_;
 			std::vector<entities::Enemy> m_enemies_;
-			ui::Button temp;
 		};
 
 	}
