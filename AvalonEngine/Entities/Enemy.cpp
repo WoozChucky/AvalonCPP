@@ -52,9 +52,9 @@ bool av::entities::Enemy::Collide(Player& l_entity) const
 
 bool av::entities::Enemy::Collide(Bullet& l_entity)
 {
-	if ( l_entity.getGlobalBounds().left > getPosition().x && getPosition().x + getSize().x > l_entity.getGlobalBounds().left ||
-        l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width > getPosition().x && getPosition().x + getSize().x > l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width) {
-            if (getPosition().y < l_entity.getGlobalBounds().top && getPosition().y + getSize().y > l_entity.getGlobalBounds().top){
+	if ( ( (l_entity.getGlobalBounds().left > getPosition().x) && (getPosition().x + getSize().x > l_entity.getGlobalBounds().left) ) || \
+        ((l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width > getPosition().x) && ((getPosition().x + getSize().x) > l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width))) {
+            if ((getPosition().y < l_entity.getGlobalBounds().top) && (getPosition().y + getSize().y > l_entity.getGlobalBounds().top)){
                 TakeDamage(l_entity.GetDamage());
                 return true;
             }

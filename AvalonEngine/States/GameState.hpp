@@ -4,6 +4,7 @@
 #include "../Entities/Player.hpp"
 #include "../Entities/Enemy.hpp"
 #include "../EngineUI/Utils/Math.hpp"
+#include "../Generators/EntityGenerator.hpp"
 
 namespace av {
 
