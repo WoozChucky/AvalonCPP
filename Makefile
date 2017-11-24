@@ -48,8 +48,7 @@ Healthbar.o: $(ENGINE_PATH)/GameUI/Healthbar.cpp $(ENGINE_PATH)/GameUI/Healthbar
 
 
 clean:
-	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output
-	rm *.o
+	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o
 	
 run:
 	./$(BUILD_DIR)/output

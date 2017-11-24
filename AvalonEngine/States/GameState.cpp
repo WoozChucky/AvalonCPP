@@ -15,8 +15,22 @@ void av::state::GameState::Update(const float timestep)
 	this->m_player_.Update(timestep);
 
 	// Check if any bullet collides with enemies, then erase them from screen
-	for(auto i = 0; i < this->m_enemies_.size(); i++)
+	for(auto i = 0; i < this->m_player_.m_bullets.size(); i++)
 	{
+		for(auto j = 0; j < this->m_enemies_.size(); j++)
+		{
+			if(this->m_enemies_[j].Collide(this->m_player_.m_bullets[i]))
+			{   //Bullet collided with Enemy
+				//Erase bullet
+				this->m_player_.m_bullets.erase(this->m_player_.m_bullets.begin() + i);
+				if(!this->m_enemies_[j].IsAlive())
+				{	//Enemy died, erase it
+					this->m_enemies_.erase(this->m_enemies_.begin() + j);
+					//TODO: Add points to scoreboard
+					//NOTE: Maybe enemies can drop 'powerups' on death ?
+				}
+			}
+		}
 		this->m_enemies_.at(i).Update(timestep);
 	}
 	
