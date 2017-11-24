@@ -32,13 +32,13 @@ Bullet.o: $(ENGINE_PATH)/Entities/Bullet.cpp $(ENGINE_PATH)/Entities/Bullet.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Entities/Bullet.cpp
 
 MenuState.o: $(ENGINE_PATH)/States/MenuState.cpp $(ENGINE_PATH)/States/MenuState.hpp
-	$(CC) $(INCLUDE_ENGINE)/States -c $(ENGINE_PATH)/States/MenuState.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/States/MenuState.cpp
 
-Button.o: $(ENGINE_PATH)/UI/Button.cpp $(ENGINE_PATH)/UI/Button.hpp $(ENGINE_PATH)/UI/Utils/Math.hpp
-	$(CC) $(INCLUDE_ENGINE)/UI -c $(ENGINE_PATH)/UI/Button.cpp
+Button.o: $(ENGINE_PATH)/EngineUI/Button.cpp $(ENGINE_PATH)/EngineUI/Button.hpp $(ENGINE_PATH)/EngineUI/Utils/Math.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/EngineUI/Button.cpp
 
-Math.o: $(ENGINE_PATH)/UI/Utils/Math.cpp $(ENGINE_PATH)/UI/Utils/Math.hpp
-	$(CC) $(INCLUDE_ENGINE)/UI/Utils -c $(ENGINE_PATH)/UI/Utils/Math.cpp
+Math.o: $(ENGINE_PATH)/EngineUI/Utils/Math.cpp $(ENGINE_PATH)/EngineUI/Utils/Math.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/EngineUI/Utils/Math.cpp
 
 PauseState.o: $(ENGINE_PATH)/States/PauseState.cpp $(ENGINE_PATH)/States/PauseState.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/States/PauseState.cpp
