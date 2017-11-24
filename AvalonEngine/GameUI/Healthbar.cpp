@@ -1,6 +1,6 @@
 #include "Healthbar.hpp"
 
-void av::ui::Healthbar::Healthbar(sf::Vector2f l_position)
+av::ui::Healthbar::Healthbar(sf::Vector2f l_position)
     : m_current_health_(sf::Vector2f(HP_WIDTH, HP_HEIGHT)), 
     m_missing_health_(sf::Vector2f(0.f, HP_HEIGHT)), m_health_(100)
 {
