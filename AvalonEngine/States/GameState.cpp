@@ -1,7 +1,8 @@
 #include "GameState.hpp"
 #include "../Generators/EntityGenerator.hpp"
+#include "../Extensions/VectorExtensions.hpp"
 
-av::state::GameState::GameState() : m_player_()
+av::state::GameState::GameState() : m_cursor_(), m_player_()
 {
 
 }
@@ -24,6 +25,8 @@ void av::state::GameState::Render(sf::RenderWindow& l_window)
 	{
 		this->m_enemies_.at(i).Render(l_window);
 	}
+
+	this->m_cursor_.Render(l_window);
 }
 
 void av::state::GameState::HandleInput(const sf::Event l_event)
@@ -42,6 +45,13 @@ void av::state::GameState::HandleInput(const sf::Event l_event)
 		if(l_event.key.code == sf::Keyboard::Key::Escape) {
 			this->m_requires_pause = true;
 		}
+	}
+
+	if(l_event.type == sf::Event::EventType::MouseMoved)
+	{
+		const auto mouse_position = sf::Vector2f(l_event.mouseMove.x, l_event.mouseMove.y);
+
+		this->m_cursor_.SetPosition(mouse_position); //TODO: Add overload for float x,y
 	}
 }
 
@@ -81,16 +91,6 @@ void av::state::GameState::HandleCollision()
 			}
 		}
 	}
-	this->RemoveElements(this->m_player_.m_bullets, bullets_to_remove);
-	this->RemoveElements(this->m_enemies_, enemies_to_remove);
-}
-
-//TODO: Add this List Extensions
-template <class T, class Y>
-void av::state::GameState::RemoveElements(std::vector<T>& vec, std::vector<Y> index)
-{
-	for (auto it = index.begin(); it != index.end(); it++)
-	{
-		vec.erase(vec.begin() + static_cast<int>(*it));
-	}
+	VectorExtensions::RemoveElements(this->m_player_.m_bullets, bullets_to_remove);
+	VectorExtensions::RemoveElements(this->m_enemies_, enemies_to_remove);
 }

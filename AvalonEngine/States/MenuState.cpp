@@ -15,6 +15,8 @@ av::state::MenuState::MenuState() :
 	m_new_game_.setText("New Game");
 	m_high_scores_.setText("Highscores");
 	m_quit_game_.setText("Exit");
+
+	std::cout << m_window_size.x << " " << m_window_size.y << std::endl;
 }
 
 void av::state::MenuState::Update(float timestep)

@@ -93,8 +93,7 @@
       </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>
-      </Message>
+      <Message>Copy assets to output folder</Message>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>xcopy /s /Y  "$(SolutionDir)Libraries\Debug" "$(SolutionDir)Output\$(ConfigurationName)\"</Command>

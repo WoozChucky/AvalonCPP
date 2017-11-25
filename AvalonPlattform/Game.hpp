@@ -11,7 +11,7 @@ namespace av {
 	class Game
 	{
 	public:
-		explicit Game(std::string window_title = "Avalon : The Beginning");
+		explicit Game(sf::Uint32 l_width, sf::Uint32 l_height, std::string window_title = "Avalon : The Beginning");
 
 		void HandleInput();
 		void Update(float timestep);

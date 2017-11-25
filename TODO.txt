@@ -1,0 +1,26 @@
+This is our TODO list:
+
+-> Add a Settings system for Video and Audio configuration.
+	- Maybe a file that is read @ startup. That file will contain the settings to be used by the app.
+	- ie: width: 1920
+	- How will that be handled when the user decides to insert some strange values in that file ?
+
+-> Create a HighScore system
+	- Should save the scores to a file ?
+
+-> Add a Save/Load game system.
+	- First should i even have that, since it's a very simple game ?
+
+-> Add Shoot/Collision sfx sounds.
+
+-> Add a nice roaylty free background music.
+
+-> Add a Random Level Generator
+
+-> Finish the EntityGenerator for the remaining game entities.
+
+-> Rethink about the enemy spawn system.
+
+-> Add a very simple enemy entity AI (move, shoot back? , dodge player shots)
+
+-> Refractor hardcoded UI elements position based on game resolution.

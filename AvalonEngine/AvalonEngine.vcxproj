@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EngineUI\Button.cpp" />
+    <ClCompile Include="EngineUI\MouseCursor.cpp" />
     <ClCompile Include="EngineUI\Utils\Math.cpp" />
     <ClCompile Include="Entities\Bullet.cpp" />
     <ClCompile Include="Entities\Enemy.cpp" />
@@ -138,12 +139,15 @@
   <ItemGroup>
     <ClInclude Include="EngineUI\Button.hpp" />
     <ClInclude Include="EngineUI\Events\MouseEvents.hpp" />
+    <ClInclude Include="EngineUI\MouseCursor.hpp" />
     <ClInclude Include="EngineUI\UIElement.hpp" />
     <ClInclude Include="EngineUI\Utils\Math.hpp" />
     <ClInclude Include="Entities\Bullet.hpp" />
     <ClInclude Include="Entities\Class.hpp" />
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="Entities\Entity.hpp" />
+    <ClInclude Include="Extensions\VectorExtensions.hpp" />
     <ClInclude Include="GameUI\Healthbar.hpp" />
     <ClInclude Include="Generators\EntityGenerator.hpp" />
     <ClInclude Include="States\PauseState.hpp" />

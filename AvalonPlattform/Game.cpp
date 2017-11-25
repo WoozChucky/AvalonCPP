@@ -1,10 +1,10 @@
 #include "Game.hpp"
 
-av::Game::Game(const std::string window_title) : 
+av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::string window_title) :
 	m_game_state_(),
 	m_menu_state_(),
 	m_pause_state_(),
-	m_window_(sf::VideoMode(800, 600, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
+	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
 {
 	this->m_clock_.restart();
 	this->m_elapsed_ = 0.0f;
@@ -105,6 +105,7 @@ void av::Game::Restart()
 	this->m_elapsed_ = 0.0f;
 	this->m_window_.setFramerateLimit(90);
 	this->m_current_state_ = &this->m_game_state_;
+	this->m_window_.setMouseCursorVisible(false);
 	this->m_game_state_.Restart();
 }
 
@@ -115,7 +116,16 @@ void av::Game::RestartClock()
 
 void av::Game::ChangeState(state::State* l_state)
 {
+	//NOTE: The mouse visibility should change depending on the current state.
+	// Since I still havent decided if the cursor will be the same for the entire game,
+	// we're going to do some spaguetti code below to determine the visibility.
+	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
+
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
 	this->m_current_state_->m_window_size = m_window_.getView().getSize();
+
+
+	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(state::GameState));
+	
 }
