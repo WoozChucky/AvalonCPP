@@ -145,6 +145,7 @@
     <ClInclude Include="Entities\Enemy.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
     <ClInclude Include="GameUI\Healthbar.hpp" />
+    <ClInclude Include="Generators\EntityGenerator.hpp" />
     <ClInclude Include="States\PauseState.hpp" />
     <ClInclude Include="States\GameState.hpp" />
     <ClInclude Include="States\MenuState.hpp" />

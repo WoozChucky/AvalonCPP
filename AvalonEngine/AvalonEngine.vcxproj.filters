@@ -25,5 +25,6 @@
     <ClInclude Include="EngineUI\Button.hpp" />
     <ClInclude Include="EngineUI\UIElement.hpp" />
     <ClInclude Include="EngineUI\Utils\Math.hpp" />
+    <ClInclude Include="Generators\EntityGenerator.hpp" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ av::entities::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 	this->m_body_.setFillColor(sf::Color::Red);
 
 	//HEALTHBAR
-	this->m_healthbar_.setPosition(this->m_body_.getPosition());
+	this->m_healthbar_.SetPosition(this->m_body_.getPosition());
 }
 
 void av::entities::Enemy::Update(float timestep)
@@ -27,6 +27,14 @@ void av::entities::Enemy::Render(sf::RenderWindow& l_window)
 	l_window.draw(this->m_body_);
 }
 
+void av::entities::Enemy::setPosition(const sf::Vector2f l_position)
+{
+	this->m_body_.setPosition(l_position);
+
+	//Update Healthbar when Enemy position also updates
+	this->m_healthbar_.SetPosition(this->m_body_.getPosition());
+}
+
 sf::Vector2f av::entities::Enemy::getPosition() const
 {
 	return this->m_body_.getPosition();
@@ -35,6 +43,11 @@ sf::Vector2f av::entities::Enemy::getPosition() const
 sf::Vector2f av::entities::Enemy::getSize() const
 {
 	return this->m_body_.getSize();
+}
+
+sf::RectangleShape av::entities::Enemy::getBody()
+{
+	return this->m_body_;
 }
 
 void av::entities::Enemy::TakeDamage(const sf::Uint32 l_damage)
@@ -60,6 +73,11 @@ bool av::entities::Enemy::Collide(Bullet& l_entity)
             }
         }
     return false;
+}
+
+bool av::entities::Enemy::Collide(Enemy& l_entity) const
+{
+	return this->m_body_.getGlobalBounds().intersects(l_entity.getBody().getGlobalBounds());
 }
 
 bool av::entities::Enemy::IsAlive() const
