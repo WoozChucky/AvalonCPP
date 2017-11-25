@@ -11,7 +11,7 @@ void av::state::GameState::Update(const float timestep)
 	// Update player status
 	this->m_player_.Update(timestep);
 
-	//this->HandleCollision();
+	this->HandleCollision();
 	
 	//Spawn Enemy if we have less than 5 on screen.
 	generators::EntityGenerator::Generate(this->m_enemies_, 5);
