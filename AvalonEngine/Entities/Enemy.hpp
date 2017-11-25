@@ -25,7 +25,7 @@ namespace av
 			
 			bool IsAlive() const;
 			bool Collide(Bullet& l_entity);
-			bool Collide(Enemy& l_entity) const;
+			bool Collide(Enemy l_entity);
 			bool Collide(Player& l_entity) const;
 
 		private:

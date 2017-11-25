@@ -75,7 +75,7 @@ bool av::entities::Enemy::Collide(Bullet& l_entity)
     return false;
 }
 
-bool av::entities::Enemy::Collide(Enemy& l_entity) const
+bool av::entities::Enemy::Collide(Enemy l_entity)
 {
 	return this->m_body_.getGlobalBounds().intersects(l_entity.getBody().getGlobalBounds());
 }
