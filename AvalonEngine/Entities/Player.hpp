@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <chrono>
 #include <math.h>
 #include <iostream>
@@ -42,8 +44,10 @@ namespace av
 			// side size to render it properly
 			float m_side_distance_;
 
-			// 
 			sf::RectangleShape m_rifle_;
+
+			sf::SoundBuffer m_sound_buffer_;
+			sf::Sound m_shoot_normal_sound_;
 		};
 	}
 

@@ -3,6 +3,8 @@
 av::entities::Player::Player() : 
 	CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
+	this->m_sound_buffer_.loadFromFile("Assets/SFX/shoot_normal.wav");
+	this->m_shoot_normal_sound_.setBuffer(this->m_sound_buffer_);
 	this->m_player_velocity_ = 200.f;
 	this->m_velocity_ = {m_player_velocity_, m_player_velocity_};
 	this->setPosition(sf::Vector2f(400.f, 550.f));
@@ -136,11 +138,17 @@ void av::entities::Player::Shoot(float timestep) {
 			Bullet bullet(l_position, x_direction, y_direction);
 			this->m_spawn_time_ = bullet.GetSpawnTime();
 			m_bullets.push_back(bullet);
+			
+			// Play Shoot SFX
+			this->m_shoot_normal_sound_.play();
 		}
 		else if (std::chrono::duration_cast<std::chrono::milliseconds>(ms - this->m_spawn_time_).count() > 300) {
 			Bullet bullet(l_position, x_direction, y_direction);
 			m_bullets.push_back(bullet);
 			this->m_spawn_time_ = bullet.GetSpawnTime();
+
+			// Play Shoot SFX
+			this->m_shoot_normal_sound_.play();
 		}
 	}
 	// This loop clears the bullets list if there are any buillets that 

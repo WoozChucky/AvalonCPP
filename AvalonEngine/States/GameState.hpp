@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include "State.hpp"
 #include "../Entities/Player.hpp"
 #include "../Entities/Enemy.hpp"
@@ -27,6 +29,9 @@ namespace av {
 
 			entities::Player m_player_;
 			std::vector<entities::Enemy> m_enemies_;
+
+			sf::SoundBuffer m_sound_buffer_;
+			sf::Sound m_fart_sound_;
 
 			void HandleCollision();
 		};

@@ -5,7 +5,8 @@
 av::state::GameState::GameState(const sf::Vector2f l_window_size) 
 : State(l_window_size), m_cursor_(), m_player_()
 {
-
+	this->m_sound_buffer_.loadFromFile("Assets/SFX/fart.wav");
+	this->m_fart_sound_.setBuffer(this->m_sound_buffer_);
 }
 
 void av::state::GameState::Update(const float timestep)
@@ -83,6 +84,8 @@ void av::state::GameState::HandleCollision()
 
 				if (!enemies_it->IsAlive())
 				{	
+					this->m_fart_sound_.play();
+
 					//Enemy died, erase it
 					enemies_to_remove.push_back(enemies_it - this->m_enemies_.begin());
 
