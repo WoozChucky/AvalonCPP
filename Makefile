@@ -7,8 +7,8 @@ INCLUDE_ENGINE=-I $(ENGINE_PATH)
 BUILD_DIR=Build/$(OS)
 LINK_LIBARIES=-lsfml-graphics -lsfml-window -lsfml-system
 
-output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o
-	g++ -std=c++14 -D DEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o -o output $(LINK_LIBARIES)
+output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o
+	g++ -std=c++14 -D DEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o -o output $(LINK_LIBARIES)
 	mkdir -p $(BUILD_DIR)
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
@@ -48,6 +48,9 @@ Healthbar.o: $(ENGINE_PATH)/GameUI/Healthbar.cpp $(ENGINE_PATH)/GameUI/Healthbar
 
 MouseCursor.o: $(ENGINE_PATH)/EngineUI/MouseCursor.cpp $(ENGINE_PATH)/EngineUI/MouseCursor.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/EngineUI/MouseCursor.cpp
+
+State.o: $(ENGINE_PATH)/States/State.cpp $(ENGINE_PATH)/States/State.hpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/States/State.cpp
 
 clean:
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o
