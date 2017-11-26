@@ -2,7 +2,8 @@
 #include "../Generators/EntityGenerator.hpp"
 #include "../Extensions/VectorExtensions.hpp"
 
-av::state::GameState::GameState() : m_cursor_(), m_player_()
+av::state::GameState::GameState(const sf::Vector2f l_window_size) 
+: State(l_window_size), m_cursor_(), m_player_()
 {
 
 }

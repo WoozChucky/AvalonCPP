@@ -11,6 +11,7 @@
     <ClCompile Include="EngineUI\Button.cpp" />
     <ClCompile Include="EngineUI\Utils\Math.cpp" />
     <ClCompile Include="EngineUI\MouseCursor.cpp" />
+    <ClCompile Include="States\State.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="States\State.hpp" />

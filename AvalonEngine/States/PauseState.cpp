@@ -1,34 +1,17 @@
 #include "PauseState.hpp"
 
-av::state::PauseState::PauseState() :
-    m_continue_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 250.f), sf::Color::Yellow),
-    m_options_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 350.f), sf::Color::Yellow),
-    m_quit_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(300.f, 450.f), sf::Color::Yellow)
+av::state::PauseState::PauseState(const sf::Vector2f l_window_size) :
+	State(l_window_size),
+    m_continue_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Yellow),
+    m_options_(sf::Vector2f(), sf::Vector2f(), sf::Color::Yellow),
+    m_quit_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Yellow)
 {
-	m_font_.loadFromFile("titillium.otf");
-	m_title_.setFont(m_font_);
-	m_title_.setString("Pause");
-	m_title_.setCharacterSize(40);
-	m_title_.setStyle(sf::Text::Bold);
-	m_title_.setFillColor(sf::Color::Black);
-
-    m_continue_game_.setText("Continue");
-    m_continue_game_.setBackgroundOutlineThickness(5.f);
-    m_continue_game_.setBackgroundOutlineColor(sf::Color::Cyan);
-
-    m_options_.setText("Options");
-    m_options_.setBackgroundOutlineThickness(5.f);
-    m_options_.setBackgroundOutlineColor(sf::Color::Cyan);
-
-    m_quit_game_.setText("Quit");
-    m_quit_game_.setBackgroundOutlineThickness(5.f);
-    m_quit_game_.setBackgroundOutlineColor(sf::Color::Cyan);
+	this->InitializeUI();
 }
 
 void av::state::PauseState::Update(float timestep)
 {
-	//TODO(Nuno): This should not be done here. Find a better way to do it.
-	this->m_title_.setPosition(m_window_size.x / 2 - m_title_.getGlobalBounds().width / 2, 50.f);
+
 }
 
 void av::state::PauseState::Render(sf::RenderWindow& l_window)
@@ -67,18 +50,55 @@ void av::state::PauseState::HandleInput(const sf::Event l_event)
 
 void av::state::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position)
 {    
-    if(this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position))
-    {
-        // Continue was clicked
-        this->m_exit_pause_ = true;
-    } 
-    else if (this->m_options_.GetGlobalBounds().contains(l_mouse_position))
-    {
-        // Options was clicked
-    }
-    else if(this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position))
-    {
-        // Quit Game was clicked
-        this->m_exit_game_ = true;
-    }
+	// Continue was clicked ?
+	this->m_exit_pause_ = this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position);
+    
+	// Options was clicked ?
+	this->m_options_over = this->m_options_.GetGlobalBounds().contains(l_mouse_position);
+
+	// Quit Game was clicked ?
+	this->m_exit_game_ = this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position);
+}
+
+void av::state::PauseState::InitializeUI()
+{
+	m_font_.loadFromFile("Assets/Fonts/titillium.otf");
+	m_title_.setFont(m_font_);
+	m_title_.setString("Pause");
+	m_title_.setCharacterSize(40);
+	m_title_.setStyle(sf::Text::Bold);
+	m_title_.setFillColor(sf::Color::Black);
+	m_title_.setPosition(GetWindowSize().x / 2 - m_title_.getGlobalBounds().width / 2, GetWindowSize().y * 0.1f);
+
+	m_continue_game_.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
+	m_options_.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
+	m_quit_game_.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
+
+	const auto continue_game_position = sf::Vector2f(
+		GetWindowSize().x / 2 - m_continue_game_.GetGlobalBounds().width / 2,
+		GetWindowSize().y / 2 - m_continue_game_.GetGlobalBounds().height / 2 - m_options_.GetGlobalBounds().height);
+
+	const auto options_position = sf::Vector2f(
+		GetWindowSize().x / 2 - m_options_.GetGlobalBounds().width / 2,
+		GetWindowSize().y / 2 - m_options_.GetGlobalBounds().height / 2);
+
+	const auto quit_game_position = sf::Vector2f(
+		GetWindowSize().x / 2 - m_quit_game_.GetGlobalBounds().width / 2,
+		GetWindowSize().y / 2 - m_quit_game_.GetGlobalBounds().height / 2 + m_options_.GetGlobalBounds().height);
+
+	
+	m_continue_game_.SetText("Continue");
+	m_continue_game_.SetPosition(continue_game_position);
+	m_continue_game_.SetBackgroundOutlineThickness(5.f);
+	m_continue_game_.SetBackgroundOutlineColor(sf::Color::Cyan);
+
+	m_options_.SetText("Options");
+	m_options_.SetPosition(options_position);
+	m_options_.SetBackgroundOutlineThickness(5.f);
+	m_options_.SetBackgroundOutlineColor(sf::Color::Cyan);
+
+	m_quit_game_.SetText("Quit");
+	m_quit_game_.SetPosition(quit_game_position);
+	m_quit_game_.SetBackgroundOutlineThickness(5.f);
+	m_quit_game_.SetBackgroundOutlineColor(sf::Color::Cyan);
 }

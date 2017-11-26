@@ -1,9 +1,9 @@
 #include "Game.hpp"
 
 av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::string window_title) :
-	m_game_state_(),
-	m_menu_state_(),
-	m_pause_state_(),
+	m_game_state_(sf::Vector2f(l_width, l_height)),
+	m_menu_state_(sf::Vector2f(l_width, l_height)),
+	m_pause_state_(sf::Vector2f(l_width, l_height)),
 	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
 {
 	this->m_clock_.restart();
@@ -123,8 +123,6 @@ void av::Game::ChangeState(state::State* l_state)
 
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
-	this->m_current_state_->m_window_size = m_window_.getView().getSize();
-
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(state::GameState));
 	

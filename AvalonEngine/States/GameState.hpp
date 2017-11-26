@@ -13,7 +13,7 @@ namespace av {
 		class GameState : public State
 		{
 		public:
-			GameState();
+			explicit GameState(const sf::Vector2f l_window_size);
 
 			void Update(float timestep) override;
 			void Render(sf::RenderWindow& l_window) override;

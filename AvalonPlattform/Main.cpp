@@ -2,5 +2,5 @@
 
 int main() {
 	srand(time(nullptr));
-	av::Game(1024, 768).Run();
+	av::Game(1920, 1080).Run();
 }

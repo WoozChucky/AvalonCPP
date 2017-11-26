@@ -22,21 +22,23 @@ namespace av {
 
 			virtual ~Button() = default;
 
-			void setFont(sf::Font l_font);
-			void setTextSize(sf::Uint32 l_size);
-			void setText(sf::String l_text);
-			void setTextColor(sf::Color l_color);
-			void setTextBackgroundColor(sf::Color l_color);
-			void setTextAlignment(enums::TextAlignment l_alignment);
+			void SetSize(sf::Vector2f l_size);
+			void SetPosition(sf::Vector2f l_position);
+			void SetFont(sf::Font l_font);
+			void SetTextSize(sf::Uint32 l_size);
+			void SetText(sf::String l_text);
+			void SetTextColor(sf::Color l_color);
+			void SetTextBackgroundColor(sf::Color l_color);
+			void SetTextAlignment(enums::TextAlignment l_alignment);
 
-			void setBackgroundColor(sf::Color l_color);
-			void setBackgroundOutlineColor(sf::Color l_color);
-			void setBackgroundOutlineThickness(float l_thickness);
+			void SetBackgroundColor(sf::Color l_color);
+			void SetBackgroundOutlineColor(sf::Color l_color);
+			void SetBackgroundOutlineThickness(float l_thickness);
 
-			void setOnClick(events::MouseClickCallback* l_callback);
-			void setOnMouseEnter(events::MouseOverEnterCallback* l_callback);
-			void setOnMouseExit(events::MouseOverExitCallback* l_callback);
-			void onClick() const;
+			void SetOnClick(events::MouseClickCallback* l_callback);
+			void SetOnMouseEnter(events::MouseOverEnterCallback* l_callback);
+			void SetOnMouseExit(events::MouseOverExitCallback* l_callback);
+			void OnClick() const;
 
 			//Base class overrides
 			void Update(float timestep) override;

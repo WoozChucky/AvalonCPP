@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E451D124-C74D-4F3C-AD8B-CBE5F2DE3ED3}"
 	ProjectSection(SolutionItems) = preProject
-		BUGS.txt = BUGS.txt
+		docs\BUGS.txt = docs\BUGS.txt
 		Makefile = Makefile
-		TODO.txt = TODO.txt
+		docs\TODO.txt = docs\TODO.txt
 	EndProjectSection
 EndProject
 Global

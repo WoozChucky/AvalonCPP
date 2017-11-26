@@ -11,7 +11,7 @@ namespace av
         class PauseState : public State 
         {
             public:
-                PauseState();
+                explicit PauseState(const sf::Vector2f l_window_size);
 
                 void Update(float timestep) override;
                 void Render(sf::RenderWindow& l_window) override;
@@ -19,6 +19,7 @@ namespace av
 
                 bool m_exit_pause_ = false;
                 bool m_exit_game_ = false;
+				bool m_options_over = false;
                 
             private:
 
@@ -30,7 +31,7 @@ namespace av
             ui::Button m_quit_game_;
 
             void HandleMouseClick(const sf::Vector2f l_mouse_position);
-
+			void InitializeUI();
         };
 
     }

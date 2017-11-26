@@ -3,6 +3,8 @@
 #include "State.hpp"
 #include "../EngineUI/Button.hpp"
 
+#define BUTTON_MARGIN 25.f
+
 namespace av
 {
 	namespace state 
@@ -10,7 +12,7 @@ namespace av
 		class MenuState : public State
 		{
 		public:
-			MenuState();
+			explicit MenuState(const sf::Vector2f l_window_size);
 
 			void Update(float timestep) override;
 			void Render(sf::RenderWindow& l_window) override;		
@@ -31,6 +33,8 @@ namespace av
 
 			void HandleArrowSelection(int l_direction);
 			void HandleMouseClick(const sf::Vector2f& l_mouse_position);
+
+			void InitializeUI();
 		};
 	}
 }
