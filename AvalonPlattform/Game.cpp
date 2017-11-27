@@ -36,37 +36,14 @@ av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::s
 
 void av::Game::Update(const float timestep)
 {
+	// Handle updates for current state
 	this->m_current_state_->Update(timestep);
-
-	if(this->m_current_state_ == &this->m_menu_state_) // Menu State
-	{
-
-	}
-	else if (this->m_current_state_ == &this->m_game_state_) // Game State
-	{
-		if(this->m_game_state_.m_requires_pause) { //TODO: Getter and Setter
-			this->m_game_state_.m_requires_pause = false;
-			this->ChangeState(&this->m_pause_state_);
-		}
-	}
-	else if (this->m_current_state_ == &this->m_pause_state_) // Pause State
-	{
-		if(this->m_pause_state_.m_exit_pause_)
-		{
-			this->m_pause_state_.m_exit_pause_ = false;
-			this->ChangeState(this->m_previous_state_);
-		}
-		else if (this->m_pause_state_.m_exit_game_)
-		{
-			this->m_pause_state_.m_exit_game_ = false;
-			this->ChangeState(&this->m_menu_state_);
-		}
-	}
 }
 
 void av::Game::Render()
 {
 	this->m_window_.clear(sf::Color(sf::Color(150, 207, 234)));
+	// Render the current state
 	this->m_current_state_->Render(this->m_window_);
 	this->m_window_.display();
 }
@@ -88,8 +65,10 @@ void av::Game::HandleInput()
 	}
 }
 
-void av::Game::Run()
+void av::Game::Run() //This the default game loop
 {
+	//NOTE: Analyze if this timestep doesn't fuck up when we have dropped frames.
+
 	const auto timestep = 1.0f / 60.f;
 
 	while (this->m_window_.isOpen())
@@ -124,8 +103,6 @@ void av::Game::RestartClock()
 void av::Game::ChangeState(State* l_state)
 {
 	//NOTE: The mouse visibility should change depending on the current state.
-	// Since I still havent decided if the cursor will be the same for the entire game,
-	// we're going to do some spaguetti code below to determine the visibility.
 	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
 
 	this->m_previous_state_ = m_current_state_;

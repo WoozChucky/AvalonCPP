@@ -11,7 +11,7 @@ This is our TODO list:
 -> Add a Save/Load game system.
 	- First should i even have that, since it's a very simple game ?
 
--> Add Shoot/Collision sfx sounds.
+-> Think about an 'Avalon' Singleton with IO, Sound and Logging
 
 -> Add a nice roaylty free background music.
 
@@ -24,3 +24,5 @@ This is our TODO list:
 -> Add a very simple enemy entity AI (move, shoot back? , dodge player shots)
 
 -> Refractor hardcoded UI elements position based on game resolution.
+	- Missing GameState
+	- Collision/Movement
