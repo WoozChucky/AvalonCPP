@@ -7,8 +7,8 @@ INCLUDE_ENGINE=-I $(ENGINE_PATH)
 BUILD_DIR=Build/$(OS)
 LINK_LIBARIES=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o
-	g++ -std=c++14 -D DEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o -o output $(LINK_LIBARIES) -v
+output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o AudioPlayer.o
+	g++ -std=c++14 -D DEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o AudioPlayer.o -o output $(LINK_LIBARIES) -v
 	mkdir -p $(BUILD_DIR)
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
@@ -16,7 +16,7 @@ output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o P
 Main.o: $(PLATTFORM_PATH)/Main.cpp $(ENGINE_PATH)/States/GameState.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(PLATTFORM_PATH)/Main.cpp
 
-Game.o: $(PLATTFORM_PATH)/Game.cpp $(PLATTFORM_PATH)/Game.hpp
+Game.o: $(PLATTFORM_PATH)/Game.cpp $(PLATTFORM_PATH)/Game.hpp $(ENGINE_PATH)/Audio/AudioPlayer.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(PLATTFORM_PATH)/Game.cpp 
 
 GameState.o: $(ENGINE_PATH)/States/GameState.cpp $(ENGINE_PATH)/States/GameState.hpp $(ENGINE_PATH)/Generators/EntityGenerator.hpp $(ENGINE_PATH)/EngineUI/MouseCursor.hpp
@@ -51,6 +51,9 @@ MouseCursor.o: $(ENGINE_PATH)/EngineUI/MouseCursor.cpp $(ENGINE_PATH)/EngineUI/M
 
 State.o: $(ENGINE_PATH)/States/State.cpp $(ENGINE_PATH)/States/State.hpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/States/State.cpp
+
+AudioPlayer.o: $(ENGINE_PATH)/Audio/AudioPlayer.hpp $(ENGINE_PATH)/Audio/AudioPlayer.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Audio/AudioPlayer.cpp
 
 clean:
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o

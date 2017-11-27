@@ -105,6 +105,8 @@ void av::Game::ChangeState(State* l_state)
 	//NOTE: The mouse visibility should change depending on the current state.
 	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
 
+	AudioPlayer::Instance().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
+
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
 
