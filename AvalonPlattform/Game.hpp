@@ -1,7 +1,11 @@
 #pragma once
 
 #include <typeinfo>
+#include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
+#include "Bus/Subject.hpp"
+#include "EngineUI/Events/EventType.hpp"
 #include "States/State.hpp"
 #include "States/GameState.hpp"
 #include "States/MenuState.hpp"
@@ -32,11 +36,16 @@ namespace av {
 		MenuState m_menu_state_;
 		PauseState m_pause_state_;
 
+		Subject<EventType::State> m_state_manager_;
+
 		//SFML
 		sf::RenderWindow m_window_;
 		sf::Clock m_clock_;
 
 		double m_elapsed_;
+
+		void Exit();
+		void PreviousState();
 	};
 
 }

@@ -56,4 +56,4 @@ clean:
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o
 	
 run:
-	./$(BUILD_DIR)/output
+	./$(BUILD_DIR)/output | c++filt -t

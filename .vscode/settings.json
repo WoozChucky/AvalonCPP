@@ -11,6 +11,10 @@
         "typeinfo": "cpp",
         "algorithm": "cpp",
         "system_error": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "__split_buffer": "cpp",
+        "vector": "cpp",
+        "__locale": "cpp",
+        "bitset": "cpp"
     }
 }

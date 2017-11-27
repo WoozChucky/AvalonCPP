@@ -2,10 +2,9 @@
 
 av::MenuState::MenuState(const sf::Vector2f l_window_size) :
 	State(l_window_size),
-	m_new_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(0.f, 0.f), sf::Color::Green),
-	m_high_scores_(sf::Vector2f(200.f, 100.f), sf::Vector2f(0.f, 0.f), sf::Color::Green),
-	m_quit_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(0.f, 0.f), sf::Color::Green),
-	m_new(false), m_high(false), m_exit(false)
+	m_new_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Green),
+	m_high_scores_(sf::Vector2f(), sf::Vector2f(), sf::Color::Green),
+	m_quit_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Green)
 {
 	std::cout << GetWindowSize().x << " " << GetWindowSize().y << std::endl;
 	this->InitializeUI();
@@ -36,9 +35,9 @@ void av::MenuState::HandleInput(const sf::Event l_event)
 		{
 			switch (this->m_virtual_index_)
 			{
-			case 0: this->m_new = true; break;
-			case 1: this->m_high = true; break;
-			case 2: this->m_exit = true; break;
+			case 0: GetStateManager()->Notify(av::EventType::State::GAME); break;
+			case 1: GetStateManager()->Notify(av::EventType::State::HIGHSCORE); break;
+			case 2: GetStateManager()->Notify(av::EventType::State::EXIT); break;
 			default: break;
 			}
 		}
@@ -91,15 +90,15 @@ void av::MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
 {
 	if (m_new_game_.GetGlobalBounds().contains(l_mouse_position)) {
 		std::cout << "Pressed New Game" << std::endl;
-		this->m_new = true;
+		this->GetStateManager()->Notify(av::EventType::State::GAME);
 	}
 	else if (m_high_scores_.GetGlobalBounds().contains(l_mouse_position)) {
 		std::cout << "Pressed Highscores" << std::endl;
-		this->m_high = true;
+		this->GetStateManager()->Notify(av::EventType::State::HIGHSCORE);
 	}
 	else if (m_quit_game_.GetGlobalBounds().contains(l_mouse_position)) {
 		std::cout << "Pressed Exit" << std::endl;
-		this->m_exit = true;
+		this->GetStateManager()->Notify(av::EventType::State::EXIT);
 	}
 }
 

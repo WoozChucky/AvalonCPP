@@ -28,7 +28,7 @@ void av::PauseState::HandleInput(const sf::Event l_event)
     if(l_event.type == sf::Event::EventType::KeyPressed)
 	{
 		if(l_event.key.code == sf::Keyboard::Key::Escape) { //Escape pressed
-			this->m_exit_pause_ = true;
+			this->GetStateManager()->Notify(av::EventType::State::GAME);
 		} 
         else if (l_event.key.code == sf::Keyboard::Key::Space  // Space or Enter pressed
               || l_event.key.code == sf::Keyboard::Key::Return)
@@ -51,13 +51,22 @@ void av::PauseState::HandleInput(const sf::Event l_event)
 void av::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position)
 {    
 	// Continue was clicked ?
-	this->m_exit_pause_ = this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position);
+	if(this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position))
+	{
+		this->GetStateManager()->Notify(av::EventType::State::PREVIOUS);
+	}
     
 	// Options was clicked ?
-	this->m_options_over = this->m_options_.GetGlobalBounds().contains(l_mouse_position);
+	if(this->m_options_.GetGlobalBounds().contains(l_mouse_position))
+	{
+		this->GetStateManager()->Notify(av::EventType::State::OPTIONS);
+	}
 
 	// Quit Game was clicked ?
-	this->m_exit_game_ = this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position);
+	if(this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position))
+	{
+		this->GetStateManager()->Notify(av::EventType::State::MENU);
+	}
 }
 
 void av::PauseState::InitializeUI()

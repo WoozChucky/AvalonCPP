@@ -16,10 +16,6 @@ namespace av
 		void Render(sf::RenderWindow& l_window) override;		
 		void HandleInput(sf::Event l_event) override;
 
-		bool m_new;
-		bool m_high;
-		bool m_exit;
-
 	private:
 
 		Button m_new_game_;

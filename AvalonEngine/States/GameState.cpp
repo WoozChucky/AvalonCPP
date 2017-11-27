@@ -38,14 +38,14 @@ void av::GameState::HandleInput(const sf::Event l_event)
 	if(l_event.type == sf::Event::LostFocus) 
 	{
 #if !DEBUG
-		this->m_requires_pause = true;
+		this->GetStateManager()->Notify(av::EventType::State::PAUSE);
 #endif
 	}
 
 	if(l_event.type == sf::Event::EventType::KeyPressed)
 	{
 		if(l_event.key.code == sf::Keyboard::Key::Escape) {
-			this->m_requires_pause = true;
+			this->GetStateManager()->Notify(av::EventType::State::PAUSE);
 		}
 	}
 

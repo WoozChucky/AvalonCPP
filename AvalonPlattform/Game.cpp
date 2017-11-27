@@ -1,16 +1,37 @@
 #include "Game.hpp"
+#include <functional>
 
 av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::string window_title) :
 	m_game_state_(sf::Vector2f(l_width, l_height)),
 	m_menu_state_(sf::Vector2f(l_width, l_height)),
 	m_pause_state_(sf::Vector2f(l_width, l_height)),
-	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close)
+	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close),
+	m_state_manager_()
 {
 	this->m_clock_.restart();
 	this->m_elapsed_ = 0.0f;
 	this->m_window_.setFramerateLimit(90);
 	this->m_current_state_ = &this->m_menu_state_;
 	this->m_previous_state_ = nullptr;
+
+	// Register Observers
+	this->m_state_manager_.RegisterObserver(
+		EventType::State::GAME, std::bind(&Game::Restart, this));
+	this->m_state_manager_.RegisterObserver(
+		EventType::State::MENU, std::bind(&Game::ChangeState, this, &this->m_menu_state_));
+	this->m_state_manager_.RegisterObserver(
+		EventType::State::PAUSE, std::bind(&Game::ChangeState, this, &this->m_pause_state_));
+	//this->m_state_manager_.RegisterObserver(
+	//	EventType::State::HIGHSCORE, std::bind(&Game::ChangeState, this, &this->m_game_state_));
+	this->m_state_manager_.RegisterObserver(
+		EventType::State::PREVIOUS, std::bind(&Game::PreviousState, this));
+	this->m_state_manager_.RegisterObserver(
+		EventType::State::EXIT, std::bind(&Game::Exit, this));
+	
+	// Pass StateManager to States
+	this->m_menu_state_.SetStateManager(&this->m_state_manager_);
+	this->m_game_state_.SetStateManager(&this->m_state_manager_);
+	this->m_pause_state_.SetStateManager(&this->m_state_manager_);
 }
 
 void av::Game::Update(const float timestep)
@@ -19,21 +40,7 @@ void av::Game::Update(const float timestep)
 
 	if(this->m_current_state_ == &this->m_menu_state_) // Menu State
 	{
-		if(this->m_menu_state_.m_new)
-		{
-			this->Restart();
-			this->m_menu_state_.m_new = false;
-		} 
-		else if (this->m_menu_state_.m_high)
-		{
-			//TODO: Highscore states
-			this->m_menu_state_.m_high = false;
-		}
-		else if (this->m_menu_state_.m_exit)
-		{
-			this->m_menu_state_.m_exit = false;
-			this->m_window_.close();
-		}
+
 	}
 	else if (this->m_current_state_ == &this->m_game_state_) // Game State
 	{
@@ -125,5 +132,16 @@ void av::Game::ChangeState(State* l_state)
 	this->m_current_state_ = l_state;
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
-	
+}
+
+void av::Game::Exit()
+{
+	this->m_window_.close();
+}
+
+void av::Game::PreviousState()
+{
+	this->m_current_state_ = this->m_previous_state_;
+
+	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
 }
