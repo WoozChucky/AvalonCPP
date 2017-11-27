@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
 av::Player::Player() : 
-	CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
+	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
 	this->m_sound_buffer_.loadFromFile("Assets/SFX/shoot_normal.wav");
 	this->m_shoot_normal_sound_.setBuffer(this->m_sound_buffer_);
@@ -56,6 +56,16 @@ void av::Player::HandleInput(const sf::Event l_event)
 
 	}
 
+}
+
+bool av::Player::IsAlive()
+{
+	return true;
+}
+
+bool av::Player::Collide(av::Entity& l_entity)
+{
+	return false;
 }
 
 void av::Player::Move(float timestep)

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include "Entity.hpp"
 #include <chrono>
 #include <math.h>
 #include <iostream>
@@ -11,14 +12,17 @@
 
 namespace av
 {
-	class Player : public sf::CircleShape
+	class Player : public Entity, public sf::CircleShape
 	{
 	public:
 		Player();
 		
-		void Update(float timestep);
-		void Render(sf::RenderWindow& l_window);
-		void HandleInput(sf::Event l_event);
+		virtual void Update(float timestep) override;
+		virtual void Render(sf::RenderWindow& l_window) override;
+		virtual void HandleInput(sf::Event l_event) override;
+		virtual bool IsAlive() override;
+		virtual bool Collide(av::Entity& l_entity) override;
+
 		float x() const;
 		float y() const;
 		float Left() const;
