@@ -68,7 +68,7 @@ bool av::Player::Collide(av::Entity& l_entity)
 	return false;
 }
 
-void av::Player::Move(float timestep)
+void av::Player::Move(const float timestep)
 {
 	// we move the player and the rifle accordingly based on the buttons pressed
     sf::CircleShape::move(m_velocity_.x*timestep,m_velocity_.y*timestep);

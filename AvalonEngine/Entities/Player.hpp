@@ -16,12 +16,12 @@ namespace av
 	{
 	public:
 		Player();
-		
-		virtual void Update(float timestep) override;
-		virtual void Render(sf::RenderWindow& l_window) override;
-		virtual void HandleInput(sf::Event l_event) override;
-		virtual bool IsAlive() override;
-		virtual bool Collide(av::Entity& l_entity) override;
+
+		void Update(float timestep) override;
+		void Render(sf::RenderWindow& l_window) override;
+		void HandleInput(sf::Event l_event) override;
+		bool IsAlive() override;
+		bool Collide(av::Entity& l_entity) override;
 
 		float x() const;
 		float y() const;

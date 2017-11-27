@@ -31,5 +31,6 @@
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="EngineUI\MouseCursor.hpp" />
     <ClInclude Include="Extensions\VectorExtensions.hpp" />
+    <ClInclude Include="Bus\Subject.hpp" />
   </ItemGroup>
 </Project>

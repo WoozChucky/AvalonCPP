@@ -15,7 +15,7 @@ namespace av {
 		virtual void HandleInput(sf::Event l_event) = 0;
 
 		virtual bool IsAlive() = 0;
-		virtual bool Collide(av::Entity& l_entity);
+		virtual bool Collide(Entity& l_entity) = 0;
 	};
 
 }

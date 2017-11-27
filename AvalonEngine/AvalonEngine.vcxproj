@@ -138,6 +138,7 @@
     <ClCompile Include="States\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bus\Subject.hpp" />
     <ClInclude Include="EngineUI\Button.hpp" />
     <ClInclude Include="EngineUI\Events\MouseEvents.hpp" />
     <ClInclude Include="EngineUI\MouseCursor.hpp" />
