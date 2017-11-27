@@ -1,6 +1,6 @@
 #include "PauseState.hpp"
 
-av::state::PauseState::PauseState(const sf::Vector2f l_window_size) :
+av::PauseState::PauseState(const sf::Vector2f l_window_size) :
 	State(l_window_size),
     m_continue_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Yellow),
     m_options_(sf::Vector2f(), sf::Vector2f(), sf::Color::Yellow),
@@ -9,12 +9,12 @@ av::state::PauseState::PauseState(const sf::Vector2f l_window_size) :
 	this->InitializeUI();
 }
 
-void av::state::PauseState::Update(float timestep)
+void av::PauseState::Update(float timestep)
 {
 
 }
 
-void av::state::PauseState::Render(sf::RenderWindow& l_window)
+void av::PauseState::Render(sf::RenderWindow& l_window)
 {
 	l_window.draw(this->m_title_);
     this->m_continue_game_.Render(l_window);
@@ -22,7 +22,7 @@ void av::state::PauseState::Render(sf::RenderWindow& l_window)
     this->m_quit_game_.Render(l_window);
 }
 
-void av::state::PauseState::HandleInput(const sf::Event l_event)
+void av::PauseState::HandleInput(const sf::Event l_event)
 {
     // Check if the event, was a keyboard event
     if(l_event.type == sf::Event::EventType::KeyPressed)
@@ -48,7 +48,7 @@ void av::state::PauseState::HandleInput(const sf::Event l_event)
 	}
 }
 
-void av::state::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position)
+void av::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position)
 {    
 	// Continue was clicked ?
 	this->m_exit_pause_ = this->m_continue_game_.GetGlobalBounds().contains(l_mouse_position);
@@ -60,7 +60,7 @@ void av::state::PauseState::HandleMouseClick(const sf::Vector2f l_mouse_position
 	this->m_exit_game_ = this->m_quit_game_.GetGlobalBounds().contains(l_mouse_position);
 }
 
-void av::state::PauseState::InitializeUI()
+void av::PauseState::InitializeUI()
 {
 	m_font_.loadFromFile("Assets/Fonts/titillium.otf");
 	m_title_.setFont(m_font_);

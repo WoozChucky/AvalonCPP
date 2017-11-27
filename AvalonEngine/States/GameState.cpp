@@ -2,14 +2,14 @@
 #include "../Generators/EntityGenerator.hpp"
 #include "../Extensions/VectorExtensions.hpp"
 
-av::state::GameState::GameState(const sf::Vector2f l_window_size) 
+av::GameState::GameState(const sf::Vector2f l_window_size) 
 : State(l_window_size), m_cursor_(), m_player_()
 {
 	this->m_sound_buffer_.loadFromFile("Assets/SFX/fart.wav");
 	this->m_fart_sound_.setBuffer(this->m_sound_buffer_);
 }
 
-void av::state::GameState::Update(const float timestep)
+void av::GameState::Update(const float timestep)
 {
 	// Update player status
 	this->m_player_.Update(timestep);
@@ -17,10 +17,10 @@ void av::state::GameState::Update(const float timestep)
 	this->HandleCollision();
 	
 	//Spawn Enemy if we have less than 5 on screen.
-	generators::EntityGenerator::Generate(this->m_enemies_, 5);
+	EntityGenerator::Generate(this->m_enemies_, 5);
 }
 
-void av::state::GameState::Render(sf::RenderWindow& l_window)
+void av::GameState::Render(sf::RenderWindow& l_window)
 {
 	this->m_player_.Render(l_window);
 	for (auto i = 0; i < this->m_enemies_.size(); i++)
@@ -31,7 +31,7 @@ void av::state::GameState::Render(sf::RenderWindow& l_window)
 	this->m_cursor_.Render(l_window);
 }
 
-void av::state::GameState::HandleInput(const sf::Event l_event)
+void av::GameState::HandleInput(const sf::Event l_event)
 {
 	this->m_player_.HandleInput(l_event);
 
@@ -57,16 +57,16 @@ void av::state::GameState::HandleInput(const sf::Event l_event)
 	}
 }
 
-void av::state::GameState::Restart()
+void av::GameState::Restart()
 {
 	this->m_enemies_.clear();
 	
-	generators::EntityGenerator::Generate(this->m_enemies_, 5);
+	EntityGenerator::Generate(this->m_enemies_, 5);
 
 	this->m_player_.Restart();
 }
 
-void av::state::GameState::HandleCollision()
+void av::GameState::HandleCollision()
 {
 	//NOTE: Can't use an iterator and delete the elements as I go. Maybe save their position and erase them afterwards ?
 	std::vector<int> bullets_to_remove;

@@ -1,7 +1,7 @@
 #include "Enemy.hpp"
 
 
-av::entities::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
+av::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 	: m_body_(l_size), m_healthbar_(sf::Vector2f(- 500.f, - 500.f)), m_class_(l_class), m_alive_(true)
 {
 	//BODY
@@ -16,18 +16,18 @@ av::entities::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 	this->m_healthbar_.SetPosition(this->m_body_.getPosition());
 }
 
-void av::entities::Enemy::Update(float timestep)
+void av::Enemy::Update(float timestep)
 {
 
 }
 
-void av::entities::Enemy::Render(sf::RenderWindow& l_window)
+void av::Enemy::Render(sf::RenderWindow& l_window)
 {
 	this->m_healthbar_.Render(l_window);
 	l_window.draw(this->m_body_);
 }
 
-void av::entities::Enemy::setPosition(const sf::Vector2f l_position)
+void av::Enemy::setPosition(const sf::Vector2f l_position)
 {
 	this->m_body_.setPosition(l_position);
 
@@ -35,35 +35,35 @@ void av::entities::Enemy::setPosition(const sf::Vector2f l_position)
 	this->m_healthbar_.SetPosition(this->m_body_.getPosition());
 }
 
-sf::Vector2f av::entities::Enemy::getPosition() const
+sf::Vector2f av::Enemy::getPosition() const
 {
 	return this->m_body_.getPosition();
 }
 
-sf::Vector2f av::entities::Enemy::getSize() const
+sf::Vector2f av::Enemy::getSize() const
 {
 	return this->m_body_.getSize();
 }
 
-sf::RectangleShape av::entities::Enemy::getBody()
+sf::RectangleShape av::Enemy::getBody()
 {
 	return this->m_body_;
 }
 
-void av::entities::Enemy::TakeDamage(const sf::Uint32 l_damage)
+void av::Enemy::TakeDamage(const sf::Uint32 l_damage)
 {
 	//NOTE: This is where aditional combat logic should go before the Healthbar->Minus().
 
 	this->m_alive_ = this->m_healthbar_.Minus(l_damage);
 }
 
-bool av::entities::Enemy::Collide(Player& l_entity) const
+bool av::Enemy::Collide(Player& l_entity) const
 {
 	//TODO
 	return false;
 }
 
-bool av::entities::Enemy::Collide(Bullet& l_entity)
+bool av::Enemy::Collide(Bullet& l_entity)
 {
 	if ( ( (l_entity.getGlobalBounds().left > getPosition().x) && (getPosition().x + getSize().x > l_entity.getGlobalBounds().left) ) || \
         ((l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width > getPosition().x) && ((getPosition().x + getSize().x) > l_entity.getGlobalBounds().left + l_entity.getGlobalBounds().width))) {
@@ -75,12 +75,12 @@ bool av::entities::Enemy::Collide(Bullet& l_entity)
     return false;
 }
 
-bool av::entities::Enemy::Collide(Enemy l_entity)
+bool av::Enemy::Collide(Enemy l_entity)
 {
 	return this->m_body_.getGlobalBounds().intersects(l_entity.getBody().getGlobalBounds());
 }
 
-bool av::entities::Enemy::IsAlive() const
+bool av::Enemy::IsAlive() const
 {
     return this->m_alive_;
 }

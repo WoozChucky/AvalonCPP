@@ -4,19 +4,18 @@
 namespace av
 {
 	
-//TODO
-class VectorExtensions
-{
-public:
-
-	template <class T, class Y>
-	static void RemoveElements(std::vector<T>& vec, std::vector<Y> index)
+	class VectorExtensions
 	{
-		for (auto it = index.begin(); it != index.end(); it++)
+	public:
+
+		template <class T, class Y>
+		static void RemoveElements(std::vector<T>& vec, std::vector<Y> index)
 		{
-			vec.erase(vec.begin() + static_cast<int>(*it));
+			for (auto it = index.begin(); it != index.end(); it++)
+			{
+				vec.erase(vec.begin() + static_cast<int>(*it));
+			}
 		}
-	}
-};
+	};
 
 }

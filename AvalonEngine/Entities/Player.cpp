@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-av::entities::Player::Player() : 
+av::Player::Player() : 
 	CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
 	this->m_sound_buffer_.loadFromFile("Assets/SFX/shoot_normal.wav");
@@ -23,7 +23,7 @@ av::entities::Player::Player() :
 	this->m_rifle_.setPosition(this->getPosition());
 }
 
-void av::entities::Player::Update(const float timestep)
+void av::Player::Update(const float timestep)
 {
 	this->Move(timestep);
 
@@ -38,7 +38,7 @@ void av::entities::Player::Update(const float timestep)
 	this->Shoot(timestep);
 }
 
-void av::entities::Player::Render(sf::RenderWindow& l_window)
+void av::Player::Render(sf::RenderWindow& l_window)
 {
 	l_window.draw(*this);
 	l_window.draw(this->m_rifle_);
@@ -47,7 +47,7 @@ void av::entities::Player::Render(sf::RenderWindow& l_window)
 	}
 }
 
-void av::entities::Player::HandleInput(const sf::Event l_event)
+void av::Player::HandleInput(const sf::Event l_event)
 {
 	//Update mouse position
 	if (l_event.type == sf::Event::EventType::MouseMoved) {
@@ -58,7 +58,7 @@ void av::entities::Player::HandleInput(const sf::Event l_event)
 
 }
 
-void av::entities::Player::Move(float timestep)
+void av::Player::Move(float timestep)
 {
 	// we move the player and the rifle accordingly based on the buttons pressed
     sf::CircleShape::move(m_velocity_.x*timestep,m_velocity_.y*timestep);
@@ -116,7 +116,7 @@ void av::entities::Player::Move(float timestep)
 }
 
 
-void av::entities::Player::Shoot(float timestep) {
+void av::Player::Shoot(float timestep) {
 	// we shoot bullets every .3 seconds
 	// we have a timer on the last spawned bullet that we can check
 	// if we do not have any bullets, then we use the timer present in this class
@@ -162,37 +162,37 @@ void av::entities::Player::Shoot(float timestep) {
 	}
 }
 
-float av::entities::Player::x() const
+float av::Player::x() const
 {
 	return this->getPosition().x;
 }
 
-float av::entities::Player::y() const
+float av::Player::y() const
 {
 	return this->getPosition().y;
 }
 
-float av::entities::Player::Left() const
+float av::Player::Left() const
 {
 	return this->getPosition().x - this->m_side_distance_ / 2;
 }
 
-float av::entities::Player::Right() const
+float av::Player::Right() const
 {
 	return this->getPosition().x + this->m_side_distance_ / 2;
 }
 
-float av::entities::Player::Top() const
+float av::Player::Top() const
 {
 	return this->getPosition().y - this->getRadius();
 }
 
-float av::entities::Player::Bottom() const
+float av::Player::Bottom() const
 {
 	return this->getPosition().y + 0.5 * this->getRadius();
 }
 
-float av::entities::Player::getRotationAngle() const
+float av::Player::getRotationAngle() const
 {
 	// This function gets the rotation angle that helps us track the mouse position with the gun
 	// Explanation : 
@@ -210,7 +210,7 @@ float av::entities::Player::getRotationAngle() const
 	return atan2(this->m_rifle_.getPosition().y - this->m_mouse_position_.y, this->m_rifle_.getPosition().x - this->m_mouse_position_.x)*180.f / 3.1428 - 90;
 }
 
-sf::Vector2f av::entities::Player::getBulletSpawn() const
+sf::Vector2f av::Player::getBulletSpawn() const
 {
 	const auto x{ static_cast<float>(this->m_rifle_.getPosition().x + this->m_rifle_.getSize().y * sin(
 		this->m_rifle_.getRotation() * 3.1428 / 180)) };
@@ -221,7 +221,7 @@ sf::Vector2f av::entities::Player::getBulletSpawn() const
 	return sf::Vector2f(x, y);
 }
 
-void av::entities::Player::Restart() {
+void av::Player::Restart() {
 	this->m_bullets.clear();
 	this->m_rifle_.setPosition(400.f, 550.f);
 	this->setPosition(400.f, 550.f);

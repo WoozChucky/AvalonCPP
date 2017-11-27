@@ -4,20 +4,14 @@
 
 namespace av
 {
-	namespace ui
+	class Math
 	{
-		namespace utils
-		{
-			class Math
-			{
-			public:
-				static sf::Vector2f getCenterCoordinates(
-					sf::Vector2f l_position,
-					sf::Vector2f l_size,
-					sf::FloatRect l_destination_obj);
-			};
-		}
-	}
+	public:
+		static sf::Vector2f getCenterCoordinates(
+			sf::Vector2f l_position,
+			sf::Vector2f l_size,
+			sf::FloatRect l_destination_obj);
+	};
 }
 
 

@@ -4,30 +4,26 @@
 
 namespace av
 {
-	namespace ui
+
+	enum TextAlignment : short {
+		Left = 0xE,
+		Right = 0xB,
+		Center = 0xC
+	};
+
+	class UIElement
 	{
-		namespace enums
-		{
-			enum TextAlignment : short {
-				Left = 0xE,
-				Right = 0xB,
-				Center = 0xC
-			};
-		}
+	protected:
+		~UIElement() = default;
 
-		class UIElement
-		{
-		protected:
-			~UIElement() = default;
+	public:
 
-		public:
+		virtual void Update(float timestep) = 0;
 
-			virtual void Update(float timestep) = 0;
+		virtual void Render(sf::RenderWindow& l_window) = 0;
 
-			virtual void Render(sf::RenderWindow& l_window) = 0;
+		virtual sf::FloatRect GetGlobalBounds() = 0;
 
-			virtual sf::FloatRect GetGlobalBounds() = 0;
-
-		};
-	}
+	};
+	
 }

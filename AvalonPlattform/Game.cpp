@@ -114,7 +114,7 @@ void av::Game::RestartClock()
 	this->m_elapsed_ += m_clock_.restart().asSeconds();
 }
 
-void av::Game::ChangeState(state::State* l_state)
+void av::Game::ChangeState(State* l_state)
 {
 	//NOTE: The mouse visibility should change depending on the current state.
 	// Since I still havent decided if the cursor will be the same for the entire game,
@@ -124,6 +124,6 @@ void av::Game::ChangeState(state::State* l_state)
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
 
-	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(state::GameState));
+	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
 	
 }

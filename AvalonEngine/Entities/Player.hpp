@@ -11,45 +11,42 @@
 
 namespace av
 {
-	namespace entities 
+	class Player : public sf::CircleShape
 	{
-		class Player : public sf::CircleShape
-		{
-		public:
-			Player();
-			
-			void Update(float timestep);
-			void Render(sf::RenderWindow& l_window);
-			void HandleInput(sf::Event l_event);
-			float x() const;
-			float y() const;
-			float Left() const;
-			float Right() const;
-			float Top() const;
-			float Bottom() const;
-			void Move(float timestep);
-			void Shoot(float timestep);
-			float getRotationAngle() const;
-			void Restart();
-			sf::Vector2f getBulletSpawn() const;
+	public:
+		Player();
+		
+		void Update(float timestep);
+		void Render(sf::RenderWindow& l_window);
+		void HandleInput(sf::Event l_event);
+		float x() const;
+		float y() const;
+		float Left() const;
+		float Right() const;
+		float Top() const;
+		float Bottom() const;
+		void Move(float timestep);
+		void Shoot(float timestep);
+		float getRotationAngle() const;
+		void Restart();
+		sf::Vector2f getBulletSpawn() const;
 
-			std::vector<Bullet> m_bullets;
+		std::vector<Bullet> m_bullets;
 
-		private:
-			sf::Vector2f m_mouse_position_;
-			sf::Vector2f m_velocity_;
-			float m_player_velocity_;
-			// timer for the bullet spawn 
-			std::chrono::time_point<std::chrono::system_clock> m_spawn_time_;
-			// side size to render it properly
-			float m_side_distance_;
+	private:
+		sf::Vector2f m_mouse_position_;
+		sf::Vector2f m_velocity_;
+		float m_player_velocity_;
+		// timer for the bullet spawn 
+		std::chrono::time_point<std::chrono::system_clock> m_spawn_time_;
+		// side size to render it properly
+		float m_side_distance_;
 
-			sf::RectangleShape m_rifle_;
+		sf::RectangleShape m_rifle_;
 
-			sf::SoundBuffer m_sound_buffer_;
-			sf::Sound m_shoot_normal_sound_;
-		};
-	}
+		sf::SoundBuffer m_sound_buffer_;
+		sf::Sound m_shoot_normal_sound_;
+	};
 
 }
 

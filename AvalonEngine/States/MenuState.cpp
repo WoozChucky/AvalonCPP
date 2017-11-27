@@ -1,6 +1,6 @@
 #include "MenuState.hpp"
 
-av::state::MenuState::MenuState(const sf::Vector2f l_window_size) :
+av::MenuState::MenuState(const sf::Vector2f l_window_size) :
 	State(l_window_size),
 	m_new_game_(sf::Vector2f(200.f, 100.f), sf::Vector2f(0.f, 0.f), sf::Color::Green),
 	m_high_scores_(sf::Vector2f(200.f, 100.f), sf::Vector2f(0.f, 0.f), sf::Color::Green),
@@ -11,12 +11,12 @@ av::state::MenuState::MenuState(const sf::Vector2f l_window_size) :
 	this->InitializeUI();
 }
 
-void av::state::MenuState::Update(float timestep)
+void av::MenuState::Update(float timestep)
 {
 	
 }
 
-void av::state::MenuState::Render(sf::RenderWindow& l_window)
+void av::MenuState::Render(sf::RenderWindow& l_window)
 {
 	l_window.draw(this->m_background_);
 	this->m_new_game_.Render(l_window);
@@ -24,7 +24,7 @@ void av::state::MenuState::Render(sf::RenderWindow& l_window)
 	this->m_quit_game_.Render(l_window);
 }
 
-void av::state::MenuState::HandleInput(const sf::Event l_event)
+void av::MenuState::HandleInput(const sf::Event l_event)
 {
 	// Check if the event, was a keyboard event
 	if (l_event.type == sf::Event::EventType::KeyPressed)
@@ -69,7 +69,7 @@ void av::state::MenuState::HandleInput(const sf::Event l_event)
 	}
 }
 
-void av::state::MenuState::HandleArrowSelection(const int l_direction)
+void av::MenuState::HandleArrowSelection(const int l_direction)
 {
 	if(this->m_virtual_index_ + l_direction <= 0)
 	{
@@ -87,7 +87,7 @@ void av::state::MenuState::HandleArrowSelection(const int l_direction)
 	std::cout << this->m_virtual_index_ << std::endl;
 }
 
-void av::state::MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
+void av::MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
 {
 	if (m_new_game_.GetGlobalBounds().contains(l_mouse_position)) {
 		std::cout << "Pressed New Game" << std::endl;
@@ -103,7 +103,7 @@ void av::state::MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position
 	}
 }
 
-void av::state::MenuState::InitializeUI()
+void av::MenuState::InitializeUI()
 {
 	//Background Layer Setup
 	m_background_.setFillColor(sf::Color::Blue);

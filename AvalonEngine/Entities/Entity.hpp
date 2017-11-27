@@ -2,16 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 
-class Entity : public sf::RectangleShape
-{
-public:
-	Entity(const sf::Vector2f l_size)
+namespace av {
+
+	class Entity
 	{
-		this->setSize(l_size);
-	}
+	public:
+		virtual void Update(float timestep) = 0;
+		virtual void Render(sf::RenderWindow& l_window) = 0;
+		virtual void HandleInput(sf::Event l_event) = 0;
 
-	virtual void Update(float timsetep) = 0;
-	virtual void Render(sf::RenderWindow& l_window) = 0;
-	virtual void HandleInput(sf::Event l_event) = 0;
-};
+		virtual bool IsAlive() = 0;
+		virtual bool Collide(av::Entity& l_entity);
+	};
 
+}

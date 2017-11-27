@@ -2,31 +2,25 @@
 
 namespace av
 {
-	namespace ui
+	class MouseClickCallback
 	{
-		namespace events
-		{
-			class MouseClickCallback
-			{
-				public:
-				virtual ~MouseClickCallback() = default;
-				virtual void Execute() = 0;
-			};
+		public:
+		virtual ~MouseClickCallback() = default;
+		virtual void Execute() = 0;
+	};
 
-			class MouseOverEnterCallback
-			{
-			public:
-				virtual ~MouseOverEnterCallback() = default;
-				virtual void Execute() = 0;
-			};
+	class MouseOverEnterCallback
+	{
+	public:
+		virtual ~MouseOverEnterCallback() = default;
+		virtual void Execute() = 0;
+	};
 
-			class MouseOverExitCallback
-			{
-			public:
-				virtual ~MouseOverExitCallback() = default;
-				virtual void Execute() = 0;
-			};
-		}
-	}
+	class MouseOverExitCallback
+	{
+	public:
+		virtual ~MouseOverExitCallback() = default;
+		virtual void Execute() = 0;
+	};
 }
 

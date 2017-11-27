@@ -1,7 +1,6 @@
 #include "Math.hpp"
 
-
-sf::Vector2f av::ui::utils::Math::getCenterCoordinates(
+sf::Vector2f av::Math::getCenterCoordinates(
 	const sf::Vector2f l_position,
 	const sf::Vector2f l_size,
 	const sf::FloatRect l_destination_obj)

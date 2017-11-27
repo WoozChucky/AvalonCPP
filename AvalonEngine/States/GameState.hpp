@@ -10,31 +10,27 @@
 
 namespace av {
 
-	namespace state {
+	class GameState : public State
+	{
+	public:
+		explicit GameState(const sf::Vector2f l_window_size);
 
-		class GameState : public State
-		{
-		public:
-			explicit GameState(const sf::Vector2f l_window_size);
+		void Update(float timestep) override;
+		void Render(sf::RenderWindow& l_window) override;
+		void HandleInput(sf::Event l_event) override;
 
-			void Update(float timestep) override;
-			void Render(sf::RenderWindow& l_window) override;
-			void HandleInput(sf::Event l_event) override;
+		bool m_requires_pause = false;
 
-			bool m_requires_pause = false;
+		void Restart();
+	private:
+		MouseCursor m_cursor_;
 
-			void Restart();
-		private:
-			MouseCursor m_cursor_;
+		Player m_player_;
+		std::vector<Enemy> m_enemies_;
 
-			entities::Player m_player_;
-			std::vector<entities::Enemy> m_enemies_;
+		sf::SoundBuffer m_sound_buffer_;
+		sf::Sound m_fart_sound_;
 
-			sf::SoundBuffer m_sound_buffer_;
-			sf::Sound m_fart_sound_;
-
-			void HandleCollision();
-		};
-
-	}
+		void HandleCollision();
+	};
 }
