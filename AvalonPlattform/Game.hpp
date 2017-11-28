@@ -10,7 +10,8 @@
 #include "States/GameState.hpp"
 #include "States/MenuState.hpp"
 #include "States/PauseState.hpp"
-#include "Audio/AudioPlayer.hpp"
+#include "Audio/DesktopAudioPlayer.hpp"
+#include "Locator.hpp"
 
 namespace av {
 

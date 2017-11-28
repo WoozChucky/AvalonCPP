@@ -8,6 +8,10 @@ av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::s
 	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close),
 	m_state_manager_()
 {
+	av::Locator::Initialize(); // Has to be done as soon as possible!
+	av::Locator::Provide(new DesktopAudioPlayer());
+	av::Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
+
 	this->m_clock_.restart();
 	this->m_elapsed_ = 0.0f;
 	this->m_window_.setFramerateLimit(90);
@@ -106,8 +110,7 @@ void av::Game::ChangeState(State* l_state)
 	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
 
 	//TODO: Remove this after code is working
-	//AudioPlayer::Instance().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
-	//AudioPlayer::Instance().PlaySFX(audio::SFX::BASIC_ENEMY_DIE);
+	av::Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
 
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;

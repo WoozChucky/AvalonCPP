@@ -1,10 +1,6 @@
 #pragma once
 
-#include <SFML/Audio.hpp>
 #include "Audio.hpp"
-#include <queue>
-#include <map>
-#include <list>
 #include <iostream>
 
 namespace av
@@ -13,33 +9,19 @@ namespace av
     class AudioPlayer
     {
         public:
-            static AudioPlayer& Instance();
+            virtual ~AudioPlayer() {}
 
-            void PlaySFX(audio::SFX l_sfx, bool l_repeat = false);
-            void PlayMusic(audio::MUSIC l_music, bool l_repeat = false);
+            virtual void PlaySFX(audio::SFX l_sfx, bool l_repeat = false) = 0;
+            virtual void PlayMusic(audio::MUSIC l_music, bool l_repeat = false) = 0;
 
-            void SetSFXVolume(float l_volume);
-            void SetMusicVolume(float l_volume);
+            virtual void SetSFXVolume(float l_volume) = 0;
+            virtual void SetMusicVolume(float l_volume) = 0;
 
-            void PauseSFX();
-            void PauseMusic();
+            virtual void PauseSFX() = 0;
+            virtual void PauseMusic() = 0;
 
-            void StopSFX();
-            void StopMusic();
-
-        private:
-            // hide constructor
-            AudioPlayer();
-
-			std::map<audio::SFX, sf::SoundBuffer> m_sound_buffers_;
-			std::list<sf::Sound> m_sound_list_;
-
-            sf::String as_string(audio::MUSIC l_value);
-            sf::String as_string(audio::SFX l_value);
-
-            sf::Music m_music_;
-
-			float m_sfx_volume_ = 100;
+            virtual void StopSFX() = 0;
+            virtual void StopMusic() = 0;
     };
 
 }
