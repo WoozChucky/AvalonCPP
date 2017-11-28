@@ -2,10 +2,10 @@
 #include <functional>
 
 av::Game::Game(fs::Configuration l_cfg, const std::string window_title) :
-	m_game_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
-	m_menu_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
-	m_pause_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
-	m_window_(sf::VideoMode(l_cfg.Video.Width, l_cfg.Video.Height, l_cfg.Video.Bpp), window_title, sf::Style::Titlebar | sf::Style::Close),
+	m_game_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
+	m_menu_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
+	m_pause_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
+	m_window_(sf::VideoMode(l_cfg.video_l.Width, l_cfg.video_l.Height, l_cfg.video_l.Bpp), window_title, sf::Style::Titlebar | sf::Style::Close),
 	m_state_manager_()
 {
 	this->m_clock_.restart();

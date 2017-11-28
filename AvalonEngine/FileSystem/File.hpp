@@ -21,8 +21,8 @@ namespace av
 
         typedef struct Configuration
         {
-            Video Video;
-            Audio Audio;
+            Video video_l;
+            Audio audio_l;
         } Configuration;
 
     }

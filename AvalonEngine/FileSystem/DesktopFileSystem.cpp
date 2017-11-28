@@ -41,11 +41,11 @@ bool av::DesktopFileSystem::FileExists(std::string filename)
 void av::DesktopFileSystem::GenerateDefaultConfiguration() const
 {
 	fs::Configuration default_cfg;
-	default_cfg.Video.Width = 800;
-	default_cfg.Video.Height = 600;
-	default_cfg.Video.Bpp = 32;
-	default_cfg.Audio.SFX = 100;
-	default_cfg.Audio.Music = 100;
+	default_cfg.video_l.Width = 800;
+	default_cfg.video_l.Height = 600;
+	default_cfg.video_l.Bpp = 32;
+	default_cfg.audio_l.SFX = 100;
+	default_cfg.audio_l.Music = 100;
 
 	std::ofstream output_file(this->kConfigurationLocation, std::ios::binary);
 	output_file.write(reinterpret_cast<char*>(&default_cfg), sizeof(default_cfg));
