@@ -106,6 +106,7 @@ void av::Game::ChangeState(State* l_state)
 	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
 
 	AudioPlayer::Instance().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
+	AudioPlayer::Instance().PlaySFX(audio::SFX::BASIC_ENEMY_DIE);
 
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;

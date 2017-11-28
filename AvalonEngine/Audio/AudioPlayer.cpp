@@ -2,7 +2,8 @@
 
 av::AudioPlayer::AudioPlayer() 
 {
-
+	m_sound_buffers_[audio::SFX::RIFLE_SHOOT_NORMAL].loadFromFile(as_string(audio::SFX::RIFLE_SHOOT_NORMAL));
+	m_sound_buffers_[audio::SFX::BASIC_ENEMY_DIE].loadFromFile(as_string(audio::SFX::BASIC_ENEMY_DIE));
 }
 
 av::AudioPlayer& av::AudioPlayer::Instance()
@@ -11,38 +12,36 @@ av::AudioPlayer& av::AudioPlayer::Instance()
     return *instance;
 }
 
-void av::AudioPlayer::PlayMusic(audio::MUSIC l_music, bool l_repeat)
+void av::AudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_repeat)
 {
-    auto file_path = as_string(l_music);
+	const auto file_path = as_string(l_music);
 
     this->m_music_.openFromFile(file_path);
     this->m_music_.setLoop(l_repeat);
+    this->m_music_.setVolume(m_sfx_volume_);
     this->m_music_.play();
 }
 
-void av::AudioPlayer::PlaySFX(audio::SFX l_sfx, bool l_repeat)
+void av::AudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
-    auto file_path = as_string(l_sfx);
-
-    this->m_sound_buffer_.loadFromFile(file_path);
-    this->m_sound_.setBuffer(m_sound_buffer_);
-    this->m_sound_.setLoop(l_repeat);
-    this->m_sound_.play();
+	this->m_sound_list_.push_back(sf::Sound(m_sound_buffers_[l_sfx]));
+	this->m_sound_list_.end()->setLoop(l_repeat);
+	this->m_sound_list_.end()->play();
 }
 
-void av::AudioPlayer::SetSFXVolume(float l_volume)
+void av::AudioPlayer::SetSFXVolume(const float l_volume)
 {
-    this->m_sound_.setVolume(l_volume);
+    this->m_sfx_volume_ = l_volume;
 }
 
-void av::AudioPlayer::SetMusicVolume(float l_volume)
+void av::AudioPlayer::SetMusicVolume(const float l_volume)
 {
     this->m_music_.setVolume(l_volume);
 }
 
 void av::AudioPlayer::PauseSFX()
 {
-    this->m_sound_.pause();
+    //this->m_sound_.pause();
 }
 
 void av::AudioPlayer::PauseMusic()
@@ -52,7 +51,7 @@ void av::AudioPlayer::PauseMusic()
 
 void av::AudioPlayer::StopSFX()
 {
-    this->m_sound_.stop();
+    //this->m_sound_.stop();
 }
 
 void av::AudioPlayer::StopMusic()
@@ -60,7 +59,7 @@ void av::AudioPlayer::StopMusic()
     this->m_music_.stop();
 }
 
-sf::String av::AudioPlayer::as_string(audio::SFX l_value)
+sf::String av::AudioPlayer::as_string(const audio::SFX l_value)
 {
     switch(l_value)
     {
@@ -72,7 +71,7 @@ sf::String av::AudioPlayer::as_string(audio::SFX l_value)
     throw "Invalid SFX";
 }
 
-sf::String av::AudioPlayer::as_string(audio::MUSIC l_value)
+sf::String av::AudioPlayer::as_string(const audio::MUSIC l_value)
 {
     switch(l_value)
     {

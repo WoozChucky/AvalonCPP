@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AudioPlayer.cpp" />
     <ClCompile Include="EngineUI\Button.cpp" />
     <ClCompile Include="EngineUI\MouseCursor.cpp" />
     <ClCompile Include="EngineUI\Utils\Math.cpp" />
@@ -138,6 +139,8 @@
     <ClCompile Include="States\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\Audio.hpp" />
+    <ClInclude Include="Audio\AudioPlayer.hpp" />
     <ClInclude Include="Bus\Subject.hpp" />
     <ClInclude Include="EngineUI\Button.hpp" />
     <ClInclude Include="EngineUI\Events\MouseEvents.hpp" />

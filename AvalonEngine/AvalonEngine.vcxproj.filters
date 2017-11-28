@@ -12,6 +12,7 @@
     <ClCompile Include="EngineUI\Utils\Math.cpp" />
     <ClCompile Include="EngineUI\MouseCursor.cpp" />
     <ClCompile Include="States\State.cpp" />
+    <ClCompile Include="Audio\AudioPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="States\State.hpp" />
@@ -32,5 +33,7 @@
     <ClInclude Include="EngineUI\MouseCursor.hpp" />
     <ClInclude Include="Extensions\VectorExtensions.hpp" />
     <ClInclude Include="Bus\Subject.hpp" />
+    <ClInclude Include="Audio\Audio.hpp" />
+    <ClInclude Include="Audio\AudioPlayer.hpp" />
   </ItemGroup>
 </Project>
