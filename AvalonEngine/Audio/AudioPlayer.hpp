@@ -5,6 +5,7 @@
 #include <queue>
 #include <map>
 #include <list>
+#include <iostream>
 
 namespace av
 {

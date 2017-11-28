@@ -27,6 +27,7 @@ void av::AudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 	this->m_sound_list_.push_back(sf::Sound(m_sound_buffers_[l_sfx]));
 	this->m_sound_list_.end()->setLoop(l_repeat);
 	this->m_sound_list_.end()->play();
+    std::cout << "Playing sfx" << std::endl;
 }
 
 void av::AudioPlayer::SetSFXVolume(const float l_volume)

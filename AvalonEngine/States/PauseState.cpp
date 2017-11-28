@@ -28,7 +28,7 @@ void av::PauseState::HandleInput(const sf::Event l_event)
     if(l_event.type == sf::Event::EventType::KeyPressed)
 	{
 		if(l_event.key.code == sf::Keyboard::Key::Escape) { //Escape pressed
-			this->GetStateManager()->Notify(av::EventType::State::GAME);
+			this->GetStateManager()->Notify(av::EventType::State::PREVIOUS);
 		} 
         else if (l_event.key.code == sf::Keyboard::Key::Space  // Space or Enter pressed
               || l_event.key.code == sf::Keyboard::Key::Return)
