@@ -12,7 +12,11 @@
     <ClCompile Include="EngineUI\Utils\Math.cpp" />
     <ClCompile Include="EngineUI\MouseCursor.cpp" />
     <ClCompile Include="States\State.cpp" />
-    <ClCompile Include="Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Audio\DesktopAudioPlayer.cpp" />
+    <ClCompile Include="Audio\NullAudioPlayer.cpp" />
+    <ClCompile Include="FileSystem\DesktopFileSystem.cpp" />
+    <ClCompile Include="FileSystem\NullFileSystem.cpp" />
+    <ClCompile Include="Locator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="States\State.hpp" />
@@ -35,5 +39,12 @@
     <ClInclude Include="Bus\Subject.hpp" />
     <ClInclude Include="Audio\Audio.hpp" />
     <ClInclude Include="Audio\AudioPlayer.hpp" />
+    <ClInclude Include="Audio\NullAudioPlayer.hpp" />
+    <ClInclude Include="Audio\DesktopAudioPlayer.hpp" />
+    <ClInclude Include="FileSystem\DesktopFileSystem.hpp" />
+    <ClInclude Include="FileSystem\File.hpp" />
+    <ClInclude Include="FileSystem\FileSystem.hpp" />
+    <ClInclude Include="FileSystem\NullFileSystem.hpp" />
+    <ClInclude Include="Locator.hpp" />
   </ItemGroup>
 </Project>

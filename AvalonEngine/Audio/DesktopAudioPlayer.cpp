@@ -1,9 +1,12 @@
 #include "DesktopAudioPlayer.hpp"
 #include <thread>
+#include "../Extensions/VectorExtensions.hpp"
 
 av::DesktopAudioPlayer::DesktopAudioPlayer() 
 {
-
+	//This has to run on a completely different thread so it doesn't block the UI thread
+	std::thread cleanup_thread(&DesktopAudioPlayer::ClearFinishedSFX, this);
+	cleanup_thread.detach(); 
 }
 
 av::DesktopAudioPlayer::~DesktopAudioPlayer() {}
@@ -20,7 +23,7 @@ void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_
 
 void av::DesktopAudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
-    std::thread sfx_thread(&av::DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
+    std::thread sfx_thread(&DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
     sfx_thread.join();
 }
 
@@ -81,26 +84,25 @@ sf::String av::DesktopAudioPlayer::as_string(const audio::MUSIC l_value)
     throw "Invalid MUSIC";
 }
 
-void av::DesktopAudioPlayer::PlayAsync(audio::SFX l_sfx, bool l_repeat)
+void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repeat)
 {
-    std::cout << "Started new play thread" << std::endl;
-
-    bool found_buffer = false;
+	auto found_buffer = false;
 
     m_mutex_buffer_.lock();
 
-    for(auto buffer : m_sound_buffer_)
+    for(const auto buffer : m_sound_buffer_)
     {
         if(buffer.first == l_sfx)
         {
             std::cout << "Found existing sound buffer" << std::endl;
             found_buffer = true;
+			break;
         }
     }
 
     if(!found_buffer)
     {
-        std::cout << "Loading new buffer..." << std::endl;
+        std::cout << "Loading new sound buffer..." << std::endl;
         m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
@@ -111,5 +113,15 @@ void av::DesktopAudioPlayer::PlayAsync(audio::SFX l_sfx, bool l_repeat)
 
     m_mutex_buffer_.unlock();
 
-    //std::cout << "Sound buffer duration -> " << m_sound_[index].getBuffer()->getDuration().asSeconds() << std::endl;
+	std::cout << "Finished AudioPlayer::PlayAsync thread " << std::this_thread::get_id() << std::endl;
+}
+
+void av::DesktopAudioPlayer::ClearFinishedSFX()
+{
+	while (true)
+	{
+ 		m_sound_.clear();
+
+		std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?
+	}
 }

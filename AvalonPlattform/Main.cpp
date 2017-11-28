@@ -7,7 +7,7 @@
 #define LOG(input) std::cerr << #input << std::endl;
 
 int main() {
-	srand(time(nullptr));
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	av::Locator::Initialize();
 	av::Locator::Provide(new av::DesktopAudioPlayer());

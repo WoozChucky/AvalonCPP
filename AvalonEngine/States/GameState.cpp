@@ -1,12 +1,12 @@
 #include "GameState.hpp"
 #include "../Generators/EntityGenerator.hpp"
 #include "../Extensions/VectorExtensions.hpp"
+#include "../Locator.hpp"
 
 av::GameState::GameState(const sf::Vector2f l_window_size) 
 : State(l_window_size), m_cursor_(), m_player_()
 {
-	this->m_sound_buffer_.loadFromFile("Assets/SFX/fart.wav");
-	this->m_fart_sound_.setBuffer(this->m_sound_buffer_);
+
 }
 
 void av::GameState::Update(const float timestep)
@@ -37,15 +37,13 @@ void av::GameState::HandleInput(const sf::Event l_event)
 
 	if(l_event.type == sf::Event::LostFocus) 
 	{
-#if !DEBUG
-		this->GetStateManager()->Notify(av::EventType::State::PAUSE);
-#endif
+		this->GetStateManager()->Notify(EventType::State::PAUSE);
 	}
 
 	if(l_event.type == sf::Event::EventType::KeyPressed)
 	{
 		if(l_event.key.code == sf::Keyboard::Key::Escape) {
-			this->GetStateManager()->Notify(av::EventType::State::PAUSE);
+			this->GetStateManager()->Notify(EventType::State::PAUSE);
 		}
 	}
 
@@ -84,7 +82,7 @@ void av::GameState::HandleCollision()
 
 				if (!enemies_it->IsAlive())
 				{	
-					this->m_fart_sound_.play();
+					Locator::GetAudio().PlaySFX(audio::SFX::BASIC_ENEMY_DIE);
 
 					//Enemy died, erase it
 					enemies_to_remove.push_back(enemies_it - this->m_enemies_.begin());

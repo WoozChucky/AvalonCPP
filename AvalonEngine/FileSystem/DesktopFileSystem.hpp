@@ -7,10 +7,14 @@ namespace av
 
     class DesktopFileSystem : public FileSystem
     {
-        public:
-            DesktopFileSystem();
-            av::fs::Configuration GetConfiguration() override;
-            void SaveConfiguration(av::fs::Configuration& l_cfg) override;
+    public:
+        DesktopFileSystem();
+        fs::Configuration GetConfiguration() override;
+        void SaveConfiguration(fs::Configuration& l_cfg) override;
+    private:
+	    static bool FileExists(std::string filename);
+		void GenerateDefaultConfiguration() const;
+
     };
 
 }

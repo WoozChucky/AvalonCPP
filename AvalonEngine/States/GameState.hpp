@@ -28,9 +28,6 @@ namespace av {
 		Player m_player_;
 		std::vector<Enemy> m_enemies_;
 
-		sf::SoundBuffer m_sound_buffer_;
-		sf::Sound m_fart_sound_;
-
 		void HandleCollision();
 	};
 }

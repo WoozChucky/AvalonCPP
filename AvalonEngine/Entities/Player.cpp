@@ -4,8 +4,6 @@
 av::Player::Player() : 
 	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
-	this->m_sound_buffer_.loadFromFile("Assets/SFX/shoot_normal.wav");
-	this->m_shoot_normal_sound_.setBuffer(this->m_sound_buffer_);
 	this->m_player_velocity_ = 200.f;
 	this->m_velocity_ = {m_player_velocity_, m_player_velocity_};
 	this->setPosition(sf::Vector2f(400.f, 550.f));
@@ -71,7 +69,7 @@ bool av::Player::IsAlive()
 	return true;
 }
 
-bool av::Player::Collide(av::Entity& l_entity)
+bool av::Player::Collide(Entity& l_entity)
 {
 	return false;
 }
@@ -134,7 +132,7 @@ void av::Player::Move(const float timestep)
 }
 
 
-void av::Player::Shoot(float timestep) {
+void av::Player::Shoot(const float timestep) {
 	// we shoot bullets every .3 seconds
 	// we have a timer on the last spawned bullet that we can check
 	// if we do not have any bullets, then we use the timer present in this class
@@ -142,23 +140,23 @@ void av::Player::Shoot(float timestep) {
 	// that is basically calculating the vector representing the direction of the rifle and then
 	// we normalize it
 	// NOTE : perhaps change the SQRT function with something more efficient ?
-	auto ms = std::chrono::system_clock::now();
+	const auto ms = std::chrono::system_clock::now();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+		
+		const auto l_position{ getBulletSpawn() };
 
-		sf::Vector2f l_position{ getBulletSpawn() };
+		const auto magnitude{ sqrt(pow((l_position.x - this->m_rifle_.getPosition().x),2) + pow((l_position.y - this->m_rifle_.getPosition().y),2)) };
 
-		auto magnitude{ sqrt(pow((l_position.x - this->m_rifle_.getPosition().x),2) + pow((l_position.y - this->m_rifle_.getPosition().y),2)) };
-
-		auto x_direction{ (l_position.x - this->m_rifle_.getPosition().x) / magnitude };
-		auto y_direction{ (l_position.y - this->m_rifle_.getPosition().y) / magnitude };
+		const auto x_direction{ (l_position.x - this->m_rifle_.getPosition().x) / magnitude };
+		const auto y_direction{ (l_position.y - this->m_rifle_.getPosition().y) / magnitude };
 
 		if ((!m_bullets.empty()) && (std::chrono::duration_cast<std::chrono::milliseconds>(ms - m_bullets[m_bullets.size() - 1].GetSpawnTime()).count() > 300)) {
 			Bullet bullet(l_position, x_direction, y_direction);
 			this->m_spawn_time_ = bullet.GetSpawnTime();
 			m_bullets.push_back(bullet);
-			
+
 			// Play Shoot SFX
-			this->m_shoot_normal_sound_.play();
+			Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
 		}
 		else if (std::chrono::duration_cast<std::chrono::milliseconds>(ms - this->m_spawn_time_).count() > 300) {
 			Bullet bullet(l_position, x_direction, y_direction);
@@ -166,14 +164,13 @@ void av::Player::Shoot(float timestep) {
 			this->m_spawn_time_ = bullet.GetSpawnTime();
 
 			// Play Shoot SFX
-			this->m_shoot_normal_sound_.play();
+			Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
 		}
 	}
 	// This loop clears the bullets list if there are any buillets that 
 	// have hit an enemy or out of window
-	for (int i = 0; i < m_bullets.size(); i++) {
-		bool temp;
-		temp = m_bullets[i].Update(timestep);
+	for (auto i = 0; i < m_bullets.size(); i++) {
+		const auto temp = m_bullets[i].Update(timestep);
 		if (!temp) {
 			m_bullets.erase(m_bullets.begin() + i);
 		}

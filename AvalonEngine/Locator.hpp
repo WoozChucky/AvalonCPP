@@ -6,7 +6,6 @@
 
 namespace av
 {
-    //TODO: Tear down this class in cpp impl as well.
     class Locator
     {
     public:
