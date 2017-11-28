@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "../Locator.hpp"
+#include <math.h>
 
 av::Player::Player() : 
 	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
