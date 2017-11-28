@@ -15,6 +15,9 @@
         "__split_buffer": "cpp",
         "vector": "cpp",
         "__locale": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "__mutex_base": "cpp",
+        "memory": "cpp",
+        "utility": "cpp"
     }
 }

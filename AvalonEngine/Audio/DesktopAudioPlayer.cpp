@@ -3,8 +3,7 @@
 
 av::DesktopAudioPlayer::DesktopAudioPlayer() 
 {
-	m_sound_buffers_[audio::SFX::RIFLE_SHOOT_NORMAL].loadFromFile(as_string(audio::SFX::RIFLE_SHOOT_NORMAL));
-	m_sound_buffers_[audio::SFX::BASIC_ENEMY_DIE].loadFromFile(as_string(audio::SFX::BASIC_ENEMY_DIE));
+
 }
 
 av::DesktopAudioPlayer::~DesktopAudioPlayer() {}
@@ -21,17 +20,8 @@ void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_
 
 void av::DesktopAudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
-    sf::Sound sfx(m_sound_buffers_[l_sfx]);
-    sfx.setLoop(l_repeat);
-    sfx.setVolume(this->m_sfx_volume_);
-    sfx.play();
-
-    
-
-    std::thread sfx_thread(&av::DesktopAudioPlayer::PlayAsync, this, std::ref(sfx));
+    std::thread sfx_thread(&av::DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
     sfx_thread.join();
-
-    std::cout << "Sound buffer duration -> " << sfx.getBuffer()->getDuration().asSeconds() << std::endl;
 }
 
 void av::DesktopAudioPlayer::SetSFXVolume(const float l_volume)
@@ -91,8 +81,35 @@ sf::String av::DesktopAudioPlayer::as_string(const audio::MUSIC l_value)
     throw "Invalid MUSIC";
 }
 
-void av::DesktopAudioPlayer::PlayAsync(sf::Sound& l_sound)
+void av::DesktopAudioPlayer::PlayAsync(audio::SFX l_sfx, bool l_repeat)
 {
     std::cout << "Started new play thread" << std::endl;
-    l_sound.play();
+
+    bool found_buffer = false;
+
+    m_mutex_buffer_.lock();
+
+    for(auto buffer : m_sound_buffer_)
+    {
+        if(buffer.first == l_sfx)
+        {
+            std::cout << "Found existing sound buffer" << std::endl;
+            found_buffer = true;
+        }
+    }
+
+    if(!found_buffer)
+    {
+        std::cout << "Loading new buffer..." << std::endl;
+        m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
+    }
+
+    m_sound_.push_back(sf::Sound(m_sound_buffer_[l_sfx]));
+    m_sound_.at(m_sound_.size() - 1).setVolume(m_sfx_volume_);
+    m_sound_.at(m_sound_.size() - 1).setLoop(l_repeat);
+    m_sound_.at(m_sound_.size() - 1).play();
+
+    m_mutex_buffer_.unlock();
+
+    //std::cout << "Sound buffer duration -> " << m_sound_[index].getBuffer()->getDuration().asSeconds() << std::endl;
 }

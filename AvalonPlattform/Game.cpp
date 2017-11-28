@@ -10,7 +10,6 @@ av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::s
 {
 	av::Locator::Initialize(); // Has to be done as soon as possible!
 	av::Locator::Provide(new DesktopAudioPlayer());
-	av::Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
 
 	this->m_clock_.restart();
 	this->m_elapsed_ = 0.0f;
@@ -108,10 +107,6 @@ void av::Game::ChangeState(State* l_state)
 {
 	//NOTE: The mouse visibility should change depending on the current state.
 	// Probably the cursor will be a part of of the State.hpp and we'll hande it there later.
-
-	//TODO: Remove this after code is working
-	av::Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
-
 	this->m_previous_state_ = m_current_state_;
 	this->m_current_state_ = l_state;
 

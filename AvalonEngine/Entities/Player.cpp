@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "../Locator.hpp"
 
 av::Player::Player() : 
 	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
@@ -54,6 +55,13 @@ void av::Player::HandleInput(const sf::Event l_event)
 
 		this->m_mouse_position_ = sf::Vector2f(l_event.mouseMove.x, l_event.mouseMove.y);
 
+	}
+	else if (l_event.type == sf::Event::EventType::KeyPressed) //NOTE: This is used for testing purposes.
+	{
+		if(l_event.key.code == sf::Keyboard::Key::Space)
+		{
+			av::Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
+		}
 	}
 
 }

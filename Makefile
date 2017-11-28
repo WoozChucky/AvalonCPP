@@ -1,6 +1,7 @@
 #Set all the compilation flags
 OS := $(shell uname)
-CC=g++ -std=c++14
+ENV_FLAGS=-DDEBUG
+CC=g++ -std=c++14 $(ENV_FLAGS)
 ENGINE_PATH=AvalonEngine
 PLATTFORM_PATH=AvalonPlattform
 INCLUDE_ENGINE=-I $(ENGINE_PATH)

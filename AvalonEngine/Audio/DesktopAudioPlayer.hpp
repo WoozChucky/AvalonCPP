@@ -28,15 +28,16 @@ namespace av
             void StopSFX() override;
             void StopMusic() override;
         private:
-            std::map<audio::SFX, sf::SoundBuffer> m_sound_buffers_;
-			std::list<sf::Sound> m_sound_list_;
-
             sf::String as_string(audio::MUSIC l_value);
             sf::String as_string(audio::SFX l_value);
 
-            void PlayAsync(sf::Sound& l_sound);
+            void PlayAsync(audio::SFX l_sfx, bool l_repeat = false);
 
             sf::Music m_music_;
+
+            std::vector<sf::Sound> m_sound_;
+            std::map<audio::SFX, sf::SoundBuffer> m_sound_buffer_;
+            std::mutex m_mutex_buffer_;
 
 			float m_sfx_volume_ = 100;
             float m_music_volume_ = 100;
