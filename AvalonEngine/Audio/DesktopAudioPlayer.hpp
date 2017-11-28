@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "AudioPlayer.hpp"
 #include "Audio.hpp"
+#include <mutex>
 #include <queue>
 #include <map>
 #include <list>
