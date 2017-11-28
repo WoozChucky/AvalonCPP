@@ -18,6 +18,9 @@
         "bitset": "cpp",
         "__mutex_base": "cpp",
         "memory": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "iostream": "cpp"
     }
 }

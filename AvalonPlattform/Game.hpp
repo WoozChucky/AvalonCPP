@@ -10,15 +10,14 @@
 #include "States/GameState.hpp"
 #include "States/MenuState.hpp"
 #include "States/PauseState.hpp"
-#include "Audio/DesktopAudioPlayer.hpp"
-#include "Locator.hpp"
+#include "FileSystem/File.hpp"
 
 namespace av {
 
 	class Game
 	{
 	public:
-		explicit Game(sf::Uint32 l_width, sf::Uint32 l_height, std::string window_title = "Avalon : The Beginning");
+		explicit Game(fs::Configuration l_cfg, std::string window_title = "Avalon : The Beginning");
 
 		void HandleInput();
 		void Update(float timestep);

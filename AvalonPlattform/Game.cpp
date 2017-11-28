@@ -1,16 +1,13 @@
 #include "Game.hpp"
 #include <functional>
 
-av::Game::Game(const sf::Uint32 l_width, const sf::Uint32 l_height, const std::string window_title) :
-	m_game_state_(sf::Vector2f(l_width, l_height)),
-	m_menu_state_(sf::Vector2f(l_width, l_height)),
-	m_pause_state_(sf::Vector2f(l_width, l_height)),
-	m_window_(sf::VideoMode(l_width, l_height, 32), window_title, sf::Style::Titlebar | sf::Style::Close),
+av::Game::Game(fs::Configuration l_cfg, const std::string window_title) :
+	m_game_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
+	m_menu_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
+	m_pause_state_(sf::Vector2f(l_cfg.Video.Width, l_cfg.Video.Height)),
+	m_window_(sf::VideoMode(l_cfg.Video.Width, l_cfg.Video.Height, l_cfg.Video.Bpp), window_title, sf::Style::Titlebar | sf::Style::Close),
 	m_state_manager_()
 {
-	av::Locator::Initialize(); // Has to be done as soon as possible!
-	av::Locator::Provide(new DesktopAudioPlayer());
-
 	this->m_clock_.restart();
 	this->m_elapsed_ = 0.0f;
 	this->m_window_.setFramerateLimit(90);

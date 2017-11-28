@@ -8,8 +8,8 @@ INCLUDE_ENGINE=-I $(ENGINE_PATH)
 BUILD_DIR=Build/$(OS)
 LINK_LIBARIES=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -pthread
 
-output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o
-	g++ -std=c++14 -DDEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o -o output $(LINK_LIBARIES)
+output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o NullFileSystem.o DesktopFileSystem.o
+	g++ -std=c++14 -DDEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o NullFileSystem.o DesktopFileSystem.o -o output $(LINK_LIBARIES)
 	mkdir -p $(BUILD_DIR)
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
@@ -61,6 +61,12 @@ DesktopAudioPlayer.o: $(ENGINE_PATH)/Audio/DesktopAudioPlayer.hpp $(ENGINE_PATH)
 
 NullAudioPlayer.o: $(ENGINE_PATH)/Audio/NullAudioPlayer.hpp $(ENGINE_PATH)/Audio/NullAudioPlayer.cpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Audio/NullAudioPlayer.cpp
+
+DesktopFileSystem.o: $(ENGINE_PATH)/FileSystem/DesktopFileSystem.hpp $(ENGINE_PATH)/FileSystem/DesktopFileSystem.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/FileSystem/DesktopFileSystem.cpp
+
+NullFileSystem.o: $(ENGINE_PATH)/FileSystem/NullFileSystem.hpp $(ENGINE_PATH)/FileSystem/NullFileSystem.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/FileSystem/NullFileSystem.cpp
 
 clean:
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o
