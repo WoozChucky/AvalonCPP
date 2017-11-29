@@ -1,12 +1,13 @@
 #include "Player.hpp"
-#include "../Locator.hpp"
 #include <math.h>
+#include "../Locator.hpp"
+#include "../Components/Graphics/PlayerGraphicsComponent.hpp"
 
-av::Player::Player(av::GrapicsComponent * l_graphics) : 
+av::Player::Player() : 
 	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
 	//Components setup
-	this->m_graphics_ = l_graphics;
+	this->m_graphics_ = new PlayerGraphicsComponent();
 
 	this->m_player_velocity_ = 200.f;
 	this->m_velocity_ = {m_player_velocity_, m_player_velocity_};
@@ -30,7 +31,7 @@ void av::Player::Update(const float timestep)
 {
 	this->Move(timestep);
 
-	auto angle = getRotationAngle();
+	auto angle = GetRotationAngle();
  
 	//Lock rifle rotation
 	if(angle >= -90.1f && angle <= 90.1f)
@@ -144,24 +145,24 @@ void av::Player::Shoot(const float timestep) {
 	const auto ms = std::chrono::system_clock::now();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		
-		const auto l_position{ getBulletSpawn() };
+		const auto l_position{ GetBulletSpawn() };
 
 		const auto magnitude{ sqrt(pow((l_position.x - this->m_rifle_.getPosition().x),2) + pow((l_position.y - this->m_rifle_.getPosition().y),2)) };
 
 		const auto x_direction{ (l_position.x - this->m_rifle_.getPosition().x) / magnitude };
 		const auto y_direction{ (l_position.y - this->m_rifle_.getPosition().y) / magnitude };
 
-		if ((!m_bullets.empty()) && (std::chrono::duration_cast<std::chrono::milliseconds>(ms - m_bullets[m_bullets.size() - 1].GetSpawnTime()).count() > 300)) {
+		if ((!m_bullets_.empty()) && (std::chrono::duration_cast<std::chrono::milliseconds>(ms - m_bullets_[m_bullets_.size() - 1].GetSpawnTime()).count() > 300)) {
 			Bullet bullet(l_position, x_direction, y_direction);
 			this->m_spawn_time_ = bullet.GetSpawnTime();
-			m_bullets.push_back(bullet);
+			m_bullets_.push_back(bullet);
 
 			// Play Shoot SFX
 			Locator::GetAudio().PlaySFX(audio::SFX::RIFLE_SHOOT_NORMAL);
 		}
 		else if (std::chrono::duration_cast<std::chrono::milliseconds>(ms - this->m_spawn_time_).count() > 300) {
 			Bullet bullet(l_position, x_direction, y_direction);
-			m_bullets.push_back(bullet);
+			m_bullets_.push_back(bullet);
 			this->m_spawn_time_ = bullet.GetSpawnTime();
 
 			// Play Shoot SFX
@@ -170,20 +171,20 @@ void av::Player::Shoot(const float timestep) {
 	}
 	// This loop clears the bullets list if there are any buillets that 
 	// have hit an enemy or out of window
-	for (auto i = 0; i < m_bullets.size(); i++) {
-		const auto temp = m_bullets[i].Update(timestep);
+	for (auto i = 0; i < m_bullets_.size(); i++) {
+		const auto temp = m_bullets_[i].Update(timestep);
 		if (!temp) {
-			m_bullets.erase(m_bullets.begin() + i);
+			m_bullets_.erase(m_bullets_.begin() + i);
 		}
 	}
 }
 
-float av::Player::x() const
+float av::Player::X() const
 {
 	return this->getPosition().x;
 }
 
-float av::Player::y() const
+float av::Player::Y() const
 {
 	return this->getPosition().y;
 }
@@ -208,7 +209,7 @@ float av::Player::Bottom() const
 	return this->getPosition().y + 0.5 * this->getRadius();
 }
 
-float av::Player::getRotationAngle() const
+float av::Player::GetRotationAngle() const
 {
 	// This function gets the rotation angle that helps us track the mouse position with the gun
 	// Explanation : 
@@ -226,19 +227,29 @@ float av::Player::getRotationAngle() const
 	return atan2(this->m_rifle_.getPosition().y - this->m_mouse_position_.y, this->m_rifle_.getPosition().x - this->m_mouse_position_.x)*180.f / 3.1428 - 90;
 }
 
-sf::Vector2f av::Player::getBulletSpawn() const
+sf::Vector2f av::Player::GetBulletSpawn() const
 {
 	const auto x{ static_cast<float>(this->m_rifle_.getPosition().x + this->m_rifle_.getSize().y * sin(
 		this->m_rifle_.getRotation() * 3.1428 / 180)) };
 
 	const auto y{ static_cast<float>(this->m_rifle_.getPosition().y - this->m_rifle_.getSize().y * sin(
 		(90 - this->m_rifle_.getRotation()) * 3.1428 / 180)) };
+	
+	return { x, y };
+}
 
-	return sf::Vector2f(x, y);
+std::vector<av::Bullet> av::Player::GetBullets() const
+{
+	return this->m_bullets_;
+}
+
+sf::RectangleShape av::Player::GetRifle() const
+{
+	return this->m_rifle_;
 }
 
 void av::Player::Restart() {
-	this->m_bullets.clear();
+	this->m_bullets_.clear();
 	this->m_rifle_.setPosition(400.f, 550.f);
 	this->setPosition(400.f, 550.f);
 }

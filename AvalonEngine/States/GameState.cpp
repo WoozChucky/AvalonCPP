@@ -2,10 +2,9 @@
 #include "../Generators/EntityGenerator.hpp"
 #include "../Extensions/VectorExtensions.hpp"
 #include "../Locator.hpp"
-#include "../Components/Graphics/PlayerGraphicsComponent.hpp"
 
 av::GameState::GameState(const sf::Vector2f l_window_size) 
-: State(l_window_size), m_cursor_(), m_player_(new av::PlayerGraphicsComponent())
+: State(l_window_size), m_cursor_(), m_player_()
 {
 
 }
@@ -72,14 +71,14 @@ void av::GameState::HandleCollision()
 	std::vector<int> enemies_to_remove;
 
 	// Check if any bullet collides with enemies, then erase them from screen
-	for (auto bullet_it = this->m_player_.m_bullets.begin(); bullet_it != this->m_player_.m_bullets.end(); bullet_it++)
+	for (auto bullet_it = this->m_player_.m_bullets_.begin(); bullet_it != this->m_player_.m_bullets_.end(); bullet_it++)
 	{
 		for (auto enemies_it = this->m_enemies_.begin(); enemies_it != this->m_enemies_.end(); enemies_it++)
 		{
 			if (enemies_it->Collide(*bullet_it))
 			{   
 				//Bullet collided with Enemy
-				bullets_to_remove.push_back(bullet_it - this->m_player_.m_bullets.begin());
+				bullets_to_remove.push_back(bullet_it - this->m_player_.m_bullets_.begin());
 
 				if (!enemies_it->IsAlive())
 				{	
@@ -93,7 +92,8 @@ void av::GameState::HandleCollision()
 				}
 			}
 		}
-	}
-	VectorExtensions::RemoveElements(this->m_player_.m_bullets, bullets_to_remove);
+	}	
+
+	VectorExtensions::RemoveElements(this->m_player_.m_bullets_, bullets_to_remove);
 	VectorExtensions::RemoveElements(this->m_enemies_, enemies_to_remove);
 }

@@ -1,16 +1,21 @@
 #include "DesktopLogger.hpp"
-//#include "easylogging++.h"
+#include <time.h>
+
+#pragma warning(disable: 4996)
 
 av::DesktopLogger::DesktopLogger()
 {
-    //INITIALIZE_EASYLOGGINGPP
 
-    //el::Configurations conf("Assets/logging.conf");
-
-    //el::Loggers::reconfigureAllLoggers(conf);
 }
 
-void av::DesktopLogger::Log(std::ostream& l_val)
+void av::DesktopLogger::Log(std::string l_location, std::string l_message)
 {
-    //LOG(INFO) << l_val;
+	time_t rawtime;
+	char time_buffer[80];
+
+	time(&rawtime);
+	const auto timeinfo = localtime(&rawtime);
+	strftime(time_buffer, 80, "%T", timeinfo);
+
+	std::cout << "[LOGGER] " << time_buffer << " - " << l_location.c_str() << "\n\t" << l_message.c_str() << std::endl;
 }

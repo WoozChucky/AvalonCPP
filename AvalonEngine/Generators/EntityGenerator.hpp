@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <typeinfo>
+#include "../Locator.hpp"
+
+#pragma warning(disable:4996)
 
 namespace av
 {
@@ -28,7 +30,9 @@ namespace av
 
 			if (missing_entities > 0)
 			{
-				std::cout << "Missing "<< typeid(T).name() <<" Entities -> " << missing_entities << std::endl;
+				char buffer[80];
+				sprintf(buffer, "Missing %s -> %d", typeid(T).name(), missing_entities);
+				Locator::GetLogger().Log(__FUNCTION__, buffer);
 
 				for(auto i = l_entities.size(); i < l_count; i++)
 				{

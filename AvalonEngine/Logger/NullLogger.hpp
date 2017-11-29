@@ -9,7 +9,7 @@ namespace av
     {
     public:
         NullLogger();
-        void Log(std::ostream& l_val) override;
+        void Log(std::string l_location, std::string l_message) override;
     };
 
 }

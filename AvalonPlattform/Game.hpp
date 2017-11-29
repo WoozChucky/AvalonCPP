@@ -1,7 +1,5 @@
 #pragma once
 
-#include <typeinfo>
-#include <iostream>
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Bus/Subject.hpp"
@@ -40,7 +38,7 @@ namespace av {
 		double m_elapsed_;
 
 		void HandleInput();
-		void Update(float timestep);
+		void Update(float timestep) const;
 		void Render();
 		void RestartClock();
 		void Restart();

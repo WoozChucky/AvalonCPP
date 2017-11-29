@@ -1,13 +1,14 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../Bus/Subject.hpp"
-#include "../EngineUI/Events//EventType.hpp"
+#include "../EngineUI/Events/EventType.hpp"
 
 namespace av
 {
 	class State
 	{
 	public:
+		virtual ~State() = default;
 		explicit State(const sf::Vector2f l_window_size);
 
 		void virtual Update(float timestep) = 0;
@@ -17,11 +18,11 @@ namespace av
 		sf::Vector2f GetWindowSize() const;
 		void SetWindowSize(const sf::Vector2f l_window_size);
 
-		Subject<av::EventType::State>* GetStateManager();
-		void SetStateManager(Subject<av::EventType::State>* l_subject);
+		Subject<EventType::State>* GetStateManager() const;
+		void SetStateManager(Subject<EventType::State>* l_subject);
 
 	private:
 		sf::Vector2f m_window_size_;
-		Subject<av::EventType::State> * m_state_manager;
+		Subject<EventType::State> * m_state_manager_;
 	};
 }

@@ -17,6 +17,10 @@
     <ClCompile Include="FileSystem\DesktopFileSystem.cpp" />
     <ClCompile Include="FileSystem\NullFileSystem.cpp" />
     <ClCompile Include="Locator.cpp" />
+    <ClCompile Include="Components\Graphics\EnemyGraphicsComponent.cpp" />
+    <ClCompile Include="Components\Graphics\PlayerGraphicsComponent.cpp" />
+    <ClCompile Include="Logger\DesktopLogger.cpp" />
+    <ClCompile Include="Logger\NullLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="States\State.hpp" />
@@ -46,5 +50,13 @@
     <ClInclude Include="FileSystem\FileSystem.hpp" />
     <ClInclude Include="FileSystem\NullFileSystem.hpp" />
     <ClInclude Include="Locator.hpp" />
+    <ClInclude Include="Components\GraphicsComponent.hpp" />
+    <ClInclude Include="Components\InputComponent.hpp" />
+    <ClInclude Include="Components\PhysicsComponent.hpp" />
+    <ClInclude Include="Components\Graphics\PlayerGraphicsComponent.hpp" />
+    <ClInclude Include="Components\Graphics\EnemyGraphicsComponent.hpp" />
+    <ClInclude Include="Logger\DesktopLogger.hpp" />
+    <ClInclude Include="Logger\Logger.hpp" />
+    <ClInclude Include="Logger\NullLogger.hpp" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
 #include "Game.hpp"
 #include <functional>
+#include "Locator.hpp"
 
-av::Game::Game(fs::Configuration l_cfg, const std::string window_title) :
+av::Game::Game(const fs::Configuration l_cfg, const std::string window_title) :
 	m_game_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
 	m_menu_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
 	m_pause_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
@@ -34,7 +35,7 @@ av::Game::Game(fs::Configuration l_cfg, const std::string window_title) :
 	this->m_pause_state_.SetStateManager(&this->m_state_manager_);
 }
 
-void av::Game::Update(const float timestep)
+void av::Game::Update(const float timestep) const
 {
 	// Handle updates for current state
 	this->m_current_state_->Update(timestep);
@@ -108,10 +109,13 @@ void av::Game::ChangeState(State* l_state)
 	this->m_current_state_ = l_state;
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
+
+	Locator::GetLogger().Log(__FUNCTION__, "State was changed");
 }
 
 void av::Game::Exit()
 {
+	Locator::GetLogger().Log(__FUNCTION__, "Shutting down");
 	this->m_window_.close();
 }
 
@@ -120,4 +124,6 @@ void av::Game::PreviousState()
 	this->m_current_state_ = this->m_previous_state_;
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
+
+	Locator::GetLogger().Log(__FUNCTION__, "Going back to previous state");
 }

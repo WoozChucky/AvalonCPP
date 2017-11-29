@@ -1,4 +1,7 @@
 #include "DesktopAudioPlayer.hpp"
+#include "../Locator.hpp"
+
+#pragma warning(disable:4996)
 
 av::DesktopAudioPlayer::DesktopAudioPlayer() 
 {
@@ -22,7 +25,7 @@ void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_
 void av::DesktopAudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
     this->m_sfx_thread_ = std::thread(&DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
-    this->m_sfx_thread_.join();
+    this->m_sfx_thread_.detach();
 }
 
 void av::DesktopAudioPlayer::SetSFXVolume(const float l_volume)
@@ -92,7 +95,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
     {
         if(buffer.first == l_sfx)
         {
-            std::cout << "Found existing sound buffer" << std::endl;
+			Locator::GetLogger().Log(__FUNCTION__, "Found existing sound buffer");
             found_buffer = true;
 			break;
         }
@@ -100,7 +103,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 
     if(!found_buffer)
     {
-        std::cout << "Loading new sound buffer..." << std::endl;
+		Locator::GetLogger().Log(__FUNCTION__, "Loading new sound buffer");
         this->m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
@@ -118,6 +121,9 @@ void av::DesktopAudioPlayer::ClearFinishedSFX()
 {
 	while (true)
 	{
+		char buffer[80];
+		sprintf(buffer, "buffers cleared -> %d", static_cast<int>(this->m_sound_.size()));
+		Locator::GetLogger().Log(__FUNCTION__, buffer);
  		this->m_sound_.clear();
 
 		std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?

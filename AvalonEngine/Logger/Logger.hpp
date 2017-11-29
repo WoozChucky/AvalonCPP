@@ -8,7 +8,8 @@ namespace av
     class Logger
     {
     public:
-        virtual void Log(std::ostream& l_val) = 0;
+	    virtual ~Logger() = default;
+	    virtual void Log(std::string l_location, std::string l_message) = 0;
     };
 
 }
