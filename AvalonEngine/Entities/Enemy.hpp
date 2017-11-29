@@ -6,6 +6,9 @@
 #include "Entity.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
+#include "../Components/GraphicsComponent.hpp"
+//#include "../Components/AIComponent.hpp"
+#include "../Components/PhysicsComponent.hpp"
 
 namespace av
 {
@@ -28,6 +31,9 @@ namespace av
 		bool Collide(Bullet& l_entity);
 		bool Collide(Enemy l_entity);
 		bool Collide(Player& l_entity) const;
+
+		Healthbar GetHealthbar();
+		RectangleShape GetBody();
 		
 
 	private:
@@ -38,6 +44,9 @@ namespace av
 		Class m_class_;
 
 		bool m_alive_;
+
+		//Components
+		av::GrapicsComponent* m_graphics_;
 	};
 }
 

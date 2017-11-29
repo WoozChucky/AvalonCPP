@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsComponent.hpp"
+#include "../GraphicsComponent.hpp"
 
 namespace av
 {

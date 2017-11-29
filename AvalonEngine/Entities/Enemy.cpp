@@ -1,9 +1,13 @@
 #include "Enemy.hpp"
+#include "../Components/Graphics/EnemyGraphicsComponent.hpp"
 
 
 av::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 	:Entity(), m_body_(l_size), m_healthbar_(sf::Vector2f(- 500.f, - 500.f)), m_class_(l_class), m_alive_(true)
 {
+	//Setup components
+	this->m_graphics_ = new av::EnemyGraphicsComponent();
+
 	//BODY
 	this->m_body_.setOutlineThickness(2.f);
 	this->m_body_.setOutlineColor(sf::Color::Black);
@@ -28,8 +32,17 @@ void av::Enemy::HandleInput(sf::Event l_event)
 
 void av::Enemy::Render(sf::RenderWindow& l_window)
 {
-	this->m_healthbar_.Render(l_window);
-	l_window.draw(this->m_body_);
+	this->m_graphics_->Render(*this, l_window);
+}
+
+av::Healthbar av::Enemy::GetHealthbar()
+{
+	return this->m_healthbar_;
+}
+
+sf::RectangleShape av::Enemy::GetBody()
+{
+	return this->m_body_;
 }
 
 void av::Enemy::setPosition(const sf::Vector2f l_position)

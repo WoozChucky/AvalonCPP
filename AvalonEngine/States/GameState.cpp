@@ -2,7 +2,7 @@
 #include "../Generators/EntityGenerator.hpp"
 #include "../Extensions/VectorExtensions.hpp"
 #include "../Locator.hpp"
-#include "../Components/PlayerGraphicsComponent.hpp"
+#include "../Components/Graphics/PlayerGraphicsComponent.hpp"
 
 av::GameState::GameState(const sf::Vector2f l_window_size) 
 : State(l_window_size), m_cursor_(), m_player_(new av::PlayerGraphicsComponent())

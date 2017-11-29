@@ -19,14 +19,8 @@ namespace av {
 	public:
 		explicit Game(fs::Configuration l_cfg, std::string window_title = "Avalon : The Beginning");
 
-		void HandleInput();
-		void Update(float timestep);
-		void Render();
 		void Run();
-		void RestartClock();
-		void Restart();
-
-		void ChangeState(State* l_state);
+		
 
 	private:
 		//States
@@ -45,6 +39,12 @@ namespace av {
 
 		double m_elapsed_;
 
+		void HandleInput();
+		void Update(float timestep);
+		void Render();
+		void RestartClock();
+		void Restart();
+		void ChangeState(State* l_state);
 		void Exit();
 		void PreviousState();
 	};

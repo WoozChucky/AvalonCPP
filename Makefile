@@ -10,10 +10,10 @@ LINK_LIBARIES=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -pthread
 
 output: Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o \
 Bullet.o Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o NullFileSystem.o \
-DesktopFileSystem.o DesktopLogger.o NullLogger.o PlayerGraphicsComponent.o
+DesktopFileSystem.o DesktopLogger.o NullLogger.o PlayerGraphicsComponent.o EnemyGraphicsComponent.o
 	g++ -std=c++14 -DDEBUG  Main.o Game.o GameState.o Player.o Enemy.o Button.o MenuState.o Math.o PauseState.o Bullet.o \
 Healthbar.o MouseCursor.o State.o DesktopAudioPlayer.o NullAudioPlayer.o Locator.o NullFileSystem.o DesktopFileSystem.o \
-DesktopLogger.o NullLogger.o PlayerGraphicsComponent.o -o output $(LINK_LIBARIES)
+DesktopLogger.o NullLogger.o PlayerGraphicsComponent.o EnemyGraphicsComponent.o -o output $(LINK_LIBARIES)
 	mkdir -p $(BUILD_DIR)
 	mv *.o $(BUILD_DIR)
 	mv output $(BUILD_DIR)
@@ -78,8 +78,11 @@ DesktopLogger.o: $(ENGINE_PATH)/Logger/DesktopLogger.hpp $(ENGINE_PATH)/Logger/D
 NullLogger.o: $(ENGINE_PATH)/Logger/NullLogger.hpp $(ENGINE_PATH)/Logger/NullLogger.cpp
 	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Logger/NullLogger.cpp
 
-PlayerGraphicsComponent.o: $(ENGINE_PATH)/Components/PlayerGraphicsComponent.hpp $(ENGINE_PATH)/Components/PlayerGraphicsComponent.cpp
-	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Components/PlayerGraphicsComponent.cpp
+PlayerGraphicsComponent.o: $(ENGINE_PATH)/Components/Graphics/PlayerGraphicsComponent.hpp $(ENGINE_PATH)/Components/Graphics/PlayerGraphicsComponent.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Components/Graphics/PlayerGraphicsComponent.cpp
+
+EnemyGraphicsComponent.o: $(ENGINE_PATH)/Components/Graphics/EnemyGraphicsComponent.hpp $(ENGINE_PATH)/Components/Graphics/EnemyGraphicsComponent.cpp
+	$(CC) $(INCLUDE_ENGINE) -c $(ENGINE_PATH)/Components/Graphics/EnemyGraphicsComponent.cpp
 
 clean:
 	rm $(BUILD_DIR)/*.o $(BUILD_DIR)/output *.o

@@ -1,5 +1,5 @@
 #include "PlayerGraphicsComponent.hpp"
-#include "../Entities/Player.hpp"
+#include "../../Entities/Player.hpp"
 
 av::PlayerGraphicsComponent::PlayerGraphicsComponent()
 {
