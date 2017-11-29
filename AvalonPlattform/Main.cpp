@@ -1,6 +1,7 @@
 #include "Locator.hpp"
 #include "Audio/DesktopAudioPlayer.hpp"
 #include "FileSystem/DesktopFileSystem.hpp"
+#include "Logger/DesktopLogger.hpp"
 #include "Game.hpp"
 #include <cstdio>
 
@@ -12,6 +13,7 @@ int main() {
 	av::Locator::Initialize();
 	av::Locator::Provide(new av::DesktopAudioPlayer());
 	av::Locator::Provide(new av::DesktopFileSystem());
+	av::Locator::Provide(new av::DesktopLogger());
 
 	av::Game(av::Locator::GetFileSystem().GetConfiguration()).Run();
 }

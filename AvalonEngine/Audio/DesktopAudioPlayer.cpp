@@ -123,5 +123,5 @@ void av::DesktopAudioPlayer::ClearFinishedSFX()
  		m_sound_.clear();
 
 		std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?
-	}
+    }
 }
