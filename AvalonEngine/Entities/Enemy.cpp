@@ -2,7 +2,7 @@
 
 
 av::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
-	: m_body_(l_size), m_healthbar_(sf::Vector2f(- 500.f, - 500.f)), m_class_(l_class), m_alive_(true)
+	:Entity(), m_body_(l_size), m_healthbar_(sf::Vector2f(- 500.f, - 500.f)), m_class_(l_class), m_alive_(true)
 {
 	//BODY
 	this->m_body_.setOutlineThickness(2.f);
@@ -17,6 +17,11 @@ av::Enemy::Enemy(const sf::Vector2f l_size, const Class l_class)
 }
 
 void av::Enemy::Update(float timestep)
+{
+
+}
+
+void av::Enemy::HandleInput(sf::Event l_event)
 {
 
 }
@@ -80,7 +85,12 @@ bool av::Enemy::Collide(Enemy l_entity)
 	return this->m_body_.getGlobalBounds().intersects(l_entity.getBody().getGlobalBounds());
 }
 
-bool av::Enemy::IsAlive() const
+bool av::Enemy::Collide(Entity& l_entity)
+{
+	return false;
+}
+
+bool av::Enemy::IsAlive()
 {
     return this->m_alive_;
 }

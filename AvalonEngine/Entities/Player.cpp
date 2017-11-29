@@ -2,9 +2,12 @@
 #include "../Locator.hpp"
 #include <math.h>
 
-av::Player::Player() : 
+av::Player::Player(av::GrapicsComponent * l_graphics) : 
 	Entity(), CircleShape(40, 3), m_rifle_(sf::Vector2f(14.f, 45.f))
 {
+	//Components setup
+	this->m_graphics_ = l_graphics;
+
 	this->m_player_velocity_ = 200.f;
 	this->m_velocity_ = {m_player_velocity_, m_player_velocity_};
 	this->setPosition(sf::Vector2f(400.f, 550.f));
@@ -40,11 +43,7 @@ void av::Player::Update(const float timestep)
 
 void av::Player::Render(sf::RenderWindow& l_window)
 {
-	l_window.draw(*this);
-	l_window.draw(this->m_rifle_);
-	for (auto i = 0; i < m_bullets.size(); i++) {
-		l_window.draw(this->m_bullets[i]);
-	}
+	this->m_graphics_->Render(*this, l_window);
 }
 
 void av::Player::HandleInput(const sf::Event l_event)
@@ -53,6 +52,7 @@ void av::Player::HandleInput(const sf::Event l_event)
 	if (l_event.type == sf::Event::EventType::MouseMoved) {
 
 		this->m_mouse_position_ = sf::Vector2f(l_event.mouseMove.x, l_event.mouseMove.y);
+		sf::Mouse::getPosition();
 
 	}
 	else if (l_event.type == sf::Event::EventType::KeyPressed) //NOTE: This is used for testing purposes.

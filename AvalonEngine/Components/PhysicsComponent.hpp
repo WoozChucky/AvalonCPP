@@ -9,7 +9,7 @@ namespace av
     {
         public:
             virtual ~PhysicsComponent() {};
-            virtual void Update(Entity& l_entity, Level& l_level) = 0;
+            virtual void Update(Entity& l_entity /*Level& l_level*/) = 0;
     };
 
 }

@@ -16,6 +16,7 @@ namespace av {
 
 		virtual bool IsAlive() = 0;
 		virtual bool Collide(Entity& l_entity) = 0;
+
 	};
 
 }

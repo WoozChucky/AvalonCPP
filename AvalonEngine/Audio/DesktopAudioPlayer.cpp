@@ -1,12 +1,10 @@
 #include "DesktopAudioPlayer.hpp"
-#include <thread>
-#include "../Extensions/VectorExtensions.hpp"
 
 av::DesktopAudioPlayer::DesktopAudioPlayer() 
 {
 	//This has to run on a completely different thread so it doesn't block the UI thread
-	std::thread cleanup_thread(&DesktopAudioPlayer::ClearFinishedSFX, this);
-	cleanup_thread.detach(); 
+	this->m_cleanup_thread_ = std::thread(&DesktopAudioPlayer::ClearFinishedSFX, this);
+	this->m_cleanup_thread_.detach(); 
 }
 
 av::DesktopAudioPlayer::~DesktopAudioPlayer() {}
@@ -23,8 +21,8 @@ void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_
 
 void av::DesktopAudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
-    std::thread sfx_thread(&DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
-    sfx_thread.join();
+    this->m_sfx_thread_ = std::thread(&DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
+    this->m_sfx_thread_.join();
 }
 
 void av::DesktopAudioPlayer::SetSFXVolume(const float l_volume)
@@ -88,9 +86,9 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 {
 	auto found_buffer = false;
 
-    m_mutex_buffer_.lock();
+    this->m_mutex_buffer_.lock();
 
-    for(const auto buffer : m_sound_buffer_)
+    for(const auto buffer : this->m_sound_buffer_)
     {
         if(buffer.first == l_sfx)
         {
@@ -103,15 +101,15 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
     if(!found_buffer)
     {
         std::cout << "Loading new sound buffer..." << std::endl;
-        m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
+        this->m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
-    m_sound_.push_back(sf::Sound(m_sound_buffer_[l_sfx]));
-    m_sound_.at(m_sound_.size() - 1).setVolume(m_sfx_volume_);
-    m_sound_.at(m_sound_.size() - 1).setLoop(l_repeat);
-    m_sound_.at(m_sound_.size() - 1).play();
+    this->m_sound_.push_back(sf::Sound(m_sound_buffer_[l_sfx]));
+    this->m_sound_.at(this->m_sound_.size() - 1).setVolume(m_sfx_volume_);
+    this->m_sound_.at(this->m_sound_.size() - 1).setLoop(l_repeat);
+    this->m_sound_.at(this->m_sound_.size() - 1).play();
 
-    m_mutex_buffer_.unlock();
+    this->m_mutex_buffer_.unlock();
 
 	std::cout << "Finished AudioPlayer::PlayAsync thread " << std::this_thread::get_id() << std::endl;
 }
@@ -120,7 +118,7 @@ void av::DesktopAudioPlayer::ClearFinishedSFX()
 {
 	while (true)
 	{
- 		m_sound_.clear();
+ 		this->m_sound_.clear();
 
 		std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?
     }

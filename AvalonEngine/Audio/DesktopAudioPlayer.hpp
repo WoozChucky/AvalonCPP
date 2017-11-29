@@ -4,8 +4,8 @@
 #include "AudioPlayer.hpp"
 #include "Audio.hpp"
 #include <mutex>
-#include <queue>
 #include <map>
+#include <thread>
 
 namespace av
 {
@@ -37,6 +37,10 @@ namespace av
 
             std::vector<sf::Sound> m_sound_;
             std::map<audio::SFX, sf::SoundBuffer> m_sound_buffer_;
+
+            //Threading
+            std::thread m_cleanup_thread_;
+            std::thread m_sfx_thread_;
             std::mutex m_mutex_buffer_;
 
 			float m_sfx_volume_ = 100;

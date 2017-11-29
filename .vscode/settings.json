@@ -21,6 +21,13 @@
         "utility": "cpp",
         "fstream": "cpp",
         "istream": "cpp",
-        "iostream": "cpp"
-    }
+        "iostream": "cpp",
+        "thread": "cpp"
+    },
+    "files.exclude": {
+        "**/.DS_Store": false
+      },
+      "clang.cxxflags": [
+          "-std=c++14"
+      ]
 }

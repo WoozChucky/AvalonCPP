@@ -5,8 +5,6 @@
 #include "Game.hpp"
 #include <cstdio>
 
-#define LOG(input) std::cerr << #input << std::endl;
-
 int main() {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
