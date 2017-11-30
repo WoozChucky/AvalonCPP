@@ -13,15 +13,15 @@ namespace av
         virtual ~Level() = default;
         explicit Level(sf::Vector2f l_bounds);
 
-        virtual void Update(float timestep);
-        virtual void HandleInput(sf::Event& l_event);
-		virtual void Render(sf::RenderWindow& l_window);
+        virtual void Update(float timestep) = 0;
+        virtual void HandleInput(sf::Event& l_event) = 0;
+		virtual void Render(sf::RenderWindow& l_window) = 0;
 		
-        virtual void Pause();
-        virtual void Resume();
-        virtual void Restart();
+        virtual void Pause() = 0;
+        virtual void Resume() = 0;
+        virtual void Restart() = 0;
 
-        virtual void ResolveCollision(Player& l_player, Enemy& l_enemy);
+        virtual void ResolveCollision(Player& l_player, Enemy& l_enemy) = 0;
         
         Subject<EventType::Level>* GetLevelManager() const;
 		void SetLevelManager(Subject<EventType::Level>* l_subject);
