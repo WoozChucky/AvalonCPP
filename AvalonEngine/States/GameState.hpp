@@ -2,9 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include "State.hpp"
-#include "../Entities/Player.hpp"
-#include "../Entities/Enemy.hpp"
-#include "../EngineUI/Utils/Math.hpp"
+#include "../Levels/Level.hpp"
 #include "../EngineUI/MouseCursor.hpp"
 
 namespace av {
@@ -16,17 +14,19 @@ namespace av {
 
 		void Update(float timestep) override;
 		void Render(sf::RenderWindow& l_window) override;
-		void HandleInput(sf::Event l_event) override;
-
-		bool m_requires_pause = false;
+		void HandleInput(sf::Event& l_event) override;
 
 		void Restart();
 	private:
 		MouseCursor m_cursor_;
 
-		Player m_player_;
-		std::vector<Enemy> m_enemies_;
+		Level * m_current_level_;
+		Level * m_next_level_;
+
+		Subject<EventType::Level> m_level_manager_;
 
 		void HandleCollision();
+
+		void RestartCurrentLevel();
 	};
 }

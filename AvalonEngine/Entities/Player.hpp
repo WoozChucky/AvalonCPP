@@ -7,7 +7,7 @@
 #include "Entity.hpp"
 #include "../Components/GraphicsComponent.hpp"
 #include "../Components/InputComponent.hpp"
-#include "../Components/PhysicsComponent.hpp"
+//#include "../Components/PhysicsComponent.hpp"
 #include "Bullet.hpp"
 
 namespace av
@@ -59,7 +59,7 @@ namespace av
 		//Components
 		GrapicsComponent* 	m_graphics_;
 		InputComponent* 	m_input_;
-		PhysicsComponent*	m_physics_;
+		//PhysicsComponent*	m_physics_;
 	};
 
 }

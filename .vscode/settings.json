@@ -22,7 +22,9 @@
         "fstream": "cpp",
         "istream": "cpp",
         "iostream": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "deque": "cpp",
+        "list": "cpp"
     },
     "files.exclude": {
         "**/.DS_Store": false

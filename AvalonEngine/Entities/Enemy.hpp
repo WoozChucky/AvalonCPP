@@ -8,7 +8,7 @@
 #include "Player.hpp"
 #include "../Components/GraphicsComponent.hpp"
 //#include "../Components/AIComponent.hpp"
-#include "../Components/PhysicsComponent.hpp"
+//#include "../Components/PhysicsComponent.hpp"
 
 namespace av
 {

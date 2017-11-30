@@ -13,7 +13,7 @@ namespace av
 
             void Update(float timestep) override;
             void Render(sf::RenderWindow& l_window) override;
-            void HandleInput(sf::Event l_event) override;
+            void HandleInput(sf::Event& l_event) override;
 
             bool m_exit_pause_ = false;
             bool m_exit_game_ = false;

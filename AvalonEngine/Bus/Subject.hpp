@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <utility> // for std::forward
+#include "../Locator.hpp"
 
 namespace av
 {
@@ -34,7 +35,7 @@ namespace av
                     for(const auto& obs : this->m_observers_.at(l_event))
                         obs(); // Notify all observers
                 } catch (std::exception& e) {
-                    std::cout << "No Observers registered for " << typeid(l_event).name() << std::endl;
+                    Locator::GetLogger().Log(__FUNCTION__, "No Observers registered for Event");
                 }
             }
 

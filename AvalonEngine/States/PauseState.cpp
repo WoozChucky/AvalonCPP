@@ -22,7 +22,7 @@ void av::PauseState::Render(sf::RenderWindow& l_window)
     this->m_quit_game_.Render(l_window);
 }
 
-void av::PauseState::HandleInput(const sf::Event l_event)
+void av::PauseState::HandleInput(sf::Event& l_event)
 {
     // Check if the event, was a keyboard event
     if(l_event.type == sf::Event::EventType::KeyPressed)

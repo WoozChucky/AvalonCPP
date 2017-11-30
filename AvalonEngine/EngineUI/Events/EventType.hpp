@@ -15,6 +15,15 @@ namespace av
             PREVIOUS    = 1998,
             EXIT        = 1999
         };
+
+        enum class Level
+        {
+            RESTART     = 2000,
+            PAUSE       = 2001,
+            RESUME      = 2002,
+            NEXT        = 2003,
+            PREVIOUS    = 2004
+        };
     };
 
 }
