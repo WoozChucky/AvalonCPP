@@ -47,6 +47,7 @@ namespace av
 
 		//Components
 		av::GrapicsComponent* m_graphics_;
+		//av::PhysicsComponent* m_physics_;
 	};
 }
 

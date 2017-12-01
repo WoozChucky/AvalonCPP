@@ -1,5 +1,5 @@
 #include "Tutorial.hpp"
-
+#include "../Extensions/VectorExtensions.hpp"
 #include "../Generators/EntityGenerator.hpp"
 
 av::Tutorial::Tutorial()
@@ -15,6 +15,8 @@ void av::Tutorial::Update(float timestep)
 
     //Spawn Enemy if we have less than 5 on screen.
 	EntityGenerator::Generate<Enemy>(this->m_enemies_, 5);
+
+	this->ResolveCollision(this->m_player_, this->m_enemies_[0]);
 }
 
 void av::Tutorial::HandleInput(sf::Event& l_event)
@@ -60,7 +62,6 @@ void av::Tutorial::Restart()
 
 void av::Tutorial::ResolveCollision(Player& l_player, Enemy& l_enemy)
 {
-    /*
 	//NOTE: Can't use an iterator and delete the elements as I go. Maybe save their position and erase them afterwards ?
 	std::vector<int> bullets_to_remove;
 	std::vector<int> enemies_to_remove;
@@ -90,5 +91,5 @@ void av::Tutorial::ResolveCollision(Player& l_player, Enemy& l_enemy)
 	}	
 
 	VectorExtensions::RemoveElements(this->m_player_.m_bullets_, bullets_to_remove);
-	VectorExtensions::RemoveElements(this->m_enemies_, enemies_to_remove); */
+	VectorExtensions::RemoveElements(this->m_enemies_, enemies_to_remove);
 }
