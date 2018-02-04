@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="375034bf-1e98-455f-8c32-a645d921a549" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/contentModel.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/indexLayout.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/modules.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/riderModule.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.ConsoleTests/Avalon.ConsoleTests.csproj" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.ConsoleTests/Class1.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Core/Avalon.Core.csproj" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.World/Avalon.World.csproj" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.World/Program.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.sln" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="AuthServer.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+              <folding>
+                <marker date="1517692245003" expanded="true" signature="6:177" ph="..." />
+                <marker date="1517692245003" expanded="true" signature="213:3606" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="255:379" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="422:3604" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="979:1592" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="1162:1272" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="1625:2393" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="1664:2353" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="2043:2253" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="2429:2588" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="2496:2578" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="2625:2750" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="2792:2968" ph="{...}" />
+                <marker date="1517692245003" expanded="true" signature="3033:3598" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Program.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+              <folding>
+                <marker date="1517617978987" expanded="true" signature="36:276" ph="{...}" />
+                <marker date="1517617978987" expanded="true" signature="56:274" ph="{...}" />
+                <marker date="1517617978987" expanded="true" signature="102:268" ph="{...}" />
+                <marker date="1517617978987" expanded="true" signature="213:258" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IAuthServer.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+              <folding>
+                <marker date="1517688908657" expanded="true" signature="45:214" ph="{...}" />
+                <marker date="1517688908657" expanded="true" signature="80:212" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EventBus.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1125">
+              <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+              <folding>
+                <marker date="1517688674053" expanded="true" signature="6:164" ph="..." />
+                <marker date="1517688674053" expanded="true" signature="208:3558" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="215:294" ph="/// Implements the &lt;see cref=&quot;IEventBus&quot;/&gt; ... " />
+                <marker date="1517688674053" expanded="true" signature="332:3556" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="373:467" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="614:1156" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="1241:1878" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="1467:1854" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="1997:2705" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="2457:2695" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="2491:2580" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="2614:2681" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="2829:2900" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="3048:3123" ph="{...}" />
+                <marker date="1517688674053" expanded="true" signature="3261:3397" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/IEventBus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/SubscriptionToken.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/EventBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/PayloadEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Subscription.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.World/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/e8/41203e4c/Socket.cs" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Avalon.Common/Class1.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/SubscriptionToken.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/EventBase.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/PayloadEvent.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Subscription.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/IEventBus.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
+        <option value="$PROJECT_DIR$/Avalon.World/Program.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="72" />
+    <option name="y" value="22" />
+    <option name="width" value="1608" />
+    <option name="height" value="1028" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Utilities" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Utilities" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="EventBus" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Auth" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Auth" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Interfaces" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Auth" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.World" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected=".NET Project.WorldServer">
+    <configuration name="AuthServer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Avalon.Auth/bin/Debug/netcoreapp2.0/Avalon.Auth.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Avalon.Auth" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <envs>
+        <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
+        <env name="ASPNETCORE_URLS" value="http://localhost:5000" />
+      </envs>
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="1" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.0" />
+      <browser url="http://localhost:5000" />
+    </configuration>
+    <configuration name="WorldServer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Avalon.World/bin/Debug/netcoreapp2.0/Avalon.World.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Avalon.World" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <envs>
+        <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
+        <env name="ASPNETCORE_URLS" value="http://localhost:5000" />
+      </envs>
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Avalon.World/Avalon.World.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.0" />
+      <browser url="http://localhost:5000" />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue=".NET Project.AuthServer" />
+      <item index="1" class="java.lang.String" itemvalue=".NET Project.WorldServer" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="375034bf-1e98-455f-8c32-a645d921a549" name="Default" comment="" />
+      <created>1517676595324</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1517676595324</updated>
+      <workItem from="1517676597676" duration="6315000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="6315000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="72" y="22" width="1608" height="1028" extended-state="0" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3294979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs</url>
+          <line>102</line>
+          <properties documentPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+            <startOffsets>
+              <startOffset value="3237" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="3307" />
+            </endOffsets>
+          </properties>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Class1.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding>
+            <marker date="1517687803311" expanded="true" signature="101:465" ph="{...}" />
+            <marker date="1517687803311" expanded="true" signature="138:463" ph="{...}" />
+            <marker date="1517687803311" expanded="true" signature="153:232" ph="/// Token return to the subscriber ... " />
+            <marker date="1517687803311" expanded="true" signature="295:414" ph="/// Publish to the subscriber ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/PayloadEvent.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding>
+            <marker date="1517678846665" expanded="true" signature="49:345" ph="{...}" />
+            <marker date="1517678846665" expanded="true" signature="56:125" ph="/// Genereric event with Payload ... " />
+            <marker date="1517678846665" expanded="true" signature="177:343" ph="{...}" />
+            <marker date="1517678846665" expanded="true" signature="286:337" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/EventBase.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding>
+            <marker date="1517678748714" expanded="true" signature="49:110" ph="{...}" />
+            <marker date="1517678748714" expanded="true" signature="87:108" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/SubscriptionToken.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+          <folding>
+            <marker date="1517678652795" expanded="true" signature="57:422" ph="{...}" />
+            <marker date="1517678652795" expanded="true" signature="64:140" ph="/// A Token representing a Subscription ... " />
+            <marker date="1517678652795" expanded="true" signature="175:420" ph="{...}" />
+            <marker date="1517678652795" expanded="true" signature="236:335" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Subscription.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <marker date="1517687714984" expanded="false" signature="6:111" ph="..." />
+            <marker date="1517687714984" expanded="true" signature="155:931" ph="{...}" />
+            <marker date="1517687714984" expanded="true" signature="246:929" ph="{...}" />
+            <marker date="1517687714984" expanded="true" signature="393:583" ph="{...}" />
+            <marker date="1517687714984" expanded="true" signature="633:869" ph="{...}" />
+            <marker date="1517687714984" expanded="true" signature="687:794" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/IEventBus.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="32" lean-forward="false" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="32" />
+          <folding>
+            <marker date="1517688213565" expanded="true" signature="6:60" ph="..." />
+            <marker date="1517688213565" expanded="true" signature="115:2639" ph="{...}" />
+            <marker date="1517688213565" expanded="true" signature="122:215" ph="/// Defines an interface to subscribe and publish events ... " />
+            <marker date="1517688213565" expanded="true" signature="248:2637" ph="{...}" />
+            <marker date="1517688213565" expanded="true" signature="264:665" ph="/// Subscribes to the specified event type with the specified action ... " />
+            <marker date="1517688213565" expanded="true" signature="780:1036" ph="/// Unsubscribe from the Event type related to the specified &lt;see cref=&quot;SubscriptionToken&quot;/&gt; ... " />
+            <marker date="1517688213565" expanded="true" signature="1097:1370" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type ... " />
+            <marker date="1517688213565" expanded="true" signature="1465:1891" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type asychronously ... " />
+            <marker date="1517688213565" expanded="true" signature="1991:2517" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type asychronously ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+          <folding>
+            <marker date="1517688908657" expanded="true" signature="45:214" ph="{...}" />
+            <marker date="1517688908657" expanded="true" signature="80:212" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1125">
+          <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+          <folding>
+            <marker date="1517688674053" expanded="true" signature="6:164" ph="..." />
+            <marker date="1517688674053" expanded="true" signature="208:3558" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="215:294" ph="/// Implements the &lt;see cref=&quot;IEventBus&quot;/&gt; ... " />
+            <marker date="1517688674053" expanded="true" signature="332:3556" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="373:467" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="614:1156" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="1241:1878" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="1467:1854" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="1997:2705" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="2457:2695" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="2491:2580" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="2614:2681" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="2829:2900" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="3048:3123" ph="{...}" />
+            <marker date="1517688674053" expanded="true" signature="3261:3397" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/e8/41203e4c/Socket.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-232">
+          <caret line="942" column="15" lean-forward="false" selection-start-line="942" selection-start-column="15" selection-end-line="942" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+          <folding>
+            <marker date="1517617978987" expanded="true" signature="36:276" ph="{...}" />
+            <marker date="1517617978987" expanded="true" signature="56:274" ph="{...}" />
+            <marker date="1517617978987" expanded="true" signature="102:268" ph="{...}" />
+            <marker date="1517617978987" expanded="true" signature="213:258" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+          <folding>
+            <marker date="1517691708510" expanded="true" signature="6:58" ph="..." />
+            <marker date="1517691708510" expanded="true" signature="82:546" ph="{...}" />
+            <marker date="1517691708510" expanded="true" signature="102:544" ph="{...}" />
+            <marker date="1517691708510" expanded="true" signature="148:538" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+          <folding>
+            <marker date="1517692245003" expanded="true" signature="6:177" ph="..." />
+            <marker date="1517692245003" expanded="true" signature="213:3606" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="255:379" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="422:3604" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="979:1592" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="1162:1272" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="1625:2393" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="1664:2353" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="2043:2253" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="2429:2588" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="2496:2578" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="2625:2750" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="2792:2968" ph="{...}" />
+            <marker date="1517692245003" expanded="true" signature="3033:3598" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

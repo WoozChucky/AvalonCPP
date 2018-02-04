@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Network\" />
+    <Folder Include="Network\Auth\" />
+    <Folder Include="Network\Auth\Interface" />
+    <Folder Include="Network\World" />
+  </ItemGroup>
+</Project>
