@@ -1,4 +1,6 @@
-﻿namespace Avalon.Core.Network.Auth.Interfaces
+﻿using Avalon.Common.Model;
+
+namespace Avalon.Core.Network.Auth.Interfaces
 {
     public interface IAuthServer
     {
@@ -6,5 +8,6 @@
         void ResetClients();
         void ForceShutdown();
         void GracefullyShutdown();
+        IAuthServer ProvideConfiguration(AuthServerConfiguration configuration);
     }
 }

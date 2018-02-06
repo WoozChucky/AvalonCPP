@@ -13,10 +13,17 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="settings.json" t="Include" />
       </e>
       <e p="Avalon.Common" t="IncludeRecursive">
         <e p="Avalon.Common.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="IO" t="Include">
+          <e p="IOHelper.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="AuthServerConfiguration.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
@@ -38,6 +45,16 @@
             </e>
             <e p="Subscription.cs" t="Include" />
             <e p="SubscriptionToken.cs" t="Include" />
+          </e>
+          <e p="Watcher" t="Include">
+            <e p="Events" t="Include">
+              <e p="JSONWatcherEvents.cs" t="Include" />
+            </e>
+            <e p="FileWatcher.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IFileWatcher.cs" t="Include" />
+            </e>
+            <e p="JSONWatcher.cs" t="Include" />
           </e>
         </e>
       </e>
@@ -62,8 +79,10 @@
             <e p="Interfaces" t="Include">
               <e p="IAuthServer.cs" t="Include" />
             </e>
+            <e p="Structs" t="Include">
+              <e p="ThreadParams.cs" t="Include" />
+            </e>
           </e>
-          <e p="World" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -85,6 +104,7 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="settings.json" t="Include" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
       <e p="Shared" t="Include" />

@@ -1,0 +1,8 @@
+﻿{
+  "Address" : "127.0.0.1",
+  "Port": 27015,
+  "MaxThreads": 24,
+  "MaxQueuedConnections": 24,
+  "BufferSize": 1024,
+  "ReadTimeout": 2000
+}

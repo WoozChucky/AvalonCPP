@@ -2,21 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="375034bf-1e98-455f-8c32-a645d921a549" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/contentModel.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/indexLayout.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/riderModule.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.ConsoleTests/Avalon.ConsoleTests.csproj" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.ConsoleTests/Class1.cs" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Core/Avalon.Core.csproj" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.World/Avalon.World.csproj" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.World/Program.cs" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.sln" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Auth/settings.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/IO/IOHelper.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/Model/AuthServerConfiguration.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Events/JSONWatcherEvents.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONWatcher.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/Structs/ThreadParams.cs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Avalon.World/settings.json" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/contentModel.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/contentModel.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Avalon/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" afterPath="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Auth/Program.cs" afterPath="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Common/Avalon.Common.csproj" afterPath="$PROJECT_DIR$/Avalon.Common/Avalon.Common.csproj" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Core/Avalon.Core.csproj" afterPath="$PROJECT_DIR$/Avalon.Core/Avalon.Core.csproj" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" afterPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" />
+      <change beforePath="$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" afterPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" />
+      <change beforePath="$PROJECT_DIR$/Avalon.World/Avalon.World.csproj" afterPath="$PROJECT_DIR$/Avalon.World/Avalon.World.csproj" />
+      <change beforePath="$PROJECT_DIR$/Avalon.World/Program.cs" afterPath="$PROJECT_DIR$/Avalon.World/Program.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,28 +30,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="AuthServer.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="settings.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Avalon.Auth/settings.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding>
-                <marker date="1517692245003" expanded="true" signature="6:177" ph="..." />
-                <marker date="1517692245003" expanded="true" signature="213:3606" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="255:379" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="422:3604" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="979:1592" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="1162:1272" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="1625:2393" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="1664:2353" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="2043:2253" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="2429:2588" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="2496:2578" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="2625:2750" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="2792:2968" ph="{...}" />
-                <marker date="1517692245003" expanded="true" signature="3033:3598" ph="{...}" />
-              </folding>
+            <state relative-caret-position="112">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -55,52 +44,80 @@
       <file leaf-file-name="Program.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+            <state relative-caret-position="367">
+              <caret line="38" column="32" lean-forward="false" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
               <folding>
-                <marker date="1517617978987" expanded="true" signature="36:276" ph="{...}" />
-                <marker date="1517617978987" expanded="true" signature="56:274" ph="{...}" />
-                <marker date="1517617978987" expanded="true" signature="102:268" ph="{...}" />
-                <marker date="1517617978987" expanded="true" signature="213:258" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="6:178" ph="..." />
+                <marker date="1517940851976" expanded="true" signature="201:1270" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="221:1268" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="397:1262" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="671:786" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="846:1130" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="893:1116" ph="{...}" />
+                <marker date="1517940851976" expanded="true" signature="1207:1252" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IAuthServer.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs">
+      <file leaf-file-name="AuthServer.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+            <state relative-caret-position="289">
+              <caret line="40" column="20" lean-forward="false" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="20" />
               <folding>
-                <marker date="1517688908657" expanded="true" signature="45:214" ph="{...}" />
-                <marker date="1517688908657" expanded="true" signature="80:212" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="6:244" ph="..." />
+                <marker date="1517940610846" expanded="true" signature="280:4300" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="325:4298" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="675:1547" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="945:1055" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="1580:2359" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="1619:2319" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="2009:2219" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="2395:2590" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="2462:2544" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="2627:2790" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="2832:2989" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="3077:3148" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="3208:3329" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="3394:4292" ph="{...}" />
+                <marker date="1517940610846" expanded="true" signature="3483:3990" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventBus.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
+      <file leaf-file-name="JSONWatcher.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONWatcher.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
-              <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+            <state relative-caret-position="716">
+              <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
               <folding>
-                <marker date="1517688674053" expanded="true" signature="6:164" ph="..." />
-                <marker date="1517688674053" expanded="true" signature="208:3558" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="215:294" ph="/// Implements the &lt;see cref=&quot;IEventBus&quot;/&gt; ... " />
-                <marker date="1517688674053" expanded="true" signature="332:3556" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="373:467" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="614:1156" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="1241:1878" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="1467:1854" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="1997:2705" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="2457:2695" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="2491:2580" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="2614:2681" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="2829:2900" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="3048:3123" ph="{...}" />
-                <marker date="1517688674053" expanded="true" signature="3261:3397" ph="{...}" />
+                <marker date="1517937007452" expanded="false" signature="6:150" ph="..." />
+                <marker date="1517937007452" expanded="true" signature="193:3720" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="246:3718" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="714:770" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="913:1007" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="1145:2087" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="1232:1319" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="1336:1398" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="1454:1546" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="1795:1982" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2024:2077" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2157:2488" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2290:2353" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2370:2452" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2522:3028" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2548:2777" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2647:2761" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2807:3018" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="2906:3002" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3067:3123" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3152:3210" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3262:3702" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3299:3408" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3425:3692" ph="{...}" />
+                <marker date="1517937007452" expanded="true" signature="3470:3597" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -112,16 +129,27 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Model/AuthServerConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/IEventBus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/SubscriptionToken.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Structs/ThreadParams.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/EventBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C1970516-6C7C-4A60-8E18-2E859C4DE6D2/52/3d127b2e/JsonConvert.cs" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Events/PayloadEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/75BF8E96-82EE-406C-BF22-78C351F1D879/53/b17defd2/FileSystemWatcher.cs" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Subscription.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.World/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONWatcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/IO/IOHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9BDEB072-3583-45D1-B1EB-9BAB75B57689/cf/35218ef1/EventArgs.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/86/98c8ad93/SafeCloseSocket.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Events/JSONWatcherEvents.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/e8/41203e4c/Socket.cs" root0="SKIP_INSPECTION" />
   </component>
@@ -136,10 +164,22 @@
         <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs" />
         <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/IEventBus.cs" />
         <option value="$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Core/Network/Auth/Structs/ThreadParams.cs" />
+        <option value="$PROJECT_DIR$/Avalon.World/settings.json" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/IFileWatcher.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONFileWatcher.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Events/JSONWatcherEvents.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs" />
         <option value="$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs" />
-        <option value="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Model/AuthServerConfiguration.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/IO/Extensions/IOExtensions.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/IO/IOHelper.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONWatcher.cs" />
         <option value="$PROJECT_DIR$/Avalon.World/Program.cs" />
         <option value="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs" />
+        <option value="$PROJECT_DIR$/Avalon.Auth/settings.json" />
+        <option value="$PROJECT_DIR$/Avalon.Auth/Program.cs" />
       </list>
     </option>
   </component>
@@ -194,6 +234,13 @@
               <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="IO" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Utilities" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
             <path>
@@ -202,37 +249,13 @@
               <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Avalon.Common" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Utilities" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="EventBus" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Watcher" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
             <path>
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
               <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Auth" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Avalon (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Shared" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Avalon.Core" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Network" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Auth" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Interfaces" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
             <path>
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
@@ -254,6 +277,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="RiderNuGetOptionsPageId" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -267,10 +291,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected=".NET Project.WorldServer">
+  <component name="RunManager" selected=".NET Project.AuthServer">
     <configuration name="AuthServer" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Avalon.Auth/bin/Debug/netcoreapp2.0/Avalon.Auth.dll" />
-      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="settings.json" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Avalon.Auth" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <envs>
@@ -278,7 +302,7 @@
         <env name="ASPNETCORE_URLS" value="http://localhost:5000" />
       </envs>
       <option name="USE_MONO" value="0" />
-      <option name="USE_EXTERNAL_CONSOLE" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/Avalon.Auth/Avalon.Auth.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
@@ -287,9 +311,9 @@
       <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.0" />
       <browser url="http://localhost:5000" />
     </configuration>
-    <configuration name="WorldServer" type="DotNetProject" factoryName=".NET Project">
+    <configuration name="WorldServer" type="DotNetProject" factoryName=".NET Project" singleton="false">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Avalon.World/bin/Debug/netcoreapp2.0/Avalon.World.dll" />
-      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="settings.json" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Avalon.World" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <envs>
@@ -324,12 +348,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1517676595324</updated>
-      <workItem from="1517676597676" duration="6364000" />
+      <workItem from="1517676597676" duration="10886000" />
+      <workItem from="1517843824909" duration="6751000" />
+      <workItem from="1517880251660" duration="35000" />
+      <workItem from="1517908981310" duration="8567000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6364000" />
+    <option name="totallyTimeSpent" value="26239000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -342,29 +369,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="72" y="22" width="1608" height="1028" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3294979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.50373137" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49751243" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49626866" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21455224" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -378,41 +404,244 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs</url>
-          <line>102</line>
-          <properties documentPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+          <url>file://$PROJECT_DIR$/Avalon.Auth/Program.cs</url>
+          <line>33</line>
+          <properties documentPath="$PROJECT_DIR$/Avalon.Auth/Program.cs">
             <startOffsets>
-              <startOffset value="3237" />
+              <startOffset value="1037" />
             </startOffsets>
             <endOffsets>
-              <endOffset value="3307" />
+              <endOffset value="1098" />
             </endOffsets>
           </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Avalon.Auth/Program.cs</url>
+          <line>32</line>
+          <properties documentPath="$PROJECT_DIR$/Avalon.Auth/Program.cs">
+            <startOffsets>
+              <startOffset value="987" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="1016" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs</url>
+          <line>34</line>
+          <properties documentPath="$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+            <startOffsets>
+              <startOffset value="1176" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="1275" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Avalon.Common/Class1.cs">
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1517913188214" expanded="false" signature="6:80" ph="..." />
+            <marker date="1517913188214" expanded="true" signature="123:3387" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="174:3385" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="710:776" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="939:1043" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1190:2219" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1277:1364" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1381:1443" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1499:1591" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1927:2114" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2156:2209" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2289:2715" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2422:2485" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2502:2584" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2747:2800" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2829:2887" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2939:3379" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2976:3085" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3102:3369" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3147:3274" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/settings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="1" column="15" lean-forward="false" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="22" lean-forward="false" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+          <folding>
+            <marker date="1517911762185" expanded="true" signature="67:725" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="117:723" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="175:317" ph="/// Number of times that the ´watch´ has to occur before the &lt;see cref=&quot;Action&quot;/&gt; callback fires. ... " />
+            <marker date="1517911762185" expanded="true" signature="372:486" ph="/// Sets/gets if the watcher starts automatically upon initialization ... " />
+            <marker date="1517911762185" expanded="true" signature="541:679" ph="/// Set/gets if the watcher should continue runing after hitting the &lt;see cref=&quot;WatchCount&quot;/&gt; ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <marker date="1517937069435" expanded="false" signature="6:143" ph="..." />
+            <marker date="1517937069435" expanded="true" signature="167:1358" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="187:1356" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="365:1156" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="630:675" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="839:1145" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="1250:1350" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/settings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="1" column="15" lean-forward="false" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="51" column="12" lean-forward="false" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
+          <folding>
+            <marker date="1517913188214" expanded="false" signature="6:80" ph="..." />
+            <marker date="1517913188214" expanded="true" signature="123:3387" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="174:3385" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="710:776" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="939:1043" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1190:2219" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1277:1364" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1381:1443" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1499:1591" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1927:2114" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2156:2209" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2289:2715" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2422:2485" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2502:2584" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2747:2800" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2829:2887" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2939:3379" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2976:3085" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3102:3369" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3147:3274" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="22" lean-forward="false" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+          <folding>
+            <marker date="1517911762185" expanded="true" signature="67:725" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="117:723" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="175:317" ph="/// Number of times that the ´watch´ has to occur before the &lt;see cref=&quot;Action&quot;/&gt; callback fires. ... " />
+            <marker date="1517911762185" expanded="true" signature="372:486" ph="/// Sets/gets if the watcher starts automatically upon initialization ... " />
+            <marker date="1517911762185" expanded="true" signature="541:679" ph="/// Set/gets if the watcher should continue runing after hitting the &lt;see cref=&quot;WatchCount&quot;/&gt; ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding>
+            <marker date="1517937069435" expanded="false" signature="6:143" ph="..." />
+            <marker date="1517937069435" expanded="true" signature="167:1358" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="187:1356" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="365:1156" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="630:675" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="839:1145" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="1250:1350" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1517940610846" expanded="true" signature="6:244" ph="..." />
+            <marker date="1517940610846" expanded="true" signature="280:4300" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="325:4298" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="675:1547" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="945:1055" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="1580:2359" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="1619:2319" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2009:2219" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2395:2590" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2462:2544" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2627:2790" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2832:2989" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3077:3148" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3208:3329" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3394:4292" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3483:3990" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Structs/ThreadParams.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="18" column="45" lean-forward="false" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+          <folding>
+            <marker date="1517937069435" expanded="false" signature="6:143" ph="..." />
+            <marker date="1517937069435" expanded="true" signature="167:1358" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="187:1356" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="365:1156" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="630:675" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="839:1145" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="1250:1350" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Class1.cs" />
     <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/Interfaces/ISubscription.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-          <folding>
-            <marker date="1517687803311" expanded="true" signature="101:465" ph="{...}" />
-            <marker date="1517687803311" expanded="true" signature="138:463" ph="{...}" />
-            <marker date="1517687803311" expanded="true" signature="153:232" ph="/// Token return to the subscriber ... " />
-            <marker date="1517687803311" expanded="true" signature="295:414" ph="/// Publish to the subscriber ... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -420,12 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding>
-            <marker date="1517678846665" expanded="true" signature="49:345" ph="{...}" />
-            <marker date="1517678846665" expanded="true" signature="56:125" ph="/// Genereric event with Payload ... " />
-            <marker date="1517678846665" expanded="true" signature="177:343" ph="{...}" />
-            <marker date="1517678846665" expanded="true" signature="286:337" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -433,10 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding>
-            <marker date="1517678748714" expanded="true" signature="49:110" ph="{...}" />
-            <marker date="1517678748714" expanded="true" signature="87:108" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -444,12 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-          <folding>
-            <marker date="1517678652795" expanded="true" signature="57:422" ph="{...}" />
-            <marker date="1517678652795" expanded="true" signature="64:140" ph="/// A Token representing a Subscription ... " />
-            <marker date="1517678652795" expanded="true" signature="175:420" ph="{...}" />
-            <marker date="1517678652795" expanded="true" signature="236:335" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -457,14 +670,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <marker date="1517687714984" expanded="false" signature="6:111" ph="..." />
-            <marker date="1517687714984" expanded="true" signature="155:931" ph="{...}" />
-            <marker date="1517687714984" expanded="true" signature="246:929" ph="{...}" />
-            <marker date="1517687714984" expanded="true" signature="393:583" ph="{...}" />
-            <marker date="1517687714984" expanded="true" signature="633:869" ph="{...}" />
-            <marker date="1517687714984" expanded="true" signature="687:794" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -472,108 +677,268 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="32" lean-forward="false" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="32" />
-          <folding>
-            <marker date="1517688213565" expanded="true" signature="6:60" ph="..." />
-            <marker date="1517688213565" expanded="true" signature="115:2639" ph="{...}" />
-            <marker date="1517688213565" expanded="true" signature="122:215" ph="/// Defines an interface to subscribe and publish events ... " />
-            <marker date="1517688213565" expanded="true" signature="248:2637" ph="{...}" />
-            <marker date="1517688213565" expanded="true" signature="264:665" ph="/// Subscribes to the specified event type with the specified action ... " />
-            <marker date="1517688213565" expanded="true" signature="780:1036" ph="/// Unsubscribe from the Event type related to the specified &lt;see cref=&quot;SubscriptionToken&quot;/&gt; ... " />
-            <marker date="1517688213565" expanded="true" signature="1097:1370" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type ... " />
-            <marker date="1517688213565" expanded="true" signature="1465:1891" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type asychronously ... " />
-            <marker date="1517688213565" expanded="true" signature="1991:2517" ph="/// Publishes the specified event to any subscribers for the &lt;see cref=&quot;TEventBase&quot;/&gt; event type asychronously ... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
-          <folding>
-            <marker date="1517688908657" expanded="true" signature="45:214" ph="{...}" />
-            <marker date="1517688908657" expanded="true" signature="80:212" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
-          <folding>
-            <marker date="1517688674053" expanded="true" signature="6:164" ph="..." />
-            <marker date="1517688674053" expanded="true" signature="208:3558" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="215:294" ph="/// Implements the &lt;see cref=&quot;IEventBus&quot;/&gt; ... " />
-            <marker date="1517688674053" expanded="true" signature="332:3556" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="373:467" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="614:1156" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="1241:1878" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="1467:1854" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="1997:2705" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="2457:2695" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="2491:2580" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="2614:2681" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="2829:2900" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="3048:3123" ph="{...}" />
-            <marker date="1517688674053" expanded="true" signature="3261:3397" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/e8/41203e4c/Socket.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-232">
-          <caret line="942" column="15" lean-forward="false" selection-start-line="942" selection-start-column="15" selection-end-line="942" selection-end-column="15" />
+        <state relative-caret-position="205">
+          <caret line="699" column="34" lean-forward="false" selection-start-line="699" selection-start-column="27" selection-end-line="699" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/75BF8E96-82EE-406C-BF22-78C351F1D879/53/b17defd2/FileSystemWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="160" column="10" lean-forward="false" selection-start-line="160" selection-start-column="10" selection-end-line="160" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/EventBus/EventBus.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="75" column="30" lean-forward="false" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Structs/ThreadParams.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9BDEB072-3583-45D1-B1EB-9BAB75B57689/cf/35218ef1/EventArgs.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+          <folding>
+            <marker date="1517911499365" expanded="true" signature="0:322" ph="/* Decompiled with JetBrains decompiler ... */" />
+            <marker date="1517911499365" expanded="true" signature="340:439" ph="{...}" />
+            <marker date="1517911499365" expanded="true" signature="367:437" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Interfaces/IFileWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding>
+            <marker date="1517911762185" expanded="true" signature="67:725" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="117:723" ph="{...}" />
+            <marker date="1517911762185" expanded="true" signature="175:317" ph="/// Number of times that the ´watch´ has to occur before the &lt;see cref=&quot;Action&quot;/&gt; callback fires. ... " />
+            <marker date="1517911762185" expanded="true" signature="372:486" ph="/// Sets/gets if the watcher starts automatically upon initialization ... " />
+            <marker date="1517911762185" expanded="true" signature="541:679" ph="/// Set/gets if the watcher should continue runing after hitting the &lt;see cref=&quot;WatchCount&quot;/&gt; ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/Events/JSONWatcherEvents.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+          <folding>
+            <marker date="1517911705273" expanded="true" signature="63:209" ph="{...}" />
+            <marker date="1517911705273" expanded="true" signature="115:207" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Model/AuthServerConfiguration.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+          <folding>
+            <marker date="1517914660090" expanded="true" signature="29:362" ph="{...}" />
+            <marker date="1517914660090" expanded="true" signature="79:360" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C1970516-6C7C-4A60-8E18-2E859C4DE6D2/52/3d127b2e/JsonConvert.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="616" column="20" lean-forward="false" selection-start-line="616" selection-start-column="20" selection-end-line="616" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs">
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/IO/Extensions/IOExtensions.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+        <state relative-caret-position="128">
+          <caret line="8" column="39" lean-forward="false" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/IO/IOHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
           <folding>
-            <marker date="1517617978987" expanded="true" signature="36:276" ph="{...}" />
-            <marker date="1517617978987" expanded="true" signature="56:274" ph="{...}" />
-            <marker date="1517617978987" expanded="true" signature="102:268" ph="{...}" />
-            <marker date="1517617978987" expanded="true" signature="213:258" ph="{...}" />
+            <marker date="1517936144034" expanded="true" signature="6:58" ph="..." />
+            <marker date="1517936144034" expanded="true" signature="86:806" ph="{...}" />
+            <marker date="1517936144034" expanded="true" signature="121:804" ph="{...}" />
+            <marker date="1517936144034" expanded="true" signature="182:798" ph="{...}" />
+            <marker date="1517936144034" expanded="true" signature="235:411" ph="{...}" />
+            <marker date="1517936144034" expanded="true" signature="506:721" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Avalon.World/Program.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        <state relative-caret-position="224">
+          <caret line="18" column="28" lean-forward="false" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
           <folding>
-            <marker date="1517691708510" expanded="true" signature="6:58" ph="..." />
-            <marker date="1517691708510" expanded="true" signature="82:546" ph="{...}" />
-            <marker date="1517691708510" expanded="true" signature="102:544" ph="{...}" />
-            <marker date="1517691708510" expanded="true" signature="148:538" ph="{...}" />
+            <marker date="1517937069435" expanded="false" signature="6:143" ph="..." />
+            <marker date="1517937069435" expanded="true" signature="167:1358" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="187:1356" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="365:1156" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="630:675" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="839:1145" ph="{...}" />
+            <marker date="1517937069435" expanded="true" signature="1250:1350" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.World/settings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/FileWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="107" column="12" lean-forward="false" selection-start-line="107" selection-start-column="12" selection-end-line="120" selection-end-column="13" />
+          <folding>
+            <marker date="1517913188214" expanded="false" signature="6:80" ph="..." />
+            <marker date="1517913188214" expanded="true" signature="123:3387" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="174:3385" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="710:776" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="939:1043" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1190:2219" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1277:1364" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1381:1443" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1499:1591" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="1927:2114" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2156:2209" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2289:2715" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2422:2485" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2502:2584" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2747:2800" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2829:2887" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2939:3379" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="2976:3085" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3102:3369" ph="{...}" />
+            <marker date="1517913188214" expanded="true" signature="3147:3274" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Common/Utilities/Watcher/JSONWatcher.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="119" column="26" lean-forward="false" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
+          <folding>
+            <marker date="1517937007452" expanded="false" signature="6:150" ph="..." />
+            <marker date="1517937007452" expanded="true" signature="193:3720" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="246:3718" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="714:770" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="913:1007" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="1145:2087" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="1232:1319" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="1336:1398" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="1454:1546" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="1795:1982" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2024:2077" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2157:2488" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2290:2353" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2370:2452" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2522:3028" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2548:2777" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2647:2761" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2807:3018" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="2906:3002" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3067:3123" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3152:3210" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3262:3702" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3299:3408" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3425:3692" ph="{...}" />
+            <marker date="1517937007452" expanded="true" signature="3470:3597" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59B7AAB1-D677-4243-8640-9D70034D4D15/86/98c8ad93/SafeCloseSocket.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="106" column="8" lean-forward="false" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Auth/settings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/Interfaces/IAuthServer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <marker date="1517914568294" expanded="true" signature="73:323" ph="{...}" />
+            <marker date="1517914568294" expanded="true" signature="108:321" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Avalon.Auth/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="38" column="32" lean-forward="false" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
+          <folding>
+            <marker date="1517940851976" expanded="true" signature="6:178" ph="..." />
+            <marker date="1517940851976" expanded="true" signature="201:1270" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="221:1268" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="397:1262" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="671:786" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="846:1130" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="893:1116" ph="{...}" />
+            <marker date="1517940851976" expanded="true" signature="1207:1252" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Avalon.Core/Network/Auth/AuthServer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="289">
+          <caret line="40" column="20" lean-forward="false" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="20" />
           <folding>
-            <marker date="1517692245003" expanded="true" signature="6:177" ph="..." />
-            <marker date="1517692245003" expanded="true" signature="213:3606" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="255:379" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="422:3604" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="979:1592" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="1162:1272" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="1625:2393" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="1664:2353" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="2043:2253" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="2429:2588" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="2496:2578" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="2625:2750" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="2792:2968" ph="{...}" />
-            <marker date="1517692245003" expanded="true" signature="3033:3598" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="6:244" ph="..." />
+            <marker date="1517940610846" expanded="true" signature="280:4300" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="325:4298" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="675:1547" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="945:1055" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="1580:2359" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="1619:2319" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2009:2219" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2395:2590" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2462:2544" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2627:2790" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="2832:2989" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3077:3148" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3208:3329" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3394:4292" ph="{...}" />
+            <marker date="1517940610846" expanded="true" signature="3483:3990" ph="{...}" />
           </folding>
         </state>
       </provider>

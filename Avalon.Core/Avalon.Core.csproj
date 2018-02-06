@@ -5,7 +5,20 @@
   <ItemGroup>
     <Folder Include="Network\" />
     <Folder Include="Network\Auth\" />
-    <Folder Include="Network\Auth\Interface" />
-    <Folder Include="Network\World" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Network\Auth\Interface\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Network\Auth\Interface\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Network\Auth\Interface\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj">
+      <Project>{422224E6-3660-4617-9FEA-AB1278FA8DCB}</Project>
+      <Name>Avalon.Common</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -4,45 +4,38 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Avalon.Common.Model;
 using Avalon.Core.Network.Auth.Interfaces;
+using Avalon.Core.Network.Auth.Structs;
 
 namespace Avalon.Core.Network.Auth
 {
 
-    internal struct ThreadParamStruct 
-    {
-        public AutoResetEvent ThreadHandle;
-        public Socket ClientSocket;
-        public int ThreadIndex;
-    }
-
     public class AuthServer : IAuthServer
     {
-        private const int Port = 27015;
-        private const int MaxThreads = 20;//MAX number of threads, 2 for testing > threads connections
-        private const int DataReadTimeout = 2000; //Miliseconds
-        private const int MaxQueuedConnections = 20;
-        private const int MaxBufferSize = 1024;
-
         private readonly WaitHandle[] _waitHandles;
         private readonly Socket _listenerSocket;
         private readonly Dictionary<IPEndPoint, Socket> _clientSockets;
+        private readonly AuthServerConfiguration _configuration;
         
         private bool _running;
 
-        public AuthServer()
+        public AuthServer(AuthServerConfiguration configuration)
         {
-            _waitHandles = new WaitHandle[MaxThreads];
+            _configuration = configuration;
+            
+            _waitHandles = new WaitHandle[_configuration.MaxThreads];
             _clientSockets = new Dictionary<IPEndPoint, Socket>();
 
-            for (var i = 0; i < MaxThreads; i++) {
+            for (var i = 0; i < _configuration.MaxThreads; i++) {
                 _waitHandles[i] = new AutoResetEvent(true); //Initialize threads initial state
             }
 
             _listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _listenerSocket.Bind(new IPEndPoint(0, Port));
-            _listenerSocket.Listen(MaxQueuedConnections); // Maximum number of connections allowed to be in queue
+            _listenerSocket.Bind(new IPEndPoint(IPAddress.Parse(_configuration.Address), _configuration.Port));
+            _listenerSocket.Listen(_configuration.MaxQueuedConnections); // Maximum number of connections allowed to be in queue
             _running = true;
+            Console.WriteLine($"[AUTH] -> Listening at {_listenerSocket.LocalEndPoint as IPEndPoint}");
         }
 
         public bool IsRunning()
@@ -52,11 +45,11 @@ namespace Avalon.Core.Network.Auth
                 var clientSocket = _listenerSocket.Accept();
                 var endpoint = clientSocket.RemoteEndPoint as IPEndPoint;
                 
+                var availableThreadIndex = WaitHandle.WaitAny(_waitHandles);
+                
                 _clientSockets.Add(endpoint, clientSocket);
 
-                var availableThreadIndex = WaitHandle.WaitAny(_waitHandles);
-
-                var threadParams = new ThreadParamStruct
+                var threadParams = new ThreadParams
                 {
                     ThreadHandle = (AutoResetEvent)_waitHandles[availableThreadIndex],
                     ClientSocket = clientSocket,
@@ -75,11 +68,13 @@ namespace Avalon.Core.Network.Auth
             {
                 clientSocket.Value.Disconnect(false);
             }
+            _clientSockets.Clear();
         }
 
         public void ForceShutdown()
         {
             _clientSockets.Clear();
+            _listenerSocket.Close(0);
             _listenerSocket.Dispose();
             _running = false;
         }
@@ -87,28 +82,46 @@ namespace Avalon.Core.Network.Auth
         public void GracefullyShutdown()
         {
             ResetClients();
-            _listenerSocket.Shutdown(SocketShutdown.Both);
+            //_listenerSocket.Close(0);
             _listenerSocket.Dispose();
             _running = false;
         }
 
+        public IAuthServer ProvideConfiguration(AuthServerConfiguration configuration)
+        {
+             return new AuthServer(configuration);
+        }
+
+        private void DisconnectClient(IPEndPoint endpoint)
+        {
+            _clientSockets[endpoint].Disconnect(false);
+            _clientSockets.Remove(endpoint);
+        }
+
         private void HandleSocketConnection(object threadState)
         {
-            var context = (ThreadParamStruct)threadState;
+            var context = (ThreadParams)threadState;
 
-            var buffer = new byte[MaxBufferSize];
+            while (true)
+            {
+                var buffer = new byte[_configuration.BufferSize];
 
-            var bytesReceived = context.ClientSocket.Receive(buffer);
+                var bytesReceived = context.ClientSocket.Receive(buffer);
 
-            var dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesReceived);
+                var dataReceived = Encoding.Unicode.GetString(buffer, 0, bytesReceived);
             
-            Console.WriteLine($"Received -> {dataReceived}");
+                Console.WriteLine($"[{context.ClientSocket.RemoteEndPoint as IPEndPoint}] Received -> {dataReceived}");
+
+                context.ClientSocket.Send(buffer);
             
-            Thread.Sleep(TimeSpan.FromSeconds(20));
+                if (dataReceived == "bye") break;
+            }
             
-            context.ThreadHandle.Set();
+            DisconnectClient(context.ClientSocket.RemoteEndPoint as IPEndPoint);
+
+            context.ThreadHandle.Set(); //Let the ThreadPool know that this thread is ready to accept new jobs
             
-            Console.WriteLine("thread {0} finished", context.ThreadIndex);
+            Console.WriteLine($"Thread {context.ThreadIndex} finished");
         }
     }
 }
