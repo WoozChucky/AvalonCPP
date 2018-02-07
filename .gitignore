@@ -36,5 +36,8 @@ bld/
 !Libraries\Debug\*.dll
 !Libraries\Release\*.dll
 
+!src\Libraries\Debug\*.dll
+!src\Libraries\Release\*.dll
+
 .idea
 .vscode
