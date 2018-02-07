@@ -39,5 +39,14 @@ bld/
 !src\Libraries\Debug\*.dll
 !src\Libraries\Release\*.dll
 
+src/.idea
+src\.idea
+
+src/AvalonEngine/.idea
+src/AvalonPlattform/.idea
+
+src\AvalonEngine\.idea
+src\AvalonPlattform\.idea
+
 .idea
 .vscode
