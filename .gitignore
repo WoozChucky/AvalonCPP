@@ -37,3 +37,4 @@ bld/
 !Libraries\Release\*.dll
 
 .idea
+.vscode
