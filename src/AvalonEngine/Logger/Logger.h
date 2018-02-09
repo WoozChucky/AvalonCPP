@@ -5,30 +5,38 @@
 #ifndef AVALONENGINE_DESKTOPLOGGER_H
 #define AVALONENGINE_DESKTOPLOGGER_H
 
-
-#include "Logger.h"
+#include <iostream>
 
 namespace av
 {
 
-    class DesktopLogger : public Logger
+    enum typelog {
+        DEBUG,
+        INFO,
+        WARN,
+        ERROR
+    };
+
+    class Logger
     {
     public:
-        DesktopLogger() = default;
-        explicit DesktopLogger(typelog l_type);
-        ~DesktopLogger() override;
+        Logger() = default;
+        explicit Logger(typelog l_type);
+        ~Logger();
 
         template<class T>
-        DesktopLogger &operator<<(const T &l_msg) {
-            if(msg_level_ >= LOGCFG.level) {
-                std::cout << l_msg;
-                is_open_ = true;
-            }
+        Logger &operator<<(const T &l_msg) {
+
+            std::cout << l_msg;
+            is_open_ = true;
+
             return  *this;
         }
 
     private:
-        std::string getLevel(typelog l_type) override;
+        bool is_open_ = false;
+        typelog msg_level_ = DEBUG;
+        std::string getLevel(typelog l_type);
     };
 
 }
