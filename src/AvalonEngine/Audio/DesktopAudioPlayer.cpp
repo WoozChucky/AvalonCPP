@@ -97,7 +97,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
     {
         if(buffer.first == l_sfx)
         {
-            Locator::GetLogger() << __FUNCTION__ << "Found existing sound buffer";
+            Locator::GetLogger(DEBUG) << __FUNCTION__ << "Found existing sound buffer\n";
             found_buffer = true;
             break;
         }
@@ -105,7 +105,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 
     if(!found_buffer)
     {
-        Locator::GetLogger() << __FUNCTION__ << "Loading new sound buffer";
+        Locator::GetLogger(DEBUG) << __FUNCTION__ << "Loading new sound buffer" << "\n";
         this->m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
@@ -116,16 +116,14 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 
     this->m_mutex_buffer_.unlock();
 
-    std::cout << "Finished AudioPlayer::PlayAsync thread " << std::this_thread::get_id() << std::endl;
+    Locator::GetLogger(DEBUG) << "Finished AudioPlayer::PlayAsync thread " << std::this_thread::get_id() << "\n";
 }
 
 void av::DesktopAudioPlayer::ClearFinishedSFX()
 {
     while (true)
     {
-        char buffer[80];
-        sprintf(buffer, "buffers cleared -> %d", static_cast<int>(this->m_sound_.size()));
-        Locator::GetLogger() << __FUNCTION__ << buffer;
+        Locator::GetLogger(DEBUG) << __FUNCTION__ << "buffers cleared -> " << static_cast<int>(this->m_sound_.size()) << "\n";
         this->m_sound_.clear();
 
         std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?

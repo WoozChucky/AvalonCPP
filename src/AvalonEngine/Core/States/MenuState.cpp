@@ -12,7 +12,7 @@ av::MenuState::MenuState(const sf::Vector2f l_window_size) :
         m_high_scores_(sf::Vector2f(), sf::Vector2f(), sf::Color::Green),
         m_quit_game_(sf::Vector2f(), sf::Vector2f(), sf::Color::Green)
 {
-    std::cout << GetWindowSize().x << " " << GetWindowSize().y << std::endl;
+    Locator::GetLogger(INFO) << "Resolution -> " << GetWindowSize().x << " " << GetWindowSize().y << "\n";
     this->InitializeUI();
 }
 
@@ -34,7 +34,7 @@ void av::MenuState::HandleInput(sf::Event& l_event)
     // Check if the event, was a keyboard event
     if (l_event.type == sf::Event::EventType::KeyPressed)
     {
-        std::cout << "Pressed " << l_event.key.code << std::endl;
+        Locator::GetLogger(DEBUG) << "Pressed " << l_event.key.code << "\n";
 
         if (l_event.key.code == sf::Keyboard::Key::Space  // Space or Enter pressed
             || l_event.key.code == sf::Keyboard::Key::Return)
@@ -95,15 +95,15 @@ void av::MenuState::HandleArrowSelection(const int l_direction)
 void av::MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
 {
     if (m_new_game_.GetGlobalBounds().contains(l_mouse_position)) {
-        std::cout << "Pressed New Game" << std::endl;
+        Locator::GetLogger(DEBUG) << "Pressed New Game" << "\n";
         this->GetStateManager()->Notify(av::EventType::State::GAME);
     }
     else if (m_high_scores_.GetGlobalBounds().contains(l_mouse_position)) {
-        std::cout << "Pressed Highscores" << std::endl;
+        Locator::GetLogger(DEBUG) << "Pressed Highscores" << "\n";
         this->GetStateManager()->Notify(av::EventType::State::HIGHSCORE);
     }
     else if (m_quit_game_.GetGlobalBounds().contains(l_mouse_position)) {
-        std::cout << "Pressed Exit" << std::endl;
+        Locator::GetLogger(DEBUG) << "Pressed Exit" << "\n";
         this->GetStateManager()->Notify(av::EventType::State::EXIT);
     }
 }

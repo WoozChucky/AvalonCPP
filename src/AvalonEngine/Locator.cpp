@@ -28,8 +28,12 @@ av::FileSystem& av::Locator::GetFileSystem()
 
 av::Logger& av::Locator::GetLogger()
 {
-    //return *m_logger_service_;
     auto logger = new av::Logger(typelog::DEBUG);
+    return *logger;
+}
+
+av::Logger &av::Locator::GetLogger(const av::typelog l_type) {
+    auto logger = new av::Logger(l_type);
     return *logger;
 }
 

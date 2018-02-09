@@ -12,7 +12,7 @@ int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
 
     av::Locator::Initialize();
-    av::Locator::Provide(new av::Logger(av::typelog::DEBUG));
+    //av::Locator::Provide(new av::Logger(av::typelog::DEBUG));
     av::Locator::Provide(new av::DesktopAudioPlayer());
     av::Locator::Provide(new av::DesktopFileSystem());
 
