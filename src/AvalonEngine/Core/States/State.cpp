@@ -14,11 +14,6 @@ sf::Vector2f av::State::GetWindowSize() const
     return this->m_window_size_;
 }
 
-void av::State::SetWindowSize(const sf::Vector2f l_window_size)
-{
-    this->m_window_size_ = l_window_size;
-}
-
 av::Subject<av::EventType::State>* av::State::GetStateManager() const
 {
     return this->m_state_manager_;

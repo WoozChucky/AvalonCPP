@@ -9,7 +9,6 @@ av::NullAudioPlayer av::Locator::m_null_audio_service_;
 av::FileSystem* av::Locator::m_fs_service_;
 av::NullFileSystem av::Locator::m_null_fs_service_;
 av::Logger* av::Locator::m_logger_service_;
-av::NullLogger av::Locator::m_null_logger_service_;
 
 void av::Locator::Initialize()
 {
@@ -29,7 +28,9 @@ av::FileSystem& av::Locator::GetFileSystem()
 
 av::Logger& av::Locator::GetLogger()
 {
-    return *m_logger_service_;
+    //return *m_logger_service_;
+    auto logger = new av::Logger(typelog::DEBUG);
+    return *logger;
 }
 
 void av::Locator::Provide(AudioPlayer* l_service)
@@ -63,7 +64,7 @@ void av::Locator::Provide(Logger* l_service)
     if(l_service == nullptr)
     {
         //Revert to null service.
-        m_logger_service_ = &m_null_logger_service_;
+        throw "Null Logger service";
     }
     else
     {

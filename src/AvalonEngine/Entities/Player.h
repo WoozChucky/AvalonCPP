@@ -25,36 +25,54 @@ namespace av
 
 
         void Restart();
-        sf::Vector2f GetBulletSpawn() const;
 
         std::vector<Bullet> GetBullets() const;
         sf::RectangleShape GetRifle() const;
         sf::FloatRect GetGlobalBounds() override;
 
-        std::vector<Bullet> m_bullets_;
 
 
+        //All of these should be refractored with getters and setters
 
-    private:
+        float Left() const;
+        float Right() const;
+
         sf::Vector2f m_mouse_position_;
-        sf::Vector2f m_velocity_;
-        float m_player_velocity_;
-        sf::RectangleShape m_rifle_;
-        // timer for the bullet spawn
-        std::chrono::time_point<std::chrono::system_clock> m_spawn_time_;
+
+
+
+        // Getters/Setters
+        sf::RectangleShape& getRifle();
+        void setRifle(sf::RectangleShape l_rifle);
+
+        sf::Vector2f& getVelocity();
+        void setVelocity(sf::Vector2f l_velocity);
+
+        float getPlayerVelocity() const;
+        void setPlayerVelocity(float l_velocity);
+
+        std::chrono::time_point<std::chrono::system_clock> getSpawnTime() const;
+        void setSpawnTime(std::chrono::time_point<std::chrono::system_clock> l_time);
+
+        std::vector<Bullet>& getBullets();
+    private:
+
         // side size to render it properly
         float m_side_distance_;
+        float m_player_velocity_;
+        sf::Vector2f m_velocity_;
 
+        //Weapons & Tools
+        sf::RectangleShape m_rifle_;
+        std::vector<Bullet> m_bullets_;
+
+        // timer for the bullet spawn
+        std::chrono::time_point<std::chrono::system_clock> m_spawn_time_;
 
         float X() const;
         float Y() const;
-        float Left() const;
-        float Right() const;
         float Top() const;
         float Bottom() const;
-        void Move(float timestep);
-        void Shoot(float timestep);
-        float GetRotationAngle() const;
 
         //Components
         GrapicsComponent* 	m_graphics_;

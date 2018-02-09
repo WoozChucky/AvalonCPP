@@ -10,7 +10,6 @@
 #include "FileSystem/FileSystem.h"
 #include "FileSystem/NullFileSystem.h"
 #include "Logger/Logger.h"
-#include "Logger/NullLogger.h"
 
 namespace av
 {
@@ -35,7 +34,6 @@ namespace av
         static NullFileSystem m_null_fs_service_;
 
         static Logger* m_logger_service_;
-        static NullLogger m_null_logger_service_;
     };
 
 }

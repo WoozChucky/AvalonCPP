@@ -36,7 +36,7 @@ namespace av
             {
                 char buffer[80];
                 sprintf(buffer, "Missing %s -> %d", typeid(T).name(), static_cast<int>(missing_entities));
-                Locator::GetLogger().Log(__FUNCTION__, buffer);
+                Locator::GetLogger() << __FUNCTION__ << buffer;
 
                 for(auto i = l_entities.size(); i < l_count; i++)
                 {

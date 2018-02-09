@@ -16,14 +16,13 @@ namespace av
     {
     public:
         virtual ~State() = default;
-        explicit State(const sf::Vector2f l_window_size);
+        explicit State(sf::Vector2f l_window_size);
 
         virtual void Update(float timestep) = 0;
         virtual void Render(sf::RenderWindow& l_window) = 0;
         virtual void HandleInput(sf::Event& l_event) = 0;
 
         sf::Vector2f GetWindowSize() const;
-        void SetWindowSize(const sf::Vector2f l_window_size);
 
         Subject<EventType::State>* GetStateManager() const;
         void SetStateManager(Subject<EventType::State>* l_subject);

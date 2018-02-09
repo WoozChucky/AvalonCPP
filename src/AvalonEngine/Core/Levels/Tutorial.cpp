@@ -70,21 +70,21 @@ void av::Tutorial::ResolveCollision(Player& l_player, Enemy& l_enemy)
     std::vector<int> enemies_to_remove;
 
     // Check if any bullet collides with enemies, then erase them from screen
-    for (auto bullet_it = this->m_player_.m_bullets_.begin(); bullet_it != this->m_player_.m_bullets_.end(); bullet_it++)
+    for (auto bullet_it = this->m_player_.getBullets().begin(); bullet_it != this->m_player_.getBullets().end(); bullet_it++)
     {
         for (auto enemies_it = this->m_enemies_.begin(); enemies_it != this->m_enemies_.end(); enemies_it++)
         {
             if (enemies_it->Collide(*bullet_it))
             {
                 //Bullet collided with Enemy
-                bullets_to_remove.push_back(bullet_it - this->m_player_.m_bullets_.begin());
+                bullets_to_remove.push_back(static_cast<int &&>(bullet_it - this->m_player_.getBullets().begin()));
 
                 if (!enemies_it->IsAlive())
                 {
-                    Locator::GetAudio().PlaySFX(audio::SFX::BASIC_ENEMY_DIE);
+                    Locator::GetAudio().PlaySFX(audio::SFX::BASIC_ENEMY_DIE, false);
 
                     //Enemy died, erase it
-                    enemies_to_remove.push_back(enemies_it - this->m_enemies_.begin());
+                    enemies_to_remove.push_back(static_cast<int &&>(enemies_it - this->m_enemies_.begin()));
 
                     //TODO: Add points to scoreboard
                     //NOTE: Maybe enemies can drop 'powerups' on death ?
@@ -93,6 +93,6 @@ void av::Tutorial::ResolveCollision(Player& l_player, Enemy& l_enemy)
         }
     }
 
-    VectorExtensions::RemoveElements(this->m_player_.m_bullets_, bullets_to_remove);
+    VectorExtensions::RemoveElements(this->m_player_.getBullets(), bullets_to_remove);
     VectorExtensions::RemoveElements(this->m_enemies_, enemies_to_remove);
 }

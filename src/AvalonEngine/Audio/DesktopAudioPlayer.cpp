@@ -14,8 +14,6 @@ av::DesktopAudioPlayer::DesktopAudioPlayer()
     this->m_cleanup_thread_.detach();
 }
 
-av::DesktopAudioPlayer::~DesktopAudioPlayer() {}
-
 void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_repeat)
 {
     const auto file_path = as_string(l_music);
@@ -95,11 +93,11 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 
     this->m_mutex_buffer_.lock();
 
-    for(const auto buffer : this->m_sound_buffer_)
+    for(const auto &buffer : this->m_sound_buffer_)
     {
         if(buffer.first == l_sfx)
         {
-            Locator::GetLogger().Log(__FUNCTION__, "Found existing sound buffer");
+            Locator::GetLogger() << __FUNCTION__ << "Found existing sound buffer";
             found_buffer = true;
             break;
         }
@@ -107,7 +105,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
 
     if(!found_buffer)
     {
-        Locator::GetLogger().Log(__FUNCTION__, "Loading new sound buffer");
+        Locator::GetLogger() << __FUNCTION__ << "Loading new sound buffer";
         this->m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
@@ -127,7 +125,7 @@ void av::DesktopAudioPlayer::ClearFinishedSFX()
     {
         char buffer[80];
         sprintf(buffer, "buffers cleared -> %d", static_cast<int>(this->m_sound_.size()));
-        Locator::GetLogger().Log(__FUNCTION__, buffer);
+        Locator::GetLogger() << __FUNCTION__ << buffer;
         this->m_sound_.clear();
 
         std::this_thread::sleep_for(std::chrono::seconds(30)); //TODO: These 30 seconds need to be tested and should be a #define ?

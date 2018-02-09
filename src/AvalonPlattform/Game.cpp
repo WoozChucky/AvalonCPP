@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <functional>
 
 av::Game::Game(const fs::Configuration l_cfg, const std::string window_title) :
 	m_game_state_(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
@@ -50,7 +49,7 @@ void av::Game::Render()
 
 void av::Game::HandleInput()
 {
-	sf::Event event;
+	sf::Event event{};
 
 	while (this->m_window_.pollEvent(event))
 	{
@@ -109,20 +108,23 @@ void av::Game::ChangeState(State* l_state)
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
 
-	Locator::GetLogger().Log(__FUNCTION__, "State was changed");
+	Locator::GetLogger() << __FUNCTION__ << "State was changed";
 }
 
 void av::Game::Exit()
 {
-	Locator::GetLogger().Log(__FUNCTION__, "Shutting down");
+	Locator::GetLogger() << __FUNCTION__ << "Shutting down";
 	this->m_window_.close();
 }
 
 void av::Game::PreviousState()
 {
+	this->ChangeState(this->m_previous_state_);
+	/*
 	this->m_current_state_ = this->m_previous_state_;
 
 	this->m_window_.setMouseCursorVisible(typeid(this->m_current_state_) != typeid(GameState));
 
 	Locator::GetLogger().Log(__FUNCTION__, "Going back to previous state");
+	 */
 }

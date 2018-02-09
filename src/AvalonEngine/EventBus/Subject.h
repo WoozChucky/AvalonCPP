@@ -35,7 +35,7 @@ namespace av
                 for(const auto& obs : this->m_observers_.at(l_event))
                     obs(); // Notify all observers
             } catch (std::exception& e) {
-                Locator::GetLogger().Log(__FUNCTION__, "No Observers registered for Event");
+                Locator::GetLogger() << __FUNCTION__ << "No Observers registered for Event";
             }
         }
 

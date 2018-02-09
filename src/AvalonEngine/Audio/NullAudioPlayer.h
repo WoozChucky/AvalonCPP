@@ -13,10 +13,10 @@ namespace av
     class NullAudioPlayer : public AudioPlayer
     {
     public:
-        NullAudioPlayer();
+        NullAudioPlayer() = default;
 
-        void PlaySFX(audio::SFX l_sfx, bool l_repeat = false) override;
-        void PlayMusic(audio::MUSIC l_music, bool l_repeat = false) override;
+        void PlaySFX(audio::SFX l_sfx, bool l_repeat) override;
+        void PlayMusic(audio::MUSIC l_music, bool l_repeat) override;
 
         void SetSFXVolume(float l_volume) override;
         void SetMusicVolume(float l_volume) override;
