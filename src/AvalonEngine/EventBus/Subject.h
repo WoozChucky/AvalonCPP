@@ -6,6 +6,8 @@
 #define AVALONENGINE_SUBJECT_H
 
 #include <map>
+#include <vector>
+#include <functional>
 #include "../Locator.h"
 
 namespace av
