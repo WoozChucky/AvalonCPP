@@ -13,7 +13,7 @@ namespace av
 	public:
 		static AudioPlayer& GetAudio();
 		static FileSystem& GetFileSystem();
-		static Logger& GetLogger();
+		static Logger& GetLogger(typelog type = DEBUG);
 
 		static void Initialize();
 

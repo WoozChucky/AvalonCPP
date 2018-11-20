@@ -25,10 +25,10 @@ FileSystem& Locator::GetFileSystem()
 	return *m_fs_service_;
 }
 
-Logger& Locator::GetLogger()
+Logger& Locator::GetLogger(const typelog type)
 {
 	if (m_logger_service_ == nullptr)
-		m_logger_service_ = new Logger(DEBUG);
+		m_logger_service_ = new Logger(type);
 
 	return *m_logger_service_;
 }

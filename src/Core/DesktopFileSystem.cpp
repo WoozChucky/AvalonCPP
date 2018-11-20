@@ -10,7 +10,7 @@ av::fs::Configuration av::DesktopFileSystem::GetConfiguration()
 	fs::Configuration read_cfg = { 0 };
 
 	std::ifstream input_file(this->kConfigurationLocation, std::ios::binary);
-	if (DesktopFileSystem::FileExists(this->kConfigurationLocation))
+	if (FileExists(this->kConfigurationLocation))
 	{
 		input_file.read(reinterpret_cast<char*>(&read_cfg), sizeof(read_cfg));
 		input_file.close();
