@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Project"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\AvalonEngine\;CMake Files\AvalonEngine\cmake_modules\;CMake Files\AvalonPlattform\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="AvalonEngine">
+				<Option output="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/libAvalonEngine.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 AvalonEngine"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="AvalonEngine/fast">
+				<Option output="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/libAvalonEngine.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 AvalonEngine/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="AvalonPlattform">
+				<Option output="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/AvalonPlattform" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/../AvalonEngine"/>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 AvalonPlattform"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="AvalonPlattform/fast">
+				<Option output="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/AvalonPlattform" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/../AvalonEngine"/>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 AvalonPlattform/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/Audio.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/AudioPlayer.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/DesktopAudioPlayer.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/DesktopAudioPlayer.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/NullAudioPlayer.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Audio/NullAudioPlayer.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/Levels/Level.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/Levels/Level.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/Levels/Tutorial.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/Levels/Tutorial.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/GameState.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/GameState.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/MenuState.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/MenuState.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/PauseState.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/PauseState.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/State.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Core/States/State.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Bullet.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Bullet.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Graphics/EnemyGraphicsComponent.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Graphics/EnemyGraphicsComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Graphics/PlayerGraphicsComponent.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Graphics/PlayerGraphicsComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/GraphicsComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Input/PlayerInputComponent.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/Input/PlayerInputComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/InputComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Components/PhysicsComponent.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Enemy.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Enemy.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Entity.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Player.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Entities/Player.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/EventBus/Subject.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Extensions/VectorExtensions.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/DesktopFileSystem.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/DesktopFileSystem.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/File.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/FileSystem.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/NullFileSystem.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/FileSystem/NullFileSystem.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Generators/EntityGenerator.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Locator.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Locator.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Logger/Logger.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Logger/Logger.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Math/Math.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/Math/Math.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/Button.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/Button.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/Events/EventType.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/Events/MouseEvents.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/MouseCursor.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/MouseCursor.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Engine/UIElement.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Game/Healthbar.cpp">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/UI/Game/Healthbar.h">
+			<Option target="AvalonEngine"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/Game.cpp">
+			<Option target="AvalonPlattform"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/Game.hpp">
+			<Option target="AvalonPlattform"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/Main.cpp">
+			<Option target="AvalonPlattform"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\AvalonEngine\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonEngine/cmake_modules/FindSFML.cmake">
+			<Option virtualFolder="CMake Files\AvalonEngine\cmake_modules\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Development/Personal/Avalon/src/AvalonPlattform/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\AvalonPlattform\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
