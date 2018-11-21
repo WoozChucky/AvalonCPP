@@ -1,8 +1,0 @@
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/CMakeFiles/rebuild_cache.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/CMakeFiles/AvalonEngine.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonEngine/CMakeFiles/edit_cache.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/CMakeFiles/rebuild_cache.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/CMakeFiles/AvalonPlattform.dir
-/mnt/c/Development/Personal/Avalon/src/cmake-build-debug/AvalonPlattform/CMakeFiles/edit_cache.dir
