@@ -1,6 +1,7 @@
 #include "MenuState.h"
 
 #include <SFML/Window.hpp>
+#include <AVMath.h>
 
 #define BUTTON_MARGIN 25.f
 
@@ -70,7 +71,7 @@ void MenuState::HandleInput(sf::Event& l_event)
 	}
 	else if (l_event.type == sf::Event::EventType::MouseButtonPressed)      // Mouse
 	{
-		const auto mouse_position = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
+		const auto mouse_position = sf::Vector2f(static_cast<float>(l_event.mouseButton.x), static_cast<float>(l_event.mouseButton.y));
 
 		if (l_event.mouseButton.button == sf::Mouse::Button::Left) // Left Click
 		{
@@ -94,7 +95,7 @@ void MenuState::HandleArrowSelection(const int l_direction)
 		this->m_VirtualIndex += l_direction;
 	}
 
-	std::cout << this->m_VirtualIndex << std::endl;
+	Locator::GetLogger(DEBUG) << this->m_VirtualIndex << "\n";
 }
 
 void MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
@@ -121,29 +122,23 @@ void MenuState::InitializeUI()
 	m_Background.setOutlineThickness(5.f);
 	m_Background.setSize(sf::Vector2f(GetWindowSize().x * 0.35f, GetWindowSize().y * 0.45f));
 
-	const auto background_position = sf::Vector2f(
-		GetWindowSize().x / 2 - m_Background.getGlobalBounds().width / 2,
-		GetWindowSize().y / 2 - m_Background.getGlobalBounds().height / 2);
+	const auto background_position = AVMath::GetCenterCoordinates(GetWindowSize(), m_Background.getGlobalBounds());
 
 	m_Background.setPosition(background_position);
 
-	//Buttons Layer Setup
+	//Buttons Size
 	m_NewGameButton.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
 	m_HighScoreButton.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
 	m_QuitGameButton.SetSize(sf::Vector2f(GetWindowSize().x * 0.25f, GetWindowSize().y * 0.1f));
 
-	const auto new_game_position = sf::Vector2f(
-		GetWindowSize().x / 2 - m_NewGameButton.GetGlobalBounds().width / 2,
-		GetWindowSize().y / 2 - m_NewGameButton.GetGlobalBounds().height / 2 - m_HighScoreButton.GetGlobalBounds().height - BUTTON_MARGIN);
+	// Buttons Positioning
+	auto new_game_position = AVMath::GetCenterCoordinates(GetWindowSize(), m_NewGameButton.GetGlobalBounds());
+	new_game_position.y -= m_HighScoreButton.GetGlobalBounds().height + BUTTON_MARGIN;	// height offset
 
-	const auto high_scores_position = sf::Vector2f(
-		GetWindowSize().x / 2 - m_HighScoreButton.GetGlobalBounds().width / 2,
-		GetWindowSize().y / 2 - m_HighScoreButton.GetGlobalBounds().height / 2);
+	const auto high_scores_position = AVMath::GetCenterCoordinates(GetWindowSize(), m_HighScoreButton.GetGlobalBounds());
 
-	const auto quit_game_position = sf::Vector2f(
-		GetWindowSize().x / 2 - m_QuitGameButton.GetGlobalBounds().width / 2,
-		GetWindowSize().y / 2 - m_QuitGameButton.GetGlobalBounds().height / 2 + m_HighScoreButton.GetGlobalBounds().height + BUTTON_MARGIN);
-
+	auto quit_game_position = AVMath::GetCenterCoordinates(GetWindowSize(), m_QuitGameButton.GetGlobalBounds());
+	quit_game_position.y += m_HighScoreButton.GetGlobalBounds().height + BUTTON_MARGIN;	// height offset
 
 	m_NewGameButton.SetPosition(new_game_position);
 	m_NewGameButton.SetText("New Game");

@@ -125,12 +125,14 @@
     <ClInclude Include="EventType.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>

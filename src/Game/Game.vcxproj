@@ -20,11 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="PauseState.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -80,19 +86,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Math;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Math;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Math;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Math;$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

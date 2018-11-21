@@ -71,10 +71,10 @@ namespace av
 		{
 			std::string label;
 			switch (l_type) {
-			case DEBUG: label = "DEBUG"; break;
-			case INFO:  label = "INFO "; break;
-			case WARN:  label = "WARN "; break;
-			case ERROR: label = "ERROR"; break;
+			case DEBUG: label = "DBG"; break;
+			case INFO:  label = "INF"; break;
+			case WARN:  label = "WRN"; break;
+			case ERROR: label = "ERR"; break;
 			}
 			return label;
 		}
