@@ -2,14 +2,14 @@
 
 namespace av::fs
 {
-	typedef struct VideoS
+	typedef struct Video
 	{
 		unsigned int Width;
 		unsigned int Height;
 		unsigned int Bpp;
 	} Video;
 
-	typedef struct AudioS
+	typedef struct Audio
 	{
 		unsigned int SFX;
 		unsigned int Music;

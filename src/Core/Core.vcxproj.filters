@@ -60,6 +60,9 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Locator.cpp">

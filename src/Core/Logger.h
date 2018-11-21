@@ -31,7 +31,7 @@ namespace av
 			const auto timeinfo = localtime(&rawtime);
 			strftime(time_buffer, 80, "%T", timeinfo);
 
-			operator << ("[" + getLevel(this->msg_level_) + "]" + time_buffer + ": ");
+			operator << ("\n[" + getLevel(this->msg_level_) + "]" + time_buffer + ": ");
 		}
 
 		~Logger()
@@ -43,8 +43,19 @@ namespace av
 			is_open_ = false;
 		}
 
+		void SetLevel(typelog l_level)
+		{
+			msg_level_ = l_level;
+		}
+
+		typelog GetLevel() const
+		{
+			return msg_level_;
+		}
+
 		template<class T>
-		Logger &operator<<(const T &l_msg) {
+		Logger &operator<<(const T &l_msg)
+		{
 
 			std::cout << l_msg;
 			is_open_ = true;
@@ -54,7 +65,7 @@ namespace av
 
 	private:
 		bool is_open_ = false;
-		typelog msg_level_ = DEBUG;
+		typelog msg_level_;
 
 		std::string getLevel(const typelog l_type)
 		{

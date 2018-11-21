@@ -3,59 +3,51 @@
 
 using namespace av;
 
-AudioPlayer* Locator::m_audio_service_;
-// NullAudioPlayer Locator::m_null_audio_service_;
-FileSystem* Locator::m_fs_service_;
-// NullFileSystem Locator::m_null_fs_service_;
-Logger* Locator::m_logger_service_;
-
-void Locator::Initialize()
-{
-	// m_audio_service_ = &m_null_audio_service_;
-	// m_fs_service_ = &m_null_fs_service_;
-}
+AudioPlayer* Locator::m_AudioService;
+FileSystem* Locator::m_FileSystemService;
+Logger* Locator::m_LoggerService;
 
 AudioPlayer& Locator::GetAudio()
 {
-	return *m_audio_service_;
+	return *m_AudioService;
 }
 
 FileSystem& Locator::GetFileSystem()
 {
-	return *m_fs_service_;
+	return *m_FileSystemService;
 }
 
 Logger& Locator::GetLogger(const typelog type)
 {
-	if (m_logger_service_ == nullptr)
-		m_logger_service_ = new Logger(type);
+	/** TODO: Fix this
+	 * At the moment we have a leak!
+	 * This happens because of the output template using the operator << to display more info.
+	if (m_LoggerService == nullptr)
+		m_LoggerService = new Logger(type);
 
-	return *m_logger_service_;
+	if (m_LoggerService->GetLevel() != type)
+		m_LoggerService->SetLevel(type);
+
+	return *m_LoggerService;
+	*/
+
+	return *new Logger(type);
 }
 
 void Locator::Provide(AudioPlayer* l_service)
 {
-	if (l_service == nullptr)
+	if (l_service != nullptr)
 	{
-		//Revert to null service.
-		// m_audio_service_ = &m_null_audio_service_;
-	}
-	else
-	{
-		m_audio_service_ = l_service;
+		m_AudioService = l_service;
 	}
 }
 
 void Locator::Provide(FileSystem* l_service)
 {
-	if (l_service == nullptr)
+	if (l_service != nullptr)
 	{
 		//Revert to null service.
-		// m_fs_service_ = &m_null_fs_service_;
-	}
-	else
-	{
-		m_fs_service_ = l_service;
+		m_FileSystemService = l_service;
 	}
 }
 
@@ -67,5 +59,5 @@ void Locator::Provide(Logger* l_service)
 		throw "Null Logger service";
 	}
 	
-	m_logger_service_ = l_service;
+	m_LoggerService = l_service;
 }

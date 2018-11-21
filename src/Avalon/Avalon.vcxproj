@@ -72,17 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\Core;$(VC_SourcePath)..\Game;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_SourcePath)..\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\Core;$(VC_SourcePath)..\UI;$(VC_SourcePath)..\Game;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\Core;$(VC_SourcePath)..\Game;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Development\Personal\Avalon\src\Core;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_SourcePath)..\..\external\SFML-2.5.1\include;$(VC_SourcePath)..\Engine;$(VC_SourcePath)..\Core;$(VC_SourcePath)..\Game;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,6 +116,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Development\Personal\Avalon\external\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,6 +158,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Development\Personal\Avalon\external\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -163,6 +168,27 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{9dbd5bee-2d09-4a22-ab27-9828e230be8f}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{e68e6b33-eb82-4166-b1e6-ced711119c42}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Game\Game.vcxproj">
+      <Project>{1686dc8a-7653-403b-8940-0fbf26d1a0fd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{06184a67-38a6-43d5-843a-852e1afd3329}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UI\UI.vcxproj">
+      <Project>{eb4a440a-0374-4715-b1b2-1412f3dca4cb}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Avalon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
