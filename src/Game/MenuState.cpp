@@ -48,6 +48,10 @@ void MenuState::HandleInput(sf::Event& l_event)
 			default: break;
 			}
 		}
+		else if (l_event.key.code == sf::Keyboard::Key::Escape)
+		{
+			GetStateManager()->Notify(EventType::State::EXIT);
+		}
 		else
 		{
 			switch (l_event.key.code)
@@ -100,7 +104,7 @@ void MenuState::HandleMouseClick(const sf::Vector2f& l_mouse_position)
 		this->GetStateManager()->Notify(EventType::State::GAME);
 	}
 	else if (this->m_HighScoreButton.GetGlobalBounds().contains(l_mouse_position)) {
-		Locator::GetLogger(DEBUG) << "Pressed Highscores" << "\n";
+		Locator::GetLogger(DEBUG) << "Pressed HighScores" << "\n";
 		this->GetStateManager()->Notify(EventType::State::HIGHSCORE);
 	}
 	else if (this->m_QuitGameButton.GetGlobalBounds().contains(l_mouse_position)) {

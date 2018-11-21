@@ -67,7 +67,7 @@ namespace av
 		bool is_open_ = false;
 		typelog msg_level_;
 
-		std::string getLevel(const typelog l_type)
+		static std::string getLevel(const typelog l_type)
 		{
 			std::string label;
 			switch (l_type) {

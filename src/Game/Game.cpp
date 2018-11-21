@@ -5,12 +5,17 @@
 using namespace av;
 
 Game::Game(const fs::Configuration l_cfg, const std::string& l_window_title)
-  : m_Window(sf::VideoMode(l_cfg.video_l.Width, l_cfg.video_l.Height, l_cfg.video_l.Bpp), l_window_title, sf::Style::Titlebar | sf::Style::Close),
+  : m_Window(sf::VideoMode(l_cfg.video.Width, l_cfg.video.Height, l_cfg.video.Bpp), l_window_title, sf::Style::Titlebar | sf::Style::Close),
 	m_Elapsed(0.0f),
-	m_MenuState(sf::Vector2f(l_cfg.video_l.Width, l_cfg.video_l.Height)),
+	m_MenuState(sf::Vector2f(l_cfg.video.Width, l_cfg.video.Height)),
 	m_CurrentState(&m_MenuState),
 	m_PreviousState(nullptr)
 {
+	sf::Image icon;
+	icon.loadFromFile("Assets/Textures/icon.png");
+
+	this->m_Window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	this->m_Window.setVerticalSyncEnabled(false);
 	this->m_Clock.restart();
 	this->m_Window.setFramerateLimit(90);
 
