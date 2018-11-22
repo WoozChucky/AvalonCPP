@@ -1,1 +1,0 @@
--> After exiting the pause state to the game state, a bullet is instantly shot.
