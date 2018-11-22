@@ -37,10 +37,10 @@
       <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Levels</Filter>
     </ClInclude>
     <ClInclude Include="PauseState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,10 +54,10 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
     <ClCompile Include="PauseState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
