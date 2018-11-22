@@ -41,7 +41,9 @@ void PauseState::HandleInput(sf::Event& l_event)
 	}
 	else if (l_event.type == sf::Event::EventType::MouseButtonPressed)      // Mouse
 	{
-		const auto mouse_position = sf::Vector2f(l_event.mouseButton.x, l_event.mouseButton.y);
+		const auto mouse_position = sf::Vector2f(
+			static_cast<float>(l_event.mouseButton.x), 
+			static_cast<float>(l_event.mouseButton.y));
 
 		if (l_event.mouseButton.button == sf::Mouse::Button::Left) // Left Click
 		{
