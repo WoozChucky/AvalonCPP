@@ -50,3 +50,4 @@ src\AvalonPlattform\.idea
 
 .idea
 .vscode
+cmake-build-debug/
