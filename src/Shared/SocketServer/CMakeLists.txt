@@ -12,7 +12,8 @@ set(Headers
         include/Socket/Channels/SecureChannel.hpp
         include/Socket/Channels/NormalChannel.hpp
         include/Socket/SocketOptionsBuilder.hpp
-        include/Socket/Server.hpp)
+        include/Socket/Server.hpp
+        include/Socket/IServer.hpp)
 
 set(Sources
         src/NetUtils.cpp
