@@ -12,6 +12,9 @@ set(CMAKE_AUTOUIC ON)
 #set(Qt6_DIR /Users/nunosilva/Qt/6.2.0/macos/lib/cmake/Qt6)
 set(CMAKE_PREFIX_PATH /Users/nunosilva/Qt/6.2.0/macos)
 
+include_directories(../../Shared/Abstractions/include)
+include_directories(../../Shared/SocketServer/include)
+
 find_package(Qt6 COMPONENTS Core Widgets REQUIRED)
 
 add_executable(${This}
@@ -19,4 +22,4 @@ add_executable(${This}
         src/mainwindow.cpp
         src/mainwindow.h)
 
-target_link_libraries(${This} Qt6::Core Qt6::Widgets)
+target_link_libraries(${This} Qt6::Core Qt6::Widgets SocketServer)

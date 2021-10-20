@@ -2,9 +2,36 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
+#include <Socket/Server.hpp>
+#include <Socket/SocketOptionsBuilder.hpp>
+
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
+
+	auto builder = (new SocketOptionBuilder())
+		->UsingUDP()
+		->WithMaxQueuedConnection(8)
+		->WithReuseAddress()
+		->WithReusePort()
+		->WithSSL(false)
+		->WithServerPort(8080)
+		->Build();
+
+	auto server = Server::makeShared(builder);
+
+	server->OnClientConnected([](SocketContext* ctx) -> void {
+
+	});
+	server->OnClientDisconnected([](SocketContext* ctx) -> void {
+
+	});
+	server->OnMessage([](SocketContext* ctx, std::string& message) -> void {
+
+	});
+	server->SetEventManager(new EventManager());
+	server->Setup();
+	server->Boot();
 
 	//Q_INIT_RESOURCE(application);
 

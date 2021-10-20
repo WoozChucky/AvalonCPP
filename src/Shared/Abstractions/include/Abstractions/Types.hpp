@@ -149,4 +149,11 @@ typedef struct Buffer {
 
 } Buffer;
 
+enum SocketProtocol {
+
+  UDP,
+  TCP
+
+};
+
 #endif //TYPES_HPP
