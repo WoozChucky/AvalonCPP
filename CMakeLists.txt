@@ -13,7 +13,7 @@ get_directory_property(ParentDirectory PARENT_DIRECTORY)
 if(ParentDirectory STREQUAL "")
     # Define option for linking with the runtime statically.
     if(MSVC)
-        option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" OFF)
+        option(RUNTIME_STATIC_LINKAGE "Link with runtime library statically" ON)
     endif(MSVC)
 
     # If the runtime static linkage option is turned on, replace
@@ -78,6 +78,7 @@ if(ParentDirectory STREQUAL "")
     elseif(MSVC)
         add_definitions(-DWINDOWS)
         include(FindPkgConfig) # <-- include pkg-config needed by FindLibreSSL.cmake script
+        set(BUILD_SHARED_LIBS ON)
     endif()
 
     # LibreSSL

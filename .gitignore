@@ -51,3 +51,4 @@ src\AvalonPlattform\.idea
 .idea
 .vscode
 cmake-build-debug/
+/cmake-build-debug-visual-studio-19-build-tools/

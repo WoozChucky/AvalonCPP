@@ -1,6 +1,6 @@
 # CMakeLists.txt for Abstractions
 #
-# © 2021 by Nuno Silva
+# © 2019 by Nuno Silva
 
 cmake_minimum_required(VERSION 3.16)
 set(This Abstractions)
@@ -21,18 +21,26 @@ set(Headers
 set(Sources
         src/MemoryPool.cpp
         src/File.cpp
-        src/DynamicLibrary.cpp
-        src/DynamicLibraryImpl.hpp
         src/Timer.cpp)
 
 if(APPLE)
+    add_definitions(-DMACOS)
     list(APPEND Sources
+            src/MacOS/DynamicLibrary.cpp
+            src/MacOS/DynamicLibraryImpl.hpp
             src/MacOS/Directory.cpp)
 elseif(LINUX)
+    add_definitions(-DLINUX)
     list(APPEND Sources
+            src/Linux/DynamicLibrary.cpp
+            src/Linux/DynamicLibraryImpl.hpp
             src/Linux/Directory.cpp)
 elseif(MSVC)
-    list(APPEND Sources )
+    add_definitions(-DWINDOWS)
+    list(APPEND Sources
+            src/Win/Directory.cpp)
+
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
     add_definitions(
             -DUNICODE -D_UNICODE
@@ -56,6 +64,6 @@ if(LINUX)
             )
 endif(LINUX)
 
-target_link_libraries(${This})
+target_link_libraries(${This} kqueue)
 
 # add_subdirectory(test)

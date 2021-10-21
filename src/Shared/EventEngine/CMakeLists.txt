@@ -28,6 +28,8 @@ if(MSVC)
             src/Win/EventManager.cpp
             src/Win/EventHandler.cpp)
 
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
     add_definitions(
             -DUNICODE -D_UNICODE
             -D_CRT_SECURE_NO_WARNINGS
@@ -44,13 +46,15 @@ set_target_properties(${This} PROPERTIES
         )
 
 if(LINUX)
-    target_link_libraries(${This}
-            pthread
-            dl
-            kqueue
-            )
+    target_link_libraries(${This} pthread dl kqueue Abstractions)
 endif(LINUX)
 
-target_link_libraries(${This} Abstractions)
+if(MSVC)
+    target_link_libraries(${This} kqueue Abstractions)
+endif(MSVC)
+
+if(APPLE)
+    target_link_libraries(${This} Abstractions)
+endif(APPLE)
 
 # add_subdirectory(test)

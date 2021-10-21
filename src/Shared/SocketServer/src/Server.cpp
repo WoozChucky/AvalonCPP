@@ -10,19 +10,21 @@
 #include <Abstractions/Format.hpp>
 #include <Abstractions/ThreadPool.hpp>
 #include <Abstractions/Timer.hpp>
+#include <cassert>
+#include <Socket/NetUtils.hpp>
 
 Server::Server()
         : serverSocket(0), serverAddress{}, manager{nullptr}, handler{nullptr}, channel{nullptr},
           connectionsMemPool{new MemoryPool(sizeof(SocketContext), 3, 100)},
           threadPool{new ThreadPool(1)},
-          _configuration{nullptr}, running{false}
+          _configuration{nullptr}, running{false}, protocol{TCP}
 { }
 
 Server::Server(ServerConfiguration* configuration)
         : serverSocket{0}, serverAddress{}, manager{nullptr}, handler{nullptr}, channel{nullptr},
           connectionsMemPool{new MemoryPool(sizeof(SocketContext), 3, 100)},
           threadPool{new ThreadPool(1)},
-          running{false}, _configuration{configuration}{
+          running{false}, _configuration{configuration}, protocol{TCP}{
     assert(configuration != nullptr);
 }
 
@@ -63,13 +65,9 @@ void Server::Setup() {
 void send_message(SocketAddressIn socketAddress) {
 	int fd;
 	int r;
-	struct msghdr msg;
-	struct iovec iov;
 
 	fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	assert(fd != -1);
-
-	memset(&msg, 0, sizeof(msg));
 
 	const char *tmp = "xxxx";
 	char buffer[50];
@@ -83,7 +81,7 @@ void send_message(SocketAddressIn socketAddress) {
 		TRACE("%s %s.", "Socket sendto() failed.", strerror(errno));
 	}
 
-	close(fd);
+	Net::Utils::CloseSocket(fd);
 }
 
 void Server::Boot() {
@@ -96,37 +94,20 @@ void Server::Boot() {
 		);
 	}
 
-	int flags;
-	if((flags = fcntl(this->serverSocket, F_GETFD, 0)) < 0)
-	{
-		TRACE("%s", "Failed getting socket properties")
-		close(this->serverSocket);
-		throw std::runtime_error(
-			Format::This("Failed getting socket properties %s.", strerror(errno))
-		);
-	}
+	Net::Utils::SetNonBlocking(this->GetHandle());
 
-	flags |= O_NONBLOCK;
-	if (fcntl(this->serverSocket, F_SETFL, flags) < 0) { // Mark server socket as non blocking
-		TRACE("%s", "Failed setting socket properties")
-		close(this->serverSocket);
-		throw std::runtime_error(
-			Format::This("Failed setting socket properties %s.", strerror(errno))
-		);
-	}
-
-    if (bind(this->serverSocket, (struct sockaddr *)&this->serverAddress, sizeof(SocketAddress)) < 0) {
+    if (bind(this->GetHandle(), (struct sockaddr *)&this->serverAddress, sizeof(SocketAddress)) < 0) {
         TRACE("%s %s.", "Socket bind() failed.", strerror(errno));
-        close(this->serverSocket);
+		Net::Utils::CloseSocket(this->GetHandle());
         throw std::runtime_error(
                     Format::This("Socket bind() failed. %s.", strerror(errno))
                     );
     }
 
 	if (this->protocol == TCP) {
-		if (listen(this->serverSocket, this->_configuration->MaxQueuedConnections) < 0) {
+		if (listen(this->GetHandle(), this->_configuration->MaxQueuedConnections) < 0) {
 			TRACE("%s %s.", "Socket listen() failed.", strerror(errno));
-			close(this->serverSocket);
+			Net::Utils::CloseSocket(this->GetHandle());
 			throw std::runtime_error(
 				Format::This("Socket listen() failed. %s.", strerror(errno))
 			);
@@ -156,7 +137,7 @@ void Server::Terminate() {
     this->GetChannel()->Terminate();
 
     // close the server file descriptor
-    close(this->GetHandle());
+	Net::Utils::CloseSocket(this->GetHandle());
 }
 
 void Server::SetConfiguration(ServerConfiguration *configuration) {
@@ -205,10 +186,10 @@ bool Server::SetSocketOption(int option) const {
     int optval = 1;
     socklen_t  optlen = sizeof(optval);
 
-    auto error = setsockopt(this->serverSocket, SOL_SOCKET, option, &optval, optlen) < 0;
+    auto error = setsockopt(this->serverSocket, SOL_SOCKET, option, reinterpret_cast<char *>(&optval), optlen) < 0;
     if(error) {
         perror("setsockpot()");
-        close(this->serverSocket);
+		Net::Utils::CloseSocket(this->GetHandle());
     }
 
     return optval;
@@ -219,11 +200,11 @@ U16 Server::GetSocketOption(int option) const {
     int optval = 1;
     socklen_t  optlen = sizeof(optval);
 
-    auto error = getsockopt(this->serverSocket, SOL_SOCKET, option, &optval, &optlen) < 0;
+    auto error = getsockopt(this->serverSocket, SOL_SOCKET, option, reinterpret_cast<char *>(&optval), &optlen) < 0;
 
     if (error) {
         perror("getsockopt()");
-        close(this->serverSocket);
+		Net::Utils::CloseSocket(this->GetHandle());
     }
 
     return optval;
@@ -257,14 +238,14 @@ void Server::HandleConnections() {
                         try {
                             this->HandleMessageEvent(result.Context);
                         } catch (...) {
-                            TRACE("%s", "Error HandleMessageEvent");
+                            TRACE("%s", "Error HandleMessageEvent")
                         }
 
                         break;
                     case Write:
 
                         //TODO(Levezinho): Think about how we can handle this case.
-                        TRACE("%s", "Socket Wanted to Write!");
+                        TRACE("%s", "Socket Wanted to Write!")
 
                         break;
                     case Disconnect:
@@ -273,7 +254,7 @@ void Server::HandleConnections() {
 
                         break;
                     case Weird:
-                        TRACE("%s", "Socket Wanted to Write!");
+                        TRACE("%s", "Socket Wanted to Write!")
                         break;
                 }
 
@@ -314,11 +295,11 @@ void Server::HandleMessageEvent(SocketContext *ctx) {
             this->messageDelegate(ctx, buffer);
 
         } else {
-            TRACE("%s", "Received a message, but no message delegate was defined.");
+            TRACE("%s", "Received a message, but no message delegate was defined.")
         }
 
     } else {
-        TRACE("%s", "Received a message, but no bytes could be read.");
+        TRACE("%s", "Received a message, but no bytes could be read.")
     }
 
 }

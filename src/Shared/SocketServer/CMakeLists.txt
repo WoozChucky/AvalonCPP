@@ -16,12 +16,26 @@ set(Headers
         include/Socket/IServer.hpp)
 
 set(Sources
-        src/NetUtils.cpp
-        src/Channels/NormalChannel.cpp
-        src/Channels/SecureChannel.cpp
-        src/Server.cpp)
+        src/Server.cpp src/BaseSocketServer.cpp src/TcpSocketServer.cpp)
 
-if(MSVC)
+if(APPLE)
+    list(APPEND Sources
+            src/Channels/MacOS/NormalChannel.cpp
+            src/Channels/MacOS/SecureChannel.cpp
+            src/MacOS/NetUtils.cpp)
+elseif(LINUX)
+    list(APPEND Sources
+            src/Channels/Linux/NormalChannel.cpp
+            src/Channels/Linux/SecureChannel.cpp
+            src/Linux/NetUtils.cpp)
+elseif(MSVC)
+    list(APPEND Sources
+            src/Channels/Win/NormalChannel.cpp
+            src/Channels/Win/SecureChannel.cpp
+            src/Win/NetUtils.cpp)
+
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
     add_definitions(
             -DUNICODE -D_UNICODE
             -D_CRT_SECURE_NO_WARNINGS

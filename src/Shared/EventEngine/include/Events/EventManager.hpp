@@ -15,7 +15,7 @@ public:
 
     void RegisterEvent(SocketContext* ctx, EventType type, EventAction action, bool saveContext = false);
     void RegisterEvent(SocketHandle socket, EventType type, EventAction action) const;
-    [[nodiscard]] EventHandle GetHandle() const;
+    EventHandle GetHandle() const;
     int GetFiredNotifications(Event *eventList, int maxEvents);
 
 private:

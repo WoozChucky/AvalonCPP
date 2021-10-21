@@ -16,7 +16,10 @@ void EventManager::RegisterEvent(SocketContext* ctx, EventType type, EventAction
 
     Event evSet;
 
-    EV_SET(&evSet, ctx->Socket.Handle, type, action, 0, 0, saveContext ? ctx : nullptr);
+    EV_SET(&evSet, ctx->Socket.Handle, type, action, 0, 0, nullptr);
+
+    if (saveContext)
+        evSet.udata = ctx;
 
     if (kevent(this->GetHandle(), &evSet, 1, nullptr, 0, nullptr) == -1)
         TRACE("%s", "Failed to register event.");

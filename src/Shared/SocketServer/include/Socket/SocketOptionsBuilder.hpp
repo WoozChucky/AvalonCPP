@@ -34,7 +34,9 @@ public:
     }
 
     SocketOptionBuilder* WithReusePort() {
-        this->_options.push_back(SO_REUSEPORT);
+#ifndef WINDOWS
+		this->_options.push_back(SO_REUSEPORT);
+#endif
         return this;
     }
 

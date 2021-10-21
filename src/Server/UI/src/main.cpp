@@ -9,6 +9,15 @@
 
 int main(int argc, char *argv[]) {
 
+	// Initialize Winsock
+	WSADATA wsaData;
+	int iResult;
+	u_long iMode = 0;
+
+	iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	if (iResult != NO_ERROR)
+		printf("Error at WSAStartup()\n");
+
 	auto builder = (new SocketOptionBuilder())
 		->UsingUDP()
 		->WithMaxQueuedConnection(8)

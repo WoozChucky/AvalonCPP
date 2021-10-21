@@ -90,3 +90,30 @@ unsigned int Net::Utils::GetPortFromAddress(SocketAddress *address) {
 void Net::Utils::GetPortFromAddress(SocketAddress *address, U8& port) {
     port = GetPortFromAddress(address);
 }
+
+void Net::Utils::SetNonBlocking(SocketHandle handle) {
+
+	int flags;
+	if((flags = fcntl(handle, F_GETFD, 0)) < 0)
+	{
+		TRACE("%s", "Failed getting socket properties")
+		Net::Utils::CloseSocket(handle);
+		throw std::runtime_error(
+			Format::This("Failed getting socket properties %s.", strerror(errno))
+		);
+	}
+
+	flags |= O_NONBLOCK;
+	if (fcntl(handle, F_SETFL, flags) < 0) { // Mark server socket as non blocking
+		TRACE("%s", "Failed setting socket properties")
+		Net::Utils::CloseSocket(handle);
+		throw std::runtime_error(
+			Format::This("Failed setting socket properties %s.", strerror(errno))
+		);
+	}
+
+}
+
+void Net::Utils::CloseSocket(SocketHandle handle) {
+    close(handle);
+}

@@ -9,13 +9,15 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-#set(Qt6_DIR /Users/nunosilva/Qt/6.2.0/macos/lib/cmake/Qt6)
-set(CMAKE_PREFIX_PATH /Users/nunosilva/Qt/6.2.0/macos)
+
+#set(CMAKE_PREFIX_PATH /Users/nunosilva/Qt/6.2.0/macos)
+set(CMAKE_PREFIX_PATH "C:\\Qt\\6.2.0\\msvc2019_64")
 
 include_directories(../../Shared/Abstractions/include)
 include_directories(../../Shared/SocketServer/include)
 
 find_package(Qt6 COMPONENTS Core Widgets REQUIRED)
+
 
 add_executable(${This}
         src/main.cpp
