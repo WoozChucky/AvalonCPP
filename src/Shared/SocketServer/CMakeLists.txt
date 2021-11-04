@@ -16,7 +16,10 @@ set(Headers
         include/Socket/IServer.hpp)
 
 set(Sources
-        src/Server.cpp src/BaseSocketServer.cpp src/TcpSocketServer.cpp)
+        src/Server.cpp
+        src/BaseSocketServer.cpp
+        src/TcpSocketServer.cpp
+        src/UdpSocketServer.cpp)
 
 if(APPLE)
     list(APPEND Sources

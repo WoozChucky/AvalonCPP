@@ -4,11 +4,11 @@
 
 #include <Socket/IServer.hpp>
 
-class TcpSocketServer : public IServer {
+class UdpSocketServer : public IServer {
 
  public:
 
-	explicit TcpSocketServer(ServerConfiguration* configuration)
+	explicit UdpSocketServer(ServerConfiguration* configuration)
 		: IServer(configuration)  {
 	}
 
