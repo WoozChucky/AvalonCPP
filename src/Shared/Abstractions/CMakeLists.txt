@@ -64,6 +64,6 @@ if(LINUX)
             )
 endif(LINUX)
 
-target_link_libraries(${This} kqueue)
+target_link_libraries(${This})
 
 # add_subdirectory(test)

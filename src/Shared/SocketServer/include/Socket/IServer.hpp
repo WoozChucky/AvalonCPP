@@ -36,15 +36,19 @@ class IServer {
 	virtual void SetEventManager(EventManager* eventManager);
 
 	SocketHandle GetHandle() const;
+	SocketProtocol* GetProtocol();
+	SocketAddressIn GetAddress();
+	EventManager* GetEventManager();
+	EventHandler* GetEventHandler();
+	ServerConfiguration* GetConfiguration();
 
  private:
 
+	SocketHandle serverSocket{};
 	SocketProtocol *protocol{};
 	SocketAddressIn serverAddress{};
-	SocketHandle serverSocket{};
 	EventManager* manager{};
 	EventHandler* handler{};
-	IChannel* channel{};
 	MemoryPool* connectionsMemPool{};
 	ServerConfiguration* configuration;
 

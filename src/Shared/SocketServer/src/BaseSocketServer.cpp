@@ -3,18 +3,22 @@
 //
 
 #include <Socket/IServer.hpp>
+#include "TcpSocketServer.cpp"
+#include "UdpSocketServer.cpp"
 #include <utility>
 
 /*
  * Public Methods
  */
 
-IServer::IServer(ServerConfiguration *configuration) {
-	this->configuration = configuration;
-}
-
 std::shared_ptr<IServer> IServer::makeShared(ServerConfiguration *configuration) {
-	return std::shared_ptr<IServer>();
+	switch (configuration->Protocol) {
+		case UDP:
+			return std::make_shared<UdpSocketServer>(configuration);
+		case TCP:
+			return std::make_shared<TcpSocketServer>(configuration);
+	}
+	throw new std::runtime_error("No protocol was defined");
 }
 
 
@@ -34,6 +38,10 @@ void IServer::OnClientDisconnected(OnClientDelegate delegate) {
  * Protected Methods
  */
 
+IServer::IServer(ServerConfiguration *configuration) {
+	this->configuration = configuration;
+}
+
 void IServer::SetEventManager(EventManager *eventManager) {
 	this->manager = eventManager;
 }
@@ -42,4 +50,23 @@ SocketHandle IServer::GetHandle() const {
 	return this->serverSocket;
 }
 
+SocketProtocol* IServer::GetProtocol() {
+	return this->protocol;
+}
+
+SocketAddressIn IServer::GetAddress() {
+	return this->serverAddress;
+}
+
+EventManager* IServer::GetEventManager() {
+	return this->manager;
+}
+
+EventHandler* IServer::GetEventHandler() {
+	return this->handler;
+}
+
+ServerConfiguration* IServer::GetConfiguration() {
+	return this->configuration;
+}
 

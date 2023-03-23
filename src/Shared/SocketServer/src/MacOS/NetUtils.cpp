@@ -3,9 +3,11 @@
 //
 
 #include <Socket/NetUtils.hpp>
-
+#include <Abstractions/Logger.hpp>
+#include <Abstractions/Format.hpp>
 #include <Socket/Sugar.hpp>
 #include <arpa/inet.h>
+#include <errno.h>
 
 void Net::Utils::ParseIPv4Address(SocketAddressIn *address, char* ip, S32 ipSize) {
 
