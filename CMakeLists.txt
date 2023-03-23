@@ -3,7 +3,7 @@ set(This Avalon)
 project(${This} VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -45,22 +45,6 @@ if(ParentDirectory STREQUAL "")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-    # Options
-    option(DEBUG_ENABLED "Enable DEBUG info to STDOUT" ON)
-    if(DEBUG_ENABLED)
-        add_definitions(-DDEBUG_ENABLED)
-    endif()
-
-    # Ensure proper loading of side-loaded shared libraries
-    #set(CMAKE_MACOSX_RPATH 1)
-    #set(CMAKE_SKIP_BUILD_RPATH FALSE)
-    #set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    if(APPLE)
-        #set(CMAKE_INSTALL_RPATH "@loader_path")
-    elseif(UNIX)
-        #set(CMAKE_INSTALL_RPATH "\$ORIGIN")
-    endif()
-
     # Don't add the goofy "d" postfix for debug builds of libraries
     set(CMAKE_DEBUG_POSTFIX "")
 
@@ -70,37 +54,8 @@ if(ParentDirectory STREQUAL "")
     # Add modules path dir
     set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake;${CMAKE_MODULE_PATH}")
 
-    if(APPLE)
-        add_definitions(-DMACOS)
-    elseif(UNIX AND NOT APPLE)
-        add_definitions(-DLINUX)
-        set(LINUX TRUE)
-    elseif(MSVC)
-        add_definitions(-DWINDOWS)
-        include(FindPkgConfig) # <-- include pkg-config needed by FindLibreSSL.cmake script
-        set(BUILD_SHARED_LIBS ON)
-    endif()
-
-    # LibreSSL
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake") # <-- use FindLibreSSL.cmake in /cmake folder
-
-    set(LIBRESSL_APPS OFF)
-    set(LIBRESSL_TESTS OFF)
-    set(BUILD_SHARED_LIBS OFF)
-
-    if(NOT CMAKE_SYSTEM_NAME STREQUAL Darwin)
-        add_subdirectory(src/Shared/KQueue) #Kqueue is already built in MacOS by default.
-        include_directories(src/Shared/KQueue/include)
-    endif()
-
-    add_subdirectory(src/Shared/LibreSSL)
-    include_directories(src/Shared/LibreSSL/include)
-
     # All other modules can be pulled in without further configuration.
-    add_subdirectory(src/Shared/Abstractions)
-    add_subdirectory(src/Shared/EventEngine)
-    add_subdirectory(src/Shared/SocketServer)
-
-    add_subdirectory(src/Server/UI)
+    add_subdirectory(AvalonEngine)
+    add_subdirectory(AvalonPlattform)
 
 endif(ParentDirectory STREQUAL "")

@@ -13,6 +13,5 @@ find_package(SFML REQUIRED system window graphics network audio)
 
 if (SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(AvalonEngine ${SFML_LIBRARIES} pthread)
-	#target_link_libraries(AvalonEngine ${SFML_LIBRARIES})
+    target_link_libraries(AvalonEngine ${SFML_LIBRARIES})
 endif()
