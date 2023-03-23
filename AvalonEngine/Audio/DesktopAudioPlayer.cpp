@@ -26,7 +26,7 @@ void av::DesktopAudioPlayer::PlayMusic(const audio::MUSIC l_music, const bool l_
 
 void av::DesktopAudioPlayer::PlaySFX(const audio::SFX l_sfx, const bool l_repeat)
 {
-    this->m_sfx_thread_ = std::thread(&DesktopAudioPlayer::PlayAsync, this, std::ref(l_sfx), std::ref(l_repeat));
+    this->m_sfx_thread_ = std::thread(&DesktopAudioPlayer::PlayAsync, this, l_sfx, l_repeat);
     this->m_sfx_thread_.detach();
 }
 
@@ -109,7 +109,7 @@ void av::DesktopAudioPlayer::PlayAsync(const audio::SFX l_sfx, const bool l_repe
         this->m_sound_buffer_[l_sfx].loadFromFile(as_string(l_sfx));
     }
 
-    this->m_sound_.emplace_back(sf::Sound(m_sound_buffer_[l_sfx])); //WARNING: Look at emplace_back vs push_back
+    this->m_sound_.emplace_back(m_sound_buffer_[l_sfx]); //WARNING: Look at emplace_back vs push_back
     this->m_sound_.at(this->m_sound_.size() - 1).setVolume(m_sfx_volume_);
     this->m_sound_.at(this->m_sound_.size() - 1).setLoop(l_repeat);
     this->m_sound_.at(this->m_sound_.size() - 1).play();
