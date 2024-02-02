@@ -1,0 +1,6 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+message CLogoutPacket {
+   int32 AccountId = 1;
+}

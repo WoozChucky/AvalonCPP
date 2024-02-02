@@ -1,0 +1,15 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Movement;
+import "bcl.proto"; // schema for protobuf-net's handling of core .NET types
+
+message CreaturePacket {
+   .bcl.Guid Id = 1; // default value could not be applied: 00000000-0000-0000-0000-000000000000
+   string Name = 2;
+   float PositionX = 3;
+   float PositionY = 4;
+   float VelocityX = 5;
+   float VelocityY = 6;
+}
+message SNpcUpdatePacket {
+   repeated CreaturePacket Creatures = 1;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+enum RegisterResult {
+   UnknownError = 0;
+   EmptyUsername = 1;
+   EmptyPassword = 2;
+   DuplicateUsername = 3;
+   DuplicateEmail = 4;
+   PasswordTooShort = 5;
+   PasswordTooLong = 6;
+   InvalidEmail = 7;
+   Ok = 8;
+}
+message SRegisterResultPacket {
+   RegisterResult Result = 1;
+}

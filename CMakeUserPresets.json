@@ -4,6 +4,6 @@
         "conan": {}
     },
     "include": [
-        "/Users/nunosilva/Personal/AvalonCPP/cmake-build-debug/conan/CMakePresets.json"
+        "C:\\local\\Personal\\Avalon\\build\\conan\\CMakePresets.json"
     ]
 }

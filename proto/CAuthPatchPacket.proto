@@ -1,0 +1,7 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+message CAuthPatchPacket {
+   int32 AccountId = 1;
+   bytes PublicKey = 2;
+}

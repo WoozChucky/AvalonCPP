@@ -1,0 +1,11 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Social;
+import "bcl.proto"; // schema for protobuf-net's handling of core .NET types
+
+message SChatMessagePacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   string CharacterName = 3;
+   string Message = 4;
+   .bcl.DateTime DateTime = 5;
+}

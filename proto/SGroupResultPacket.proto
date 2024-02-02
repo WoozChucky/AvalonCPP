@@ -1,0 +1,10 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Social;
+
+message SGroupResultPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   int32 InviterAccountId = 3;
+   int32 InviterCharacterId = 4;
+   bool Accepted = 5;
+}

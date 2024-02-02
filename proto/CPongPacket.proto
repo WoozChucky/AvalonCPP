@@ -1,0 +1,8 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Generic;
+
+message CPongPacket {
+   int64 SequenceNumber = 1;
+   int32 AccountId = 2;
+   int64 Ticks = 3;
+}

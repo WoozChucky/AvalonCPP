@@ -1,0 +1,17 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Character;
+
+enum SCharacterCreateResult {
+   Ok = 0;
+   NameAlreadyExists = 1;
+   NameTooShort = 2;
+   NameTooLong = 3;
+   InvalidClass = 4;
+   MaxCharactersReached = 5;
+   AlreadyInGame = 6;
+   InternalDatabaseError = 7;
+}
+message SCharacterCreatedPacket {
+   int32 AccountId = 1;
+   SCharacterCreateResult Result = 2;
+}

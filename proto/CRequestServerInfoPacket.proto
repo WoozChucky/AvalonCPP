@@ -1,0 +1,6 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Handshake;
+
+message CRequestServerInfoPacket {
+   int32 ClientVersion = 1;
+}

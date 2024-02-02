@@ -1,0 +1,11 @@
+syntax = "proto3";
+package Avalon.Network.Packets.World;
+
+message CInteractPacket {
+   int32 AccountId = 1;
+   int32 PlayerId = 2;
+   int32 X = 3;
+   int32 Y = 4;
+   int32 Width = 5;
+   int32 Height = 6;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Character;
+import "bcl.proto"; // schema for protobuf-net's handling of core .NET types
+import "SCharacterListPacket.proto";
+
+message MapInfo {
+   int32 MapId = 1;
+   .bcl.Guid InstanceId = 2; // default value could not be applied: 00000000-0000-0000-0000-000000000000
+   string Name = 3;
+   string Description = 4;
+   string Atlas = 5;
+   string Directory = 6;
+   bytes Data = 7;
+   repeated bytes TilesetsData = 8;
+}
+message SCharacterSelectedPacket {
+   CharacterInfo Character = 1;
+   MapInfo Map = 2;
+}
+

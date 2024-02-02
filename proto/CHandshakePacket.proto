@@ -1,0 +1,6 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Handshake;
+
+message CHandshakePacket {
+   bytes HandshakeData = 1;
+}

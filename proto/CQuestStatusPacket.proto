@@ -1,0 +1,8 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Quest;
+
+message CQuestStatusPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   int32 QuestId = 3;
+}

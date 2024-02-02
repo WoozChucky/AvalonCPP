@@ -1,0 +1,7 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+message CRegisterPacket {
+   string Username = 1;
+   string Password = 2;
+}

@@ -1,0 +1,7 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Handshake;
+
+message SServerInfoPacket {
+   int32 ServerVersion = 1;
+   bytes PublicKey = 2;
+}

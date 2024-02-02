@@ -1,0 +1,16 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Movement;
+
+message SPlayerPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   float PositionX = 3;
+   float PositionY = 4;
+   float VelocityX = 5;
+   float VelocityY = 6;
+   bool Chatting = 7;
+   float Elapsed = 8;
+}
+message SPlayerPositionUpdatePacket {
+   repeated SPlayerPacket Players = 1;
+}

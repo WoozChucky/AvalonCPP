@@ -1,0 +1,12 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Movement;
+
+message CPlayerMovementPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   float ElapsedGameTime = 3;
+   float X = 4;
+   float Y = 5;
+   float VelocityX = 6;
+   float VelocityY = 7;
+}

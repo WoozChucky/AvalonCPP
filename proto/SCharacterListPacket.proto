@@ -1,0 +1,18 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Character;
+
+message CharacterInfo {
+   int32 CharacterId = 1;
+   string Name = 2;
+   int32 Level = 3;
+   int32 Class = 4;
+   float X = 5;
+   float Y = 6;
+   float Radius = 7;
+}
+message SCharacterListPacket {
+   int32 AccountId = 1;
+   int32 CharacterCount = 2;
+   int32 MaxCharacterCount = 3;
+   repeated CharacterInfo Characters = 4;
+}

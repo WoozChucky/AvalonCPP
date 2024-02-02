@@ -1,0 +1,7 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+message SPlayerDisconnectedPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+}

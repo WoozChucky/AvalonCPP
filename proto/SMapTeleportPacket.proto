@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "bcl.proto"; // schema for protobuf-net's handling of core .NET types
+
+message MapInfo {
+   int32 MapId = 1;
+   .bcl.Guid InstanceId = 2; // default value could not be applied: 00000000-0000-0000-0000-000000000000
+   string Name = 3;
+   string Description = 4;
+   string Atlas = 5;
+   string Directory = 6;
+   bytes Data = 7;
+   repeated bytes TilesetsData = 8;
+}
+message SMapTeleportPacket {
+   int32 AccountId = 1;
+   int32 CharacterId = 2;
+   MapInfo Map = 3;
+   float X = 4;
+   float Y = 5;
+}

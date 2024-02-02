@@ -1,0 +1,14 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Character;
+
+message SCharacterDeletedPacket {
+   int32 AccountId = 1;
+   SCharacterDeletedResult Result = 2;
+}
+enum SCharacterDeletedResult {
+   Success = 0;
+   InGame = 1;
+   InternalError = 2;
+   Mail = 3;
+   Auction = 4;
+}

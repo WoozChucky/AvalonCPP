@@ -1,0 +1,14 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Auth;
+
+enum LogoutResult {
+   Success = 0;
+   RecentlyInCombat = 1;
+   NotInGame = 2;
+   NotSameAccount = 3;
+   InternalError = 4;
+}
+message SLogoutPacket {
+   int32 AccountId = 1;
+   LogoutResult Result = 2;
+}
