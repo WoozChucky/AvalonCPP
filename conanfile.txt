@@ -5,6 +5,7 @@ openssl/3.2.0
 protobuf/3.21.12
 boost/1.84.0
 glew/2.2.0
+utfcpp/4.0.4
 
 [generators]
 CMakeToolchain
