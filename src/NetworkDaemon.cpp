@@ -28,7 +28,7 @@ void NetworkDaemon::Start() {
         // Now that we're connected, call RunAsync
         client_->RunAsync();
         //TODO: Send initial protocol message here
-        /*
+
         CRequestServerInfoPacket payload;
         payload.set_clientversion(1000000);
 
@@ -36,14 +36,14 @@ void NetworkDaemon::Start() {
         std::string payloadData;
         payload.SerializeToString(&payloadData);
 
-        NetworkPacketHeader header;
-        header.set_version(0);
-        header.set_type(NetworkPacketType::CMSG_SERVER_INFO);
-        header.set_protocol(NetworkProtocol::Tcp);
-        header.set_flags(NetworkPacketFlags::ClearText);
+        auto* header = new NetworkPacketHeader();
+        header->set_version(0);
+        header->set_type(NetworkPacketType::CMSG_SERVER_INFO);
+        header->set_protocol(NetworkProtocol::Tcp);
+        header->set_flags(NetworkPacketFlags::ClearText);
 
         NetworkPacket packet;
-        packet.set_allocated_header(&header);
+        packet.set_allocated_header(header);
         packet.set_payload(payloadData);
 
         std::string serializedPacket;
@@ -51,13 +51,35 @@ void NetworkDaemon::Start() {
 
         // Prepend the length of the serialized packet
         int packetSize = serializedPacket.size();
-        std::string encodedLength = encodeBase128(packetSize);
+        std::string encodedLength = Encoding::Base128(packetSize);
         std::string packetWithLength = encodedLength + serializedPacket;
-         */
-        client_->SendDataAsync("Hello, server");
+
+        //packet.Clear();
+
+        client_->SendDataAsync(packetWithLength);
     } else {
         fmt::print("NetworkDaemon failed to  start\n");
     }
+}
+
+std::string NetworkPacketTypeToString(NetworkPacketType type) {
+    switch (type) {
+        case ::UNKNOWN: return "UNKNOWN";
+        case ::SMSG_SERVER_INFO: return "SMSG_SERVER_INFO";
+            // Add all other cases here...
+        default: return "UNKNOWN";
+    }
+}
+
+EC_KEY* GetPublicKeyFromBytes(const std::vector<unsigned char>& publicKeyBytes) {
+    const unsigned char* p = publicKeyBytes.data();
+    EC_KEY* publicKey = d2i_EC_PUBKEY(NULL, &p, publicKeyBytes.size());
+
+    if (publicKey == NULL) {
+        throw std::runtime_error("Invalid public key");
+    }
+
+    return publicKey;
 }
 
 void NetworkDaemon::OnDataReceived(const std::vector<char> &buffer) {
@@ -69,12 +91,14 @@ void NetworkDaemon::OnDataReceived(const std::vector<char> &buffer) {
         return;
     }
 
-    fmt::print("Received packet of type {}\n", static_cast<int>(receivedPacket.header().type()));
+    fmt::print("Received packet of type {}\n", NetworkPacketTypeToString(receivedPacket.header().type()));
 
     switch (receivedPacket.header().type()) {
         case NetworkPacketType::SMSG_SERVER_INFO: {
             SServerInfoPacket packet;
             packet.ParseFromString(receivedPacket.payload());
+            packet.publickey();
+            GetPublicKeyFromBytes(packet.publickey());
             fmt::print("Server version: {}\n", packet.serverversion());
             break;
         }

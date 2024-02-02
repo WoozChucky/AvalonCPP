@@ -18,7 +18,7 @@ namespace Avalon::Common {
         std::string Base128(int value);
     }
     namespace Decoding {
-        bool Base128(const std::vector<char>& buffer, int& offset);
+        int Base128(const std::vector<char>& buffer, int& offset);
         bool Packet(const std::vector<char>& buffer, NetworkPacket& packet);
     }
 }
@@ -34,7 +34,7 @@ std::string Avalon::Common::Encoding::Base128(int value) {
     return encoded.str();
 }
 
-bool Avalon::Common::Decoding::Base128(const std::vector<char>& buffer, int& offset) {
+int Avalon::Common::Decoding::Base128(const std::vector<char>& buffer, int& offset) {
     int result = 0;
     int shift = 0;
     char byte;
