@@ -43,6 +43,7 @@ endif()
 # Project libraries
 add_subdirectory(src/proto)
 add_subdirectory(src/common)
+add_subdirectory(src/network)
 
 # Project applications
 add_subdirectory(src/app)

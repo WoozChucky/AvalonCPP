@@ -11,6 +11,10 @@
 
 #ifdef __WIN32__
 #include <winsock2.h>
+#else
+#include <sys/socket.h>
+#include "Network/Socket.h"
+
 #endif
 
 using TLSReadCallback = std::function<void(const std::vector<char>&)>;
@@ -29,6 +33,7 @@ public:
 private:
     std::string serverAddress_;
     int serverPort_;
+    Socket* _socket;
     WSADATA wsaData_;
     SOCKET clientSocket_;
     sockaddr_in serverAddr_;
