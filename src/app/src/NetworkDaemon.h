@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <atomic>
+#include <thread>
 
 #include <Network/TLSClient.h>
 #include "Common/Utilities/RingBuffer.h"
