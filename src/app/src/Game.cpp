@@ -12,7 +12,7 @@
 
 #include "Common/Logging/Log.h"
 
-Game::Game() {
+Game::Game(): _io(ImGui::GetIO()) {
     // Initialization code here
     _isRunning = false;
     _networkDaemon = std::make_unique<NetworkDaemon>();

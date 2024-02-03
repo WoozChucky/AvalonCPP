@@ -89,6 +89,7 @@ int main(int argc, char** argv) {
 
     LOG_INFO("engine", "Starting engine");
 
+    ImGui::CreateContext();
     game = std::make_unique<Game>();
     game->Run();
     game->Shutdown();

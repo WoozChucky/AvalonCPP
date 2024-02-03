@@ -25,7 +25,7 @@ private:
     std::unique_ptr<NetworkDaemon> _networkDaemon;
     SDL_Window* _window;
     SDL_GLContext _glContext;
-    ImGuiIO _io;
+    ImGuiIO& _io;
 
     U32 _desiredFPS = 60;
     U32 _frameDelay = 1000 / _desiredFPS;
