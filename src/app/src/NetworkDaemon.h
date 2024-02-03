@@ -10,7 +10,7 @@
 #include <mutex>
 #include <atomic>
 
-#include "TLSClient.h"
+#include <Network/TLSClient.h>
 #include "Common/Utilities/RingBuffer.h"
 #include <Common/Crypto/CryptoSession.h>
 #include <Proto/network-packet.pb.h>
