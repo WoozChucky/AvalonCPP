@@ -52,3 +52,5 @@ src\AvalonPlattform\.idea
 .vscode
 cmake-build-debug/
 /cmake-build-debug-visual-studio-19-build-tools/
+
+CMakeUserPresets.json
