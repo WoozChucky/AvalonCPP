@@ -79,9 +79,10 @@ int main(int argc, char** argv) {
                                           });
     }
 
-    LOG_INFO("game", "Starting game");
+    LOG_INFO("engine", "Starting engine");
 
     NetworkDaemon daemon;
+    daemon.RegisterHandlers();
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) < 0) {

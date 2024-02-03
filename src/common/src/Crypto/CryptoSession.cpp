@@ -39,7 +39,7 @@ std::pair<EC_KEY*, EC_KEY*> CryptoSession::GenerateECDHKeyPair() {
     return {publicKey, key};
 }
 
-bool CryptoSession::Initialize(std::vector<U8> &otherEndPublicKeyBuffer) {
+bool CryptoSession::Initialize(const std::vector<U8> &otherEndPublicKeyBuffer) {
 
     if (otherEndPublicKeyBuffer.empty()) {
         throw std::invalid_argument("Invalid public key");

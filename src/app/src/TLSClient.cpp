@@ -12,8 +12,8 @@
 
 TLSClient::TLSClient(std::string serverAddress, int serverPort, TLSReadCallback readCallback)
     : serverAddress_(std::move(serverAddress)), serverPort_(serverPort),
-    ssl_(nullptr, ::SSL_free), sslContext_(nullptr, ::SSL_CTX_free), readCallback_(std::move(readCallback)) {
-    WSAStartup(MAKEWORD(2, 2), &wsaData_);
+    _socket(nullptr), _ssl(nullptr), _sslContext(nullptr), readCallback_(std::move(readCallback)) {
+    _socket = new Socket();
 }
 
 TLSClient::~TLSClient() {
@@ -21,143 +21,79 @@ TLSClient::~TLSClient() {
     {
         Shutdown();
     }
-    WSACleanup();
 }
 
 void TLSClient::ConnectAsync(const std::function<void(bool)>& callback) {
-
-    // Load certificate
-    if (!LoadCertificate()) {
-        std::cerr << "Failed to load certificate" << std::endl;
-        callback(false);
-        return;
-    }
-
-    // Create a non-blocking socket
-    clientSocket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (clientSocket_ == INVALID_SOCKET) {
-        std::cerr << "Error creating socket: " << WSAGetLastError() << std::endl;
-        callback(false);
-        return;
-    }
-
-    // Resolve server address
-    serverAddr_.sin_family = AF_INET;
-    serverAddr_.sin_port = htons(serverPort_);
-    serverAddr_.sin_addr.s_addr = inet_addr(serverAddress_.c_str());
-
-    // Connect to server asynchronously
-    int result = connect(clientSocket_, reinterpret_cast<struct sockaddr*>(&serverAddr_), sizeof(serverAddr_));
-    if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
-        std::cerr << "Failed to connect to server: " << WSAGetLastError() << std::endl;
-        closesocket(clientSocket_);
-        callback(false);
-        return;
-    }
-
-    if (sslContext_ == nullptr) {
-        std::cerr << "Error creating SSL context" << std::endl;
-        closesocket(clientSocket_);
-        callback(false);
-        return;
-    }
-
-    // Create SSL object
-    ssl_.reset(SSL_new(sslContext_.get()));
-    if (ssl_ == nullptr) {
-        std::cerr << "Error creating SSL object" << std::endl;
-        SSL_CTX_free(sslContext_.get());
-        closesocket(clientSocket_);
-        callback(false);
-        return;
-    }
-
-    // Attach SSL to the socket
-    if (!SSL_set_fd(ssl_.get(), clientSocket_)) {
-        std::cerr << "Error attaching SSL to socket" << std::endl;
-        SSL_free(ssl_.get());
-        SSL_CTX_free(sslContext_.get());
-        closesocket(clientSocket_);
-        callback(false);
-        return;
-    }
-
-    // Perform SSL handshake asynchronously
-    SSL_set_connect_state(ssl_.get());
-    SSL_do_handshake(ssl_.get());
-
-    // Check SSL handshake result
-    int sslResult = SSL_get_error(ssl_.get(), result);
-    if (sslResult == SSL_ERROR_WANT_READ || sslResult == SSL_ERROR_WANT_WRITE) {
-        // Handshake in progress, wait for socket to become writable
-        fd_set fdset;
-        FD_ZERO(&fdset);
-        FD_SET(clientSocket_, &fdset);
-        timeval timeout;
-        timeout.tv_sec = 10; // 10 seconds timeout
-        timeout.tv_usec = 0;
-
-        result = select(clientSocket_ + 1, nullptr, &fdset, nullptr, &timeout);
-        if (result <= 0) {
-            LOG_ERROR("network", "SSL handshake timeout or error");
+    std::thread([this, callback]() {
+        try {
+            callback(Connect());
+        } catch (const std::exception& e) {
+            LOG_ERROR("network", "Failed to connect: {}", e.what());
             callback(false);
-            return;
         }
-    } else if (sslResult != SSL_ERROR_NONE) {
-        LOG_ERROR("network", "SSL handshake failed with error: {}", sslResult);
-        connected_ = true;
-        callback(true);
-        return;
-    }
+    }).detach();
+}
 
-    LOG_DEBUG("network", "Connected to server over TLS");
-    connected_ = true;
-    callback(true);
+void TLSClient::SendDataAsync(const std::string &data, const std::function<void(bool)>& callback) {
+    std::thread([this, data, callback]() {
+        bool result = false;
+
+        try {
+            result = SendData(data);
+        } catch (const std::exception& e) {
+            result = false;
+            LOG_WARN("network", "Failed to send data: {}", e.what());
+        }
+
+        if (callback) {
+            callback(result);
+        }
+    }).detach();
 }
 
 void TLSClient::Shutdown() {
     // Shutdown SSL connection asynchronously
-    SSL_set_shutdown(ssl_.get(), SSL_RECEIVED_SHUTDOWN);
-    SSL_shutdown(ssl_.get());
+    SSL_set_shutdown(_ssl, SSL_RECEIVED_SHUTDOWN);
+    SSL_shutdown(_ssl);
 
     // Check if SSL shutdown is complete
-    int sslResult = SSL_get_shutdown(ssl_.get());
+    int sslResult = SSL_get_shutdown(_ssl);
     if (sslResult == SSL_RECEIVED_SHUTDOWN || sslResult == SSL_SENT_SHUTDOWN) {
         // SSL shutdown complete, close socket and invoke callback
-        SSL_free(ssl_.get());
-        SSL_CTX_free(sslContext_.get());
-        closesocket(clientSocket_);
+        SSL_free(_ssl);
+        SSL_CTX_free(_sslContext);
+        _socket->Close();
     } else {
         // SSL shutdown in progress, wait for socket to become writable
         fd_set fdset;
         FD_ZERO(&fdset);
-        FD_SET(clientSocket_, &fdset);
+        FD_SET(_socket->operator int(), &fdset);
         timeval timeout;
         timeout.tv_sec = 10; // 10 seconds timeout
         timeout.tv_usec = 0;
 
-        int result = select(clientSocket_ + 1, nullptr, &fdset, nullptr, &timeout);
+        int result = select(_socket->operator int() + 1, nullptr, &fdset, nullptr, &timeout);
         if (result <= 0) {
             LOG_ERROR("network", "SSL shutdown timeout or error");
         } else {
             // Shutdown completed, close socket and invoke callback
-            SSL_free(ssl_.get());
-            SSL_CTX_free(sslContext_.get());
-            closesocket(clientSocket_);
+            SSL_free(_ssl);
+            SSL_CTX_free(_sslContext);
+            _socket->Close();
         }
     }
 }
 
 bool TLSClient::SendData(const std::string &data) {
 
-    if (ssl_ == nullptr) {
+    if (_ssl == nullptr) {
         LOG_ERROR("network", "SSL connection not established");
         return false;
     }
 
-    int bytesSent = SSL_write(ssl_.get(), data.c_str(), data.length());
+    int bytesSent = SSL_write(_ssl, data.c_str(), data.length());
     if (bytesSent <= 0) {
-        int sslError = SSL_get_error(ssl_.get(), bytesSent);
+        int sslError = SSL_get_error(_ssl, bytesSent);
         LOG_ERROR("network", "Error sending data: {}", sslError);
         return false;
     }
@@ -179,14 +115,14 @@ bool TLSClient::LoadCertificate() {
     file.close();
 
     // Create SSL context with TLS 1.2 method
-    sslContext_.reset(SSL_CTX_new(TLSv1_2_client_method()));
-    if (sslContext_ == nullptr) {
+    _sslContext = SSL_CTX_new(TLSv1_2_client_method());
+    if (_sslContext == nullptr) {
         std::cerr << "Error creating SSL context" << std::endl;
         return false;
     }
 
     // Disable certificate verification
-    SSL_CTX_set_verify(sslContext_.get(), SSL_VERIFY_NONE, nullptr);
+    SSL_CTX_set_verify(_sslContext, SSL_VERIFY_NONE, nullptr);
 
     // Load certificate into SSL context
     BIO* bio = BIO_new_mem_buf(certData.data(), static_cast<int>(certData.size()));
@@ -251,7 +187,7 @@ bool TLSClient::LoadCertificate() {
         return false;
     }
 
-    if (SSL_CTX_use_certificate(sslContext_.get(), cert) != 1) {
+    if (SSL_CTX_use_certificate(_sslContext, cert) != 1) {
         std::cerr << "Error setting certificate" << std::endl;
         X509_free(cert);
         BIO_free(bio);
@@ -263,25 +199,14 @@ bool TLSClient::LoadCertificate() {
     return true;
 }
 
-bool TLSClient::SendDataAsync(const std::string &data) {
-
-    std::future<bool> result = std::async(std::launch::async, &TLSClient::SendData, this, data);
-
-    // You can get the result of the async operation using result.get()
-    // But be aware that get() is a blocking operation, it will wait for the async operation to finish
-    // If you don't want to block, you can check if the async operation is ready with result.wait_for(std::chrono::seconds(0)) == std::future_status::ready
-
-    return result.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
-}
-
 void TLSClient::RunAsync() {
     std::thread([this]() {
         char buffer[4096];
         while (!shutdownRequested_) {
             memset(buffer, 0, sizeof(buffer));
-            int bytesReceived = SSL_read(ssl_.get(), buffer, sizeof(buffer) - 1);
+            int bytesReceived = SSL_read(_ssl, buffer, sizeof(buffer) - 1);
             if (bytesReceived <= 0) {
-                int sslError = SSL_get_error(ssl_.get(), bytesReceived);
+                int sslError = SSL_get_error(_ssl, bytesReceived);
                 std::cerr << "Error reading data: " << sslError << std::endl;
                 break;
             }
@@ -294,4 +219,73 @@ void TLSClient::RunAsync() {
 
 void TLSClient::SignalShutdown() {
     shutdownRequested_ = true;
+}
+
+bool TLSClient::Connect() {
+    // Load certificate
+    if (!LoadCertificate()) {
+        std::cerr << "Failed to load certificate" << std::endl;
+        return false;
+    }
+
+    // Connect to server asynchronously
+    if (!_socket->Connect(serverAddress_.c_str(), serverPort_)) {
+        LOG_ERROR("network", "Failed to connect to server");
+        return false;
+    }
+
+    if (_sslContext == nullptr) {
+        std::cerr << "Error creating SSL context" << std::endl;
+        _socket->Close();
+        return false;
+    }
+
+    // Create SSL object
+    _ssl = SSL_new(_sslContext);
+    if (_ssl == nullptr) {
+        std::cerr << "Error creating SSL object" << std::endl;
+        SSL_CTX_free(_sslContext);
+        _socket->Close();
+        return false;
+    }
+
+    // Attach SSL to the socket
+    if (!SSL_set_fd(_ssl, _socket->operator int())) {
+        std::cerr << "Error attaching SSL to socket" << std::endl;
+        SSL_free(_ssl);
+        SSL_CTX_free(_sslContext);
+        _socket->Close();
+        return false;
+    }
+
+    // Perform SSL handshake asynchronously
+    SSL_set_connect_state(_ssl);
+    SSL_do_handshake(_ssl);
+    auto result = SSL_get_error(_ssl, 0);
+
+    // Check SSL handshake result
+    int sslResult = SSL_get_error(_ssl, result);
+    if (sslResult == SSL_ERROR_WANT_READ || sslResult == SSL_ERROR_WANT_WRITE) {
+        // Handshake in progress, wait for socket to become writable
+        fd_set fdset;
+        FD_ZERO(&fdset);
+        FD_SET(_socket->operator int(), &fdset);
+        timeval timeout;
+        timeout.tv_sec = 10; // 10 seconds timeout
+        timeout.tv_usec = 0;
+
+        result = select(_socket->operator int() + 1, nullptr, &fdset, nullptr, &timeout);
+        if (result <= 0) {
+            LOG_ERROR("network", "SSL handshake timeout or error");
+            return false;
+        }
+    } else if (sslResult != SSL_ERROR_NONE) {
+        LOG_ERROR("network", "SSL handshake failed with error: {}", sslResult);
+        connected_ = true;
+        return true;
+    }
+
+    LOG_DEBUG("network", "Connected to server over TLS");
+    connected_ = true;
+    return true;
 }

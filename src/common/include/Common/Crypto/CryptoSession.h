@@ -13,7 +13,7 @@ namespace Avalon::Crypto
         public:
             CryptoSession();
 
-            bool Initialize(std::vector<U8>& otherEndPublicKeyBuffer);
+            bool Initialize(const std::vector<U8>& otherEndPublicKeyBuffer);
 
             std::vector<U8> Encrypt(const std::vector<U8>& data);
             std::vector<U8> Decrypt(const std::vector<U8>& data);

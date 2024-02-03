@@ -26,7 +26,7 @@ message(STATUS "SOURCES: ${SOURCES}")
 
 add_library(${This} STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto Common)
 
 target_include_directories(${This} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
