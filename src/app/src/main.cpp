@@ -49,9 +49,10 @@ int main(int argc, char** argv) {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     LOG_DEBUG("system", "Google Protocol Buffers library initialized");
 
-    LOG_INFO("system", "> Using SSL version: {} (library: {})", OPENSSL_VERSION_TEXT, OpenSSL_version(OPENSSL_VERSION));
+    LOG_INFO("system", "> Using SSL version: {}", OPENSSL_VERSION_TEXT);
     LOG_INFO("system", "> Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
     LOG_INFO("system", "> Using Protobuf version: {}.{}.{}", GOOGLE_PROTOBUF_VERSION / 100000, GOOGLE_PROTOBUF_VERSION / 100 % 1000, GOOGLE_PROTOBUF_VERSION % 100);
+    LOG_INFO("system", "> Using ImGui version: {}.{}.{} (Docking={})", IMGUI_VERSION_NUM / 10000, IMGUI_VERSION_NUM / 100 % 100, IMGUI_VERSION_NUM % 100, true);
 
     boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
 #if AV_PLATFORM_WIN
@@ -205,6 +206,7 @@ int main(int argc, char** argv) {
 
             if (ImGui::Button("Connect")) {
                 daemon.Start();
+                SDL_SetWindowSize(window, 1360, 768);
             }
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
@@ -249,7 +251,7 @@ int main(int argc, char** argv) {
         }
 
         // Update window title with frame time
-        //SDL_SetWindowTitle(window, title.c_str());
+        SDL_SetWindowTitle(window, fmt::format("SDL Game Loop - {:.1f} ms/frame ({:.1f} FPS)", 1000.0f / io.Framerate, io.Framerate).c_str());
     }
 
     threadPool.reset();
