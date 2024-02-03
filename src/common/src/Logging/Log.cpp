@@ -222,11 +222,20 @@ void Log::LoadFromConfig()
     _debugLogMask = DebugLogFilters(LOG_FILTER_NONE);
 
     auto appenderArgs = std::vector<std::string_view>();
+    appenderArgs.push_back("1");
+    appenderArgs.push_back("4");
+    appenderArgs.push_back("0");
     appenderArgs.push_back("1 9 3 6 5 8");
 
-    auto consoleAppender = std::make_unique<AppenderConsole>(0, "console", LOG_LEVEL_DEBUG, APPENDER_FLAGS_NONE, appenderArgs);
+    AppenderFlags flags = static_cast<AppenderFlags>(
+            APPENDER_FLAGS_PREFIX_TIMESTAMP
+            | APPENDER_FLAGS_PREFIX_LOGLEVEL
+            | APPENDER_FLAGS_PREFIX_LOGFILTERTYPE
+    );
 
-    std::unique_ptr<Logger> logger = std::make_unique<Logger>(LOGGER_ROOT, LOG_LEVEL_INFO);
+    auto consoleAppender = std::make_unique<AppenderConsole>(0, "Console", LOG_LEVEL_TRACE, flags, appenderArgs);
+
+    std::unique_ptr<Logger> logger = std::make_unique<Logger>(LOGGER_ROOT, LOG_LEVEL_TRACE);
     logger->addAppender(0, consoleAppender.get());
 
     appenders.insert(std::make_pair(0, consoleAppender.release()));

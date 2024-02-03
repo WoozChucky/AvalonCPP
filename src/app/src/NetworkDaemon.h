@@ -11,6 +11,7 @@
 #include <atomic>
 
 #include "TLSClient.h"
+#include <Common/Crypto/CryptoSession.h>
 
 class NetworkDaemon {
 
@@ -24,6 +25,7 @@ private:
     void OnDataReceived(const std::vector<char>& buffer);
     void OnConnectionResult(bool connected);
 
+    std::unique_ptr<Avalon::Crypto::CryptoSession> cryptoSession_;
     std::unique_ptr<TLSClient> client_;
     std::condition_variable cv_;
     std::mutex mtx_;

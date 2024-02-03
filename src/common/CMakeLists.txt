@@ -7,10 +7,11 @@ file(GLOB_RECURSE SOURCES "src/**/*.cpp" "include/**/*.h")
 find_package(fmt REQUIRED)
 find_package(utf8cpp REQUIRED)
 find_package(Boost REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 add_library(${This} STATIC ${SOURCES})
 
-target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost)
+target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto)
 
 target_include_directories(${This} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 

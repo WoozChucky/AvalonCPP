@@ -15,20 +15,50 @@
 
 #include <fmt/core.h>
 #include <google/protobuf/stubs/common.h>
-
+#include <boost/asio/signal_set.hpp>
 #include <string>
 #include <sstream>
 
 #include <Common/Asio/IoContext.h>
 #include <Common/Logging/Log.h>
+#include <Common/Debugging/Errors.h>
+#include <csignal>
+
+int quit = false;
+
+void SignalHandler(boost::system::error_code const& error, int /*signalNumber*/)
+{
+    if (!error) {
+        LOG_INFO("engine", "Signal received, shutting down.");
+        quit = true;
+    }
+}
 
 int main(int argc, char** argv) {
 
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
+    signal(SIGABRT, &Avalon::AbortHandler);
 
     std::shared_ptr<Avalon::Asio::IoContext> ioContext = std::make_shared<Avalon::Asio::IoContext>();
-
     sLog->Initialize(ioContext.get());
+
+    OpenSSL_add_all_algorithms();
+    SSL_load_error_strings();
+    SSL_library_init();
+    LOG_DEBUG("system", "OpenSSL library initialized");
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+    LOG_DEBUG("system", "Google Protocol Buffers library initialized");
+
+    LOG_INFO("system", "> Using SSL version: {} (library: {})", OPENSSL_VERSION_TEXT, OpenSSL_version(OPENSSL_VERSION));
+    LOG_INFO("system", "> Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
+    LOG_INFO("system", "> Using Protobuf version: {}.{}.{}", GOOGLE_PROTOBUF_VERSION / 100000, GOOGLE_PROTOBUF_VERSION / 100 % 1000, GOOGLE_PROTOBUF_VERSION % 100);
+
+    boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
+#if AV_PLATFORM_WIN
+    signals.add(SIGBREAK);
+#endif
+
+    signals.async_wait(SignalHandler);
 
     std::shared_ptr<std::vector<std::thread>> threadPool(new std::vector<std::thread>(), [ioContext](std::vector<std::thread>* del)
     {
@@ -39,7 +69,7 @@ int main(int argc, char** argv) {
         delete del;
     });
 
-    int numThreads = 1;
+    int numThreads = 2;
 
     for (int i = 0; i < numThreads; ++i)
     {
@@ -123,7 +153,6 @@ int main(int argc, char** argv) {
     }
 
     // Game loop variables
-    int quit = 0;
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart;
@@ -219,11 +248,12 @@ int main(int argc, char** argv) {
         }
 
         // Update window title with frame time
-        std::string title = "SDL Game Loop - Frame Time: " + std::to_string(frameTime) + " ms";
-        SDL_SetWindowTitle(window, title.c_str());
+        //SDL_SetWindowTitle(window, title.c_str());
     }
 
     threadPool.reset();
+
+    sLog->SetSynchronous();
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
@@ -235,6 +265,8 @@ int main(int argc, char** argv) {
     SDL_Quit();
 
     google::protobuf::ShutdownProtobufLibrary();
+
+    LOG_INFO("engine", "Halting process...");
 
     return 0;
 }
