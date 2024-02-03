@@ -17,11 +17,11 @@ using TLSReadCallback = std::function<void(const std::vector<char>&)>;
 
 class TLSClient {
 public:
-    TLSClient(const std::string& serverAddress, int serverPort, TLSReadCallback readCallback);
+    TLSClient(std::string  serverAddress, int serverPort, TLSReadCallback readCallback);
     ~TLSClient();
 
-    void ConnectAsync(std::function<void(bool)> callback = nullptr);
-    void DisconnectAsync(std::function<void()> callback = nullptr);
+    void ConnectAsync(const std::function<void(bool)>& callback = nullptr);
+    void SignalShutdown();
     bool SendDataAsync(const std::string &data);
     void RunAsync();
 
@@ -35,12 +35,15 @@ private:
 
     std::unique_ptr<SSL, decltype(&::SSL_free)> ssl_;
     std::unique_ptr<SSL_CTX, decltype(&::SSL_CTX_free)> sslContext_;
+    volatile bool shutdownRequested_ = false;
+    volatile bool connected_ = false;
 
     TLSReadCallback readCallback_;
 
 
     bool LoadCertificate();
     bool SendData(const std::string& data);
+    void Shutdown();
 };
 
 

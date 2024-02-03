@@ -17,6 +17,7 @@ class NetworkDaemon {
 
 public:
     NetworkDaemon();
+    ~NetworkDaemon();
 
     void Start();
 

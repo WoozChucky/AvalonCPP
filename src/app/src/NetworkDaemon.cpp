@@ -6,6 +6,7 @@
 #include <fmt/core.h>
 
 #include "EncodingUtils.h"
+#include "Common/Logging/Log.h"
 
 #include <Proto/network-packet.pb.h>
 #include <Proto/CRequestServerInfoPacket.pb.h>
@@ -18,6 +19,10 @@ using namespace Avalon::Common;
 NetworkDaemon::NetworkDaemon() {
     client_ = std::make_unique<TLSClient>("127.0.0.1", 21000, [this](auto && PH1) { OnDataReceived(std::forward<decltype(PH1)>(PH1)); });
     cryptoSession_ =std::make_unique<Avalon::Crypto::CryptoSession>();
+}
+
+NetworkDaemon::~NetworkDaemon() {
+    client_->SignalShutdown();
 }
 
 void NetworkDaemon::Start() {
@@ -77,11 +82,11 @@ void NetworkDaemon::OnDataReceived(const std::vector<char> &buffer) {
     NetworkPacket receivedPacket;
 
     if (!Decoding::Packet(buffer, receivedPacket)) {
-        fmt::print("Failed to deserialize packet\n");
+        LOG_WARN("network", "Failed to deserialize packet");
         return;
     }
 
-    fmt::print("Received packet of type {}\n", NetworkPacketTypeToString(receivedPacket.header().type()));
+    LOG_TRACE("network", "Received packet of type {}", NetworkPacketTypeToString(receivedPacket.header().type()));
 
     switch (receivedPacket.header().type()) {
         case NetworkPacketType::SMSG_SERVER_INFO: {
@@ -93,11 +98,11 @@ void NetworkDaemon::OnDataReceived(const std::vector<char> &buffer) {
 
             cryptoSession_->Initialize(std::move(convertedPublicKey));
 
-            fmt::print("Server version: {}\n", packet.serverversion());
+            LOG_INFO("network", "Server version: {}", packet.serverversion());
             break;
         }
         default:
-            fmt::print("Unknown packet type\n");
+            LOG_WARN("network", "Unknown packet type");
             break;
     }
 
@@ -105,14 +110,15 @@ void NetworkDaemon::OnDataReceived(const std::vector<char> &buffer) {
 
 void NetworkDaemon::OnConnectionResult(bool connected) {
     if (connected) {
-        fmt::print("Connected to server\n");
+        LOG_INFO("network", "Connected to server");
 
         isConnected_.store(true);
         cv_.notify_one();
 
     } else {
-        fmt::print("Failed to connect to server\n");
+        LOG_INFO("network", "Failed to connect to server");
     }
 }
+
 
 

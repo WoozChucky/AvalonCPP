@@ -3,23 +3,28 @@
 //
 
 #include "TLSClient.h"
+#include "Common/Logging/Log.h"
 #include <iostream>
+#include <utility>
 #include <vector>
 #include <fstream>
 #include <future>
 
-TLSClient::TLSClient(const std::string &serverAddress, int serverPort, TLSReadCallback readCallback)
-    : serverAddress_(serverAddress), serverPort_(serverPort),
-    ssl_(nullptr, ::SSL_free), sslContext_(nullptr, ::SSL_CTX_free), readCallback_(readCallback) {
+TLSClient::TLSClient(std::string serverAddress, int serverPort, TLSReadCallback readCallback)
+    : serverAddress_(std::move(serverAddress)), serverPort_(serverPort),
+    ssl_(nullptr, ::SSL_free), sslContext_(nullptr, ::SSL_CTX_free), readCallback_(std::move(readCallback)) {
     WSAStartup(MAKEWORD(2, 2), &wsaData_);
 }
 
 TLSClient::~TLSClient() {
-    closesocket(clientSocket_);
+    if (shutdownRequested_ && connected_)
+    {
+        Shutdown();
+    }
     WSACleanup();
 }
 
-void TLSClient::ConnectAsync(std::function<void(bool)> callback) {
+void TLSClient::ConnectAsync(const std::function<void(bool)>& callback) {
 
     // Load certificate
     if (!LoadCertificate()) {
@@ -94,21 +99,23 @@ void TLSClient::ConnectAsync(std::function<void(bool)> callback) {
 
         result = select(clientSocket_ + 1, nullptr, &fdset, nullptr, &timeout);
         if (result <= 0) {
-            std::cerr << "SSL handshake timeout or error" << std::endl;
+            LOG_ERROR("network", "SSL handshake timeout or error");
             callback(false);
             return;
         }
     } else if (sslResult != SSL_ERROR_NONE) {
-        std::cerr << "Warning SSL handshake failed with error: " << sslResult << std::endl;
+        LOG_ERROR("network", "SSL handshake failed with error: {}", sslResult);
+        connected_ = true;
         callback(true);
         return;
     }
 
-    std::cout << "Connected to server over TLS" << std::endl;
+    LOG_DEBUG("network", "Connected to server over TLS");
+    connected_ = true;
     callback(true);
 }
 
-void TLSClient::DisconnectAsync(std::function<void()> callback) {
+void TLSClient::Shutdown() {
     // Shutdown SSL connection asynchronously
     SSL_set_shutdown(ssl_.get(), SSL_RECEIVED_SHUTDOWN);
     SSL_shutdown(ssl_.get());
@@ -120,7 +127,6 @@ void TLSClient::DisconnectAsync(std::function<void()> callback) {
         SSL_free(ssl_.get());
         SSL_CTX_free(sslContext_.get());
         closesocket(clientSocket_);
-        callback();
     } else {
         // SSL shutdown in progress, wait for socket to become writable
         fd_set fdset;
@@ -132,13 +138,12 @@ void TLSClient::DisconnectAsync(std::function<void()> callback) {
 
         int result = select(clientSocket_ + 1, nullptr, &fdset, nullptr, &timeout);
         if (result <= 0) {
-            std::cerr << "SSL shutdown timeout or error" << std::endl;
+            LOG_ERROR("network", "SSL shutdown timeout or error");
         } else {
             // Shutdown completed, close socket and invoke callback
             SSL_free(ssl_.get());
             SSL_CTX_free(sslContext_.get());
             closesocket(clientSocket_);
-            callback();
         }
     }
 }
@@ -146,18 +151,18 @@ void TLSClient::DisconnectAsync(std::function<void()> callback) {
 bool TLSClient::SendData(const std::string &data) {
 
     if (ssl_ == nullptr) {
-        std::cerr << "SSL connection not established" << std::endl;
+        LOG_ERROR("network", "SSL connection not established");
         return false;
     }
 
     int bytesSent = SSL_write(ssl_.get(), data.c_str(), data.length());
     if (bytesSent <= 0) {
         int sslError = SSL_get_error(ssl_.get(), bytesSent);
-        std::cerr << "Error sending data: " << sslError << std::endl;
+        LOG_ERROR("network", "Error sending data: {}", sslError);
         return false;
     }
 
-    std::cout << "Sent " << bytesSent << " bytes of data to the server" << std::endl;
+    LOG_DEBUG("network", "Sent {} bytes of data to the server", bytesSent);
     return true;
 
 }
@@ -166,17 +171,12 @@ bool TLSClient::LoadCertificate() {
     // Load certificate from file
     std::ifstream file("cert-public.pem", std::ios::binary);
     if (!file) {
-        std::cerr << "Failed to open certificate file: " << "cert-public.pem" << std::endl;
+        LOG_ERROR("network", "Failed to open certificate file: {}", "cert-public.pem");
         return false;
     }
 
     std::vector<char> certData((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
-
-    // Initialize OpenSSL
-    SSL_library_init();
-    SSL_load_error_strings();
-    OpenSSL_add_all_algorithms();
 
     // Create SSL context with TLS 1.2 method
     sslContext_.reset(SSL_CTX_new(TLSv1_2_client_method()));
@@ -277,7 +277,7 @@ bool TLSClient::SendDataAsync(const std::string &data) {
 void TLSClient::RunAsync() {
     std::thread([this]() {
         char buffer[4096];
-        while (true) {
+        while (!shutdownRequested_) {
             memset(buffer, 0, sizeof(buffer));
             int bytesReceived = SSL_read(ssl_.get(), buffer, sizeof(buffer) - 1);
             if (bytesReceived <= 0) {
@@ -286,8 +286,12 @@ void TLSClient::RunAsync() {
                 break;
             }
             std::vector<char> receivedData(buffer, buffer + bytesReceived);
+            LOG_DEBUG("network", "Received {} bytes from the server", bytesReceived);
             readCallback_(receivedData);
-            std::cout << "Received " << bytesReceived << " bytes of data from the server. " << std::endl;
         }
     }).detach();
+}
+
+void TLSClient::SignalShutdown() {
+    shutdownRequested_ = true;
 }
