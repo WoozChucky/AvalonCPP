@@ -13,6 +13,6 @@ else()
     endif()
 endif()
 
-target_link_libraries(${This} fmt::fmt OpenSSL::SSL protobuf::protobuf SDL2::SDL2 SDL2::SDL2main Boost::boost GLEW::GLEW imgui AvalonProto Common Network)
+target_link_libraries(${This} fmt::fmt OpenSSL::SSL protobuf::protobuf SDL2::SDL2 SDL2::SDL2main Boost::boost GLEW::GLEW imgui AvalonProto Common Network Engine)
 
 

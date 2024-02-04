@@ -37,7 +37,6 @@ private:
     void RegisterPacketHandler(NetworkPacketType type, PacketHandler handler);
 
     std::unique_ptr<Avalon::Crypto::CryptoSession> _cryptoSession;
-    //std::unique_ptr<TLSClient> _tlsClient;
     std::shared_ptr<AVSession> _session;
     std::condition_variable cv_;
     std::mutex mtx_;
@@ -51,7 +50,7 @@ private:
 
     std::unique_ptr<std::thread> packetProcessingThread;
     std::unique_ptr<std::thread> packetSendingThread;
-    std::atomic<bool> stopProcessing;
+    std::atomic<bool> stopProcessing{};
 
     /**
      * Packet handlers

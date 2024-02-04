@@ -8,6 +8,7 @@
 #else
 #include <SDL_opengl.h>
 #endif
+#include <Engine/Audio/AudioManager.h>
 
 
 #include "Common/Logging/Log.h"
@@ -80,16 +81,22 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
         throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
     }
 
+    sAudio->Initialize();
+
     LOG_INFO("game", "Game initialized");
 }
 
 Game::~Game() {
-
+    sAudio->Shutdown();
 }
 
 void Game::Run() {
 
     _isRunning = true;
+
+    sAudio->RecordAudio(10, []() {
+        LOG_INFO("audio", "Finished recording");
+    });
 
     while (_isRunning) {
 

@@ -19,7 +19,6 @@
 #include <google/protobuf/stubs/common.h>
 #include <boost/asio/signal_set.hpp>
 #include <string>
-#include <sstream>
 
 #include <Common/Asio/IoContext.h>
 #include <Common/Logging/Log.h>

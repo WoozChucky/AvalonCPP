@@ -47,6 +47,7 @@ endif()
 add_subdirectory(src/proto)
 add_subdirectory(src/common)
 add_subdirectory(src/network)
+add_subdirectory(src/engine)
 
 # Project applications
 add_subdirectory(src/app)
