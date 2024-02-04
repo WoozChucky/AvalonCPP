@@ -6,6 +6,7 @@
 #include "NetworkDaemon.h"
 #include "Common/Logging/AppenderConsole.h"
 #include "Game.h"
+#include "Network/SslContext.h"
 
 #include <SDL.h>
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -49,6 +50,11 @@ int main(int argc, char** argv) {
     SSL_load_error_strings();
     SSL_library_init();
     LOG_DEBUG("system", "OpenSSL library initialized");
+    if (!SslContext::Initialize("cert-public.pem", ""))
+    {
+        LOG_ERROR("network.ssl", "Failed to initialize SSL context");
+        return 1;
+    }
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     LOG_DEBUG("system", "Google Protocol Buffers library initialized");
@@ -90,7 +96,7 @@ int main(int argc, char** argv) {
     LOG_INFO("engine", "Starting engine");
 
     ImGui::CreateContext();
-    game = std::make_unique<Game>();
+    game = std::make_unique<Game>(*ioContext);
     game->Run();
     game->Shutdown();
     game.reset();

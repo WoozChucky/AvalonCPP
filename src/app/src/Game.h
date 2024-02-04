@@ -14,7 +14,7 @@
 
 class Game {
 public:
-    Game();
+    Game(boost::asio::io_context &ioContext);
     ~Game();
     void Run();
     void Stop();
@@ -22,6 +22,7 @@ public:
 
 private:
     bool _isRunning;
+    boost::asio::io_context &ioContext;
     std::unique_ptr<NetworkDaemon> _networkDaemon;
     SDL_Window* _window;
     SDL_GLContext _glContext;

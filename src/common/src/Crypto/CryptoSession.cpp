@@ -8,8 +8,34 @@
 
 using namespace Avalon::Crypto;
 
+const int IV_KEY_SIZE = 12;
+
 CryptoSession::CryptoSession() {
     _ownKeyPair = GenerateECDHKeyPair();
+}
+
+bool CryptoSession::Initialize(const std::vector<U8> &otherEndPublicKeyBuffer) {
+
+    if (otherEndPublicKeyBuffer.empty()) {
+        throw std::invalid_argument("Invalid public key");
+    }
+
+    // Parse the byte array to reconstruct the public key
+    _otherEndPublicKey = GetOtherEndPublicKey(otherEndPublicKeyBuffer);
+
+    _otherEndPublicKeyBytes = GetPublicKeyBytes(_otherEndPublicKey);
+
+    _sessionKey = CalculateSharedSecret(_ownKeyPair.second, _otherEndPublicKey);
+
+    _ownPublicKey = _ownKeyPair.first;
+
+    _ownPublicKeyBytes = GetPublicKeyBytes(_ownPublicKey);
+
+    return true;
+}
+
+std::vector<U8> CryptoSession::GetPublicKeyBytes() {
+    return _ownPublicKeyBytes;
 }
 
 std::pair<EC_KEY*, EC_KEY*> CryptoSession::GenerateECDHKeyPair() {
@@ -37,26 +63,6 @@ std::pair<EC_KEY*, EC_KEY*> CryptoSession::GenerateECDHKeyPair() {
     }
 
     return {publicKey, key};
-}
-
-bool CryptoSession::Initialize(const std::vector<U8> &otherEndPublicKeyBuffer) {
-
-    if (otherEndPublicKeyBuffer.empty()) {
-        throw std::invalid_argument("Invalid public key");
-    }
-
-    // Parse the byte array to reconstruct the public key
-    _otherEndPublicKey = GetOtherEndPublicKey(otherEndPublicKeyBuffer);
-
-    _otherEndPublicKeyBytes = GetPublicKeyBytes(_otherEndPublicKey);
-
-    _sessionKey = CalculateSharedSecret(_ownKeyPair.second, _otherEndPublicKey);
-
-    _ownPublicKey = _ownKeyPair.first;
-
-    _ownPublicKeyBytes = GetPublicKeyBytes(_ownPublicKey);
-
-    return true;
 }
 
 EC_KEY *CryptoSession::GetOtherEndPublicKey(const std::vector<U8> &otherEndPublicKeyBuffer) {
@@ -128,7 +134,7 @@ std::vector<U8> CryptoSession::Encrypt(const std::vector<U8> &data) {
 
     EVP_CIPHER_CTX *ctx;
     int len;
-    std::vector<unsigned char> ciphertext(data.size() + EVP_MAX_BLOCK_LENGTH);
+    std::vector<unsigned char> ciphertext(data.size()); // + EVP_MAX_BLOCK_LENGTH
 
     // Create and initialize the context
     if(!(ctx = EVP_CIPHER_CTX_new()))
@@ -185,14 +191,17 @@ std::vector<U8> CryptoSession::Encrypt(const std::vector<U8> &data) {
     // Append the tag to ciphertext
     ciphertext.insert(ciphertext.end(), tag.begin(), tag.end());
 
+    // Prepend the IV to the ciphertext
+    ciphertext.insert(ciphertext.begin(), iv.begin(), iv.end());
+
     return ciphertext;
 
 }
 
-std::vector<U8> CryptoSession::Decrypt(const std::vector<U8> &data) {
+std::vector<U8> CryptoSession::Decrypt(std::vector<U8> &data) {
     EVP_CIPHER_CTX *ctx;
     int len;
-    std::vector<unsigned char> plaintext(data.size() - EVP_MAX_BLOCK_LENGTH);
+    std::vector<unsigned char> plaintext(data.size()); // EVP_MAX_BLOCK_LENGTH
 
     // Create and initialize the context
     if(!(ctx = EVP_CIPHER_CTX_new()))
@@ -206,7 +215,11 @@ std::vector<U8> CryptoSession::Decrypt(const std::vector<U8> &data) {
         throw std::runtime_error("Failed to initialize decryption operation");
     }
 
-    auto iv = GenerateIV();
+    // Extract the IV from the first 12 bytes of the ciphertext
+    std::vector<U8> iv(data.begin(), data.begin() + IV_KEY_SIZE);
+
+    // Remove the IV from the ciphertext
+    data.erase(data.begin(), data.begin() + IV_KEY_SIZE);
 
     // Set IV length
     if(1 != EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, iv.size(), nullptr))
@@ -252,7 +265,7 @@ std::vector<U8> CryptoSession::Decrypt(const std::vector<U8> &data) {
 }
 
 std::vector<U8> CryptoSession::GenerateIV() {
-    std::vector<unsigned char> iv(12); // 12 bytes = 96 bits
+    std::vector<unsigned char> iv(IV_KEY_SIZE); // 12 bytes = 96 bits
 
     // Generate random bytes for the IV
     if (RAND_bytes(iv.data(), iv.size()) != 1) {

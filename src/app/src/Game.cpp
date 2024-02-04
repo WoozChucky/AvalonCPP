@@ -12,7 +12,7 @@
 
 #include "Common/Logging/Log.h"
 
-Game::Game(): _io(ImGui::GetIO()) {
+Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui::GetIO()){
     // Initialization code here
     _isRunning = false;
     _networkDaemon = std::make_unique<NetworkDaemon>();
@@ -176,7 +176,7 @@ void Game::Update() {
         ImGui::Text("counter = %d", counter);
 
         if (ImGui::Button("Connect")) {
-            _networkDaemon->Start();
+            _networkDaemon->Start(ioContext);
             SDL_SetWindowSize(_window, 1360, 768);
         }
 

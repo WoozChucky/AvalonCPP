@@ -14,9 +14,10 @@ namespace Avalon::Crypto
             CryptoSession();
 
             bool Initialize(const std::vector<U8>& otherEndPublicKeyBuffer);
+            std::vector<U8> GetPublicKeyBytes();
 
             std::vector<U8> Encrypt(const std::vector<U8>& data);
-            std::vector<U8> Decrypt(const std::vector<U8>& data);
+            std::vector<U8> Decrypt(std::vector<U8>& data);
 
         private:
             std::pair<EC_KEY*, EC_KEY*> _ownKeyPair;
