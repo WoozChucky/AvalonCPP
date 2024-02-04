@@ -1,5 +1,6 @@
 #pragma once
 #include <Common/Types.h>
+#include <Common/Utilities/MessageBuffer.h>
 #include <SDL2/SDL_audio.h>
 #include <functional>
 
@@ -11,8 +12,10 @@ public:
     bool Initialize();
     void Shutdown();
 
-    void RecordAudio(U32 seconds, const RecordFinishedCallback& = nullptr);
+    void RecordAudio(const RecordFinishedCallback& = nullptr);
+    void StopRecording();
     void PlaybackRecording();
+    void StopPlayback();
 
     static AudioManager* Instance();
 
@@ -34,23 +37,19 @@ private:
     AudioManager(const AudioManager&) = delete;
     AudioManager& operator=(const AudioManager&) = delete;
 
-    void RecordAudioThread(U32 seconds, const RecordFinishedCallback& = nullptr);
+    void RecordAudioThread(const RecordFinishedCallback& = nullptr);
     void PlaybackRecordingThread();
 
     SDL_AudioDeviceID _recordingDeviceId = 0;
-    SDL_AudioSpec _playbackSpec;
-    U8* _recordingBuffer = nullptr;
-    U32 _recordingBufferByteSize = 0;
-    U32 _recordingBufferPosition = 0;
-    U32 _recordingBufferMaxPosition = 0;
-
-
-    SDL_AudioDeviceID _playbackDeviceId = 0;
     SDL_AudioSpec _recordingSpec;
-    U8* _playbackBuffer = nullptr;
-    U32 _playbackBufferByteSize = 0;
-    U32 _playbackBufferPosition = 0;
-    U32 _playbackBufferMaxPosition = 0;
+    MessageBuffer _recordingBuffer;
+    bool _isRecording = false;
+
+    SDL_AudioStream *_audioStream = nullptr;
+    SDL_AudioDeviceID _playbackDeviceId = 0;
+    SDL_AudioSpec _playbackSpec;
+    MessageBuffer _playbackBuffer;
+    bool _isPlaying = false;
 
 };
 

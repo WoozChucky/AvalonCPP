@@ -8,8 +8,6 @@
 
 using namespace Avalon::Crypto;
 
-const int IV_KEY_SIZE = 12;
-
 CryptoSession::CryptoSession() {
     _ownKeyPair = GenerateECDHKeyPair();
 }

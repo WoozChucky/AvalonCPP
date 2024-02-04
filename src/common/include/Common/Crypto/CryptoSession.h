@@ -20,6 +20,9 @@ namespace Avalon::Crypto
             std::vector<U8> Decrypt(std::vector<U8>& data);
 
         private:
+
+            constexpr static int IV_KEY_SIZE = 12;
+
             std::pair<EC_KEY*, EC_KEY*> _ownKeyPair;
             EC_KEY * _otherEndPublicKey;
             std::vector<U8> _otherEndPublicKeyBytes;

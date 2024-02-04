@@ -94,10 +94,6 @@ void Game::Run() {
 
     _isRunning = true;
 
-    sAudio->RecordAudio(10, []() {
-        LOG_INFO("audio", "Finished recording");
-    });
-
     while (_isRunning) {
 
         _frameStart = SDL_GetTicks();
@@ -185,6 +181,22 @@ void Game::Update() {
         if (ImGui::Button("Connect")) {
             _networkDaemon->Start(ioContext);
             SDL_SetWindowSize(_window, 1360, 768);
+        }
+
+        if (ImGui::Button("Start Recording")) {
+            sAudio->RecordAudio([]() {});
+        }
+
+        if (ImGui::Button("Stop Recording")) {
+            sAudio->StopRecording();
+        }
+
+        if (ImGui::Button("Playback")) {
+            sAudio->PlaybackRecording();
+        }
+
+        if (ImGui::Button("Stop Playback")) {
+            sAudio->StopPlayback();
         }
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / _io.Framerate, _io.Framerate);

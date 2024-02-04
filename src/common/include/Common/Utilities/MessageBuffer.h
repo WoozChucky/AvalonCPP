@@ -25,6 +25,13 @@ public:
 
     MessageBuffer(MessageBuffer&& right) noexcept : _wpos(right._wpos), _rpos(right._rpos), _storage(right.Move()) { }
 
+    void Release()
+    {
+        _storage.clear();
+        _wpos = 0;
+        _rpos = 0;
+    }
+
     void Reset()
     {
         _wpos = 0;

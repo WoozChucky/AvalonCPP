@@ -1,6 +1,7 @@
 #include <Engine/Audio/AudioManager.h>
 #include "Common/Logging/Log.h"
 #include <thread>
+#include <algorithm>
 
 // Static function to bridge the callback
 static void AudioRecordCallbackBridge(void *userdata, U8 *stream, int len) {
@@ -52,7 +53,7 @@ bool AudioManager::Initialize() {
     }
 
     //Open recording device
-    _recordingDeviceId = SDL_OpenAudioDevice(SDL_GetAudioDeviceName(1, SDL_TRUE), SDL_TRUE, &desiredRecordingSpec, &_recordingSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+    _recordingDeviceId = SDL_OpenAudioDevice(SDL_GetAudioDeviceName(0, SDL_TRUE), SDL_TRUE, &desiredRecordingSpec, &_recordingSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
     // Device failed to open
     if(_recordingDeviceId == 0)
     {
@@ -86,32 +87,37 @@ bool AudioManager::Initialize() {
     //Calculate bytes per second
     int recordingBytesPerSecond = _recordingSpec.freq * recordingBytesPerSample;
     //Calculate buffer size
-    _recordingBufferByteSize = RECORDING_BUFFER_SECONDS * recordingBytesPerSecond;
-    //Calculate max buffer use
-    _recordingBufferMaxPosition = MAX_RECORDING_SECONDS * recordingBytesPerSecond;
+    auto recordingBufferInitialSize = RECORDING_BUFFER_SECONDS * recordingBytesPerSecond;
 
-    _recordingBuffer = new U8[_recordingBufferByteSize];
-    std::memset(_recordingBuffer, 0, _recordingBufferByteSize);
-    _recordingBufferPosition = 0;
+    _recordingBuffer.Resize(recordingBufferInitialSize);
 
     //Calculate per sample bytes
     int playbackBytesPerSample = _playbackSpec.channels * (SDL_AUDIO_BITSIZE(_playbackSpec.format) / 8);
     //Calculate bytes per second
     int playbackBytesPerSecond = _playbackSpec.freq * playbackBytesPerSample;
     //Calculate buffer size
-    _playbackBufferByteSize = RECORDING_BUFFER_SECONDS * playbackBytesPerSecond;
-    //Calculate max buffer use
-    _playbackBufferMaxPosition = MAX_RECORDING_SECONDS * playbackBytesPerSecond;
+    auto playbackBufferInitialSize = RECORDING_BUFFER_SECONDS * playbackBytesPerSecond;
 
-    _playbackBuffer = new U8[_playbackBufferByteSize];
-    std::memset(_playbackBuffer, 0, _playbackBufferByteSize);
-    _playbackBufferPosition = 0;
+    _playbackBuffer.Resize(playbackBufferInitialSize);
+
+    _audioStream = SDL_NewAudioStream(
+            _recordingSpec.format, _recordingSpec.channels, _recordingSpec.freq,
+            _playbackSpec.format, _playbackSpec.channels, _playbackSpec.freq
+    );
+
+    if(_audioStream == nullptr)
+    {
+        LOG_ERROR("audio", "Failed to create audio stream! SDL Error: {}", SDL_GetError());
+        return false;
+    }
 
     LOG_INFO("audio", "System initialized");
     return true;
 }
 
 void AudioManager::Shutdown() {
+    _isRecording = false;
+    _isPlaying = false;
     // Stop audio device
     SDL_PauseAudioDevice(_recordingDeviceId, SDL_TRUE);
     SDL_PauseAudioDevice(_playbackDeviceId, SDL_TRUE);
@@ -120,24 +126,54 @@ void AudioManager::Shutdown() {
     SDL_UnlockAudioDevice(_recordingDeviceId);
     SDL_UnlockAudioDevice(_playbackDeviceId);
 
-    if( _recordingBuffer != nullptr )
-    {
-        delete[] _recordingBuffer;
-        _recordingBuffer = nullptr;
-    }
+    // Release the buffers
+    _recordingBuffer.Release();
+    _playbackBuffer.Release();
 
-    if ( _playbackBuffer != nullptr )
-    {
-        delete [] _playbackBuffer;
-        _playbackBuffer = nullptr;
-    }
+    SDL_FreeAudioStream(_audioStream);
 
     LOG_INFO("audio", "Shutdown OK");
 }
 
-void AudioManager::RecordAudio(U32 seconds, const RecordFinishedCallback& callback) {
-    std::thread recordThread(&AudioManager::RecordAudioThread, this, seconds, callback);
+void AudioManager::RecordAudio(const RecordFinishedCallback& callback) {
+    if (_isRecording) {
+        return;
+    }
+    _isRecording = true;
+    std::thread recordThread(&AudioManager::RecordAudioThread, this, callback);
     recordThread.detach();
+}
+
+void AudioManager::StopRecording() {
+    if (!_isRecording) {
+        return;
+    }
+    _isRecording = false;
+    SDL_PauseAudioDevice(_recordingDeviceId, SDL_TRUE);
+    SDL_AudioStreamFlush(_audioStream);
+
+    // Clear the recording buffer
+    _recordingBuffer.Release();
+}
+
+void AudioManager::PlaybackRecording() {
+    if (_isPlaying) {
+        return;
+    }
+    _isPlaying = true;
+    std::thread playbackThread(&AudioManager::PlaybackRecordingThread, this);
+    playbackThread.detach();
+}
+
+void AudioManager::StopPlayback() {
+    if (!_isPlaying) {
+        return;
+    }
+    _isPlaying = false;
+    SDL_PauseAudioDevice(_playbackDeviceId, SDL_TRUE);
+
+    // Clear the playback buffer
+    _playbackBuffer.Release();
 }
 
 AudioManager* AudioManager::Instance() {
@@ -147,45 +183,34 @@ AudioManager* AudioManager::Instance() {
 
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
     //Copy audio from stream
-    std::memcpy(&_recordingBuffer[ _recordingBufferPosition ], stream, len);
-    //Move along buffer
-    _recordingBufferPosition += len;
+    SDL_AudioStreamPut(_audioStream, stream, len);
 }
 
 void AudioManager::AudioPlaybackCallback(void *userdata, U8 *stream, int len) {
-    //Copy audio from stream
-    std::memcpy(&_playbackBuffer[ _playbackBufferPosition ], stream, len);
-    //Move along buffer
-    _playbackBufferPosition += len;
+    // First we need to check if there's any data in the playback buffer, if not, we can just return
+    if (_playbackBuffer.GetActiveSize() == 0) {
+        SDL_memset(stream, 0, len); // fill the stream with silence
+        return;
+    }
+
+    int bytesToCopy = std::min(len, (int)_playbackBuffer.GetActiveSize());
+    std::memcpy(stream, _playbackBuffer.GetReadPointer(), bytesToCopy);
+    _playbackBuffer.ReadCompleted(bytesToCopy);
+
+    // If there's not enough data in the buffer, fill the rest of the stream with silence
+    if (bytesToCopy < len) {
+        SDL_memset(stream + bytesToCopy, 0, len - bytesToCopy);
+    }
 }
 
-void AudioManager::RecordAudioThread(U32 seconds, const RecordFinishedCallback& callback) {
-    auto startTime = std::chrono::high_resolution_clock::now();
+void AudioManager::RecordAudioThread(const RecordFinishedCallback& callback) {
 
     SDL_PauseAudioDevice( _recordingDeviceId, SDL_FALSE );
 
-    while(true)
+    while(_isRecording)
     {
         //Lock callback
         SDL_LockAudioDevice( _recordingDeviceId );
-
-        //Finished recording
-        if(_recordingBufferPosition > _recordingBufferMaxPosition)
-        {
-            //Stop recording audio
-            SDL_PauseAudioDevice( _recordingDeviceId, SDL_TRUE );
-            break;
-        }
-
-        // Check if the specified number of seconds has passed
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        auto elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
-        if(elapsedSeconds >= seconds)
-        {
-            //Stop recording audio
-            SDL_PauseAudioDevice( _recordingDeviceId, SDL_TRUE );
-            break;
-        }
 
         //Unlock callback
         SDL_UnlockAudioDevice( _recordingDeviceId );
@@ -196,8 +221,30 @@ void AudioManager::RecordAudioThread(U32 seconds, const RecordFinishedCallback& 
     {
         callback();
     }
+
+    LOG_DEBUG("audio", "Recording thread finished");
 }
 
-void AudioManager::PlaybackRecording() {
+void AudioManager::PlaybackRecordingThread() {
+    SDL_PauseAudioDevice( _playbackDeviceId, SDL_FALSE );
 
+    while(_isPlaying || SDL_AudioStreamAvailable(_audioStream) > 0)
+    {
+        //Lock callback
+        SDL_LockAudioDevice( _playbackDeviceId );
+
+        // Copy audio from stream
+        int available = SDL_AudioStreamAvailable(_audioStream);
+        if (available > 0) {
+            LOG_DEBUG("audio", "Playback thread copying {} bytes", available);
+            SDL_AudioStreamGet(_audioStream, _playbackBuffer.GetWritePointer(), available);
+            _playbackBuffer.WriteCompleted(available);
+        }
+
+        //Unlock callback
+        SDL_UnlockAudioDevice( _playbackDeviceId );
+    }
+
+    LOG_INFO("audio", "Playback thread finished");
 }
+
