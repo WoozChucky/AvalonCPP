@@ -6,7 +6,7 @@
 #include "Common/Logging/Log.h"
 
 #include <Proto/CRequestServerInfoPacket.pb.h>
-#include <Proto/CClientInfoPacket.pb.h.>
+#include <Proto/CClientInfoPacket.pb.h>
 #include <Proto/SServerInfoPacket.pb.h>
 #include <Proto/SHandshakePacket.pb.h>
 #include <Proto/CHandshakePacket.pb.h>
