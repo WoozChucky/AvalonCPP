@@ -13,7 +13,7 @@ static void AudioPlaybackCallbackBridge(void *userdata, U8 *stream, int len) {
     static_cast<AudioManager*>(userdata)->AudioPlaybackCallback(userdata, stream, len);
 }
 
-bool AudioManager::Initialize() {
+bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback) {
 
     SDL_AudioSpec desiredRecordingSpec;
     SDL_zero(desiredRecordingSpec);
@@ -111,6 +111,10 @@ bool AudioManager::Initialize() {
         return false;
     }
 
+    if (audioRecordedCallback != nullptr) {
+        _audioRecordedCallback = audioRecordedCallback;
+    }
+
     LOG_INFO("audio", "System initialized");
     return true;
 }
@@ -182,6 +186,15 @@ AudioManager* AudioManager::Instance() {
 }
 
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
+    //Copy audio from stream
+    if (_audioRecordedCallback != nullptr) {
+        _audioRecordedCallback(stream, len);
+    } else {
+        SDL_AudioStreamPut(_audioStream, stream, len);
+    }
+}
+
+void AudioManager::OnAudioReceived(U8 *stream, int len) {
     //Copy audio from stream
     SDL_AudioStreamPut(_audioStream, stream, len);
 }

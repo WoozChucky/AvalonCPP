@@ -5,11 +5,12 @@
 #include <functional>
 
 typedef std::function<void()> RecordFinishedCallback;
+typedef std::function<void(U8* stream, int len)> AudioRecordedCallback;
 
 class AudioManager {
 
 public:
-    bool Initialize();
+    bool Initialize(const AudioRecordedCallback& audioRecordedCallback = nullptr);
     void Shutdown();
 
     void RecordAudio(const RecordFinishedCallback& = nullptr);
@@ -21,6 +22,7 @@ public:
 
     void AudioRecordCallback(void* userdata, U8* stream, int len );
     void AudioPlaybackCallback(void* userdata, U8* stream, int len);
+    void OnAudioReceived(U8* stream, int len);
 
 private:
 
@@ -50,6 +52,8 @@ private:
     SDL_AudioSpec _playbackSpec;
     MessageBuffer _playbackBuffer;
     bool _isPlaying = false;
+
+    AudioRecordedCallback _audioRecordedCallback = nullptr;
 
 };
 

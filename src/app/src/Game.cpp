@@ -81,7 +81,28 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
         throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
     }
 
-    sAudio->Initialize();
+    sAudio->Initialize([this](U8 *stream, int len) {
+        // Audio recorded callback
+        auto audioData = std::vector<U8>(stream, stream + len);
+
+        // Since this is 32768 bytes, it's a good idea to send it in chunks
+        // The maximum i'm willing to go is 4k bytes for each chunk
+
+        //NOTE: Encrypted packet headers are 45 bytes long, but clear text headers are 17 bytes long
+
+        if (audioData.size() > 2048) {
+            auto start = 0;
+            auto end = 2048;
+            while (end < audioData.size()) {
+                _networkDaemon->SendAudioPacket(std::vector<U8>(audioData.begin() + start, audioData.begin() + end));
+                start = end;
+                end += 2048;
+            }
+            _networkDaemon->SendAudioPacket(std::vector<U8>(audioData.begin() + start, audioData.end()));
+        } else {
+            _networkDaemon->SendAudioPacket(audioData);
+        }
+    });
 
     LOG_INFO("game", "Game initialized");
 }
@@ -180,7 +201,10 @@ void Game::Update() {
 
         if (ImGui::Button("Connect")) {
             _networkDaemon->Start(ioContext);
-            SDL_SetWindowSize(_window, 1360, 768);
+        }
+
+        if (ImGui::Button("Login")) {
+            _networkDaemon->Login("admin", "123");
         }
 
         if (ImGui::Button("Start Recording")) {

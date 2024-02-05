@@ -105,6 +105,7 @@ enum NetworkPacketType : int {
   CMSG_AUTH_PATCH = 8193,
   CMSG_LOGOUT = 8194,
   CMSG_REGISTER = 8195,
+  CMSG_AUDIO_RECORD = 8272,
   CMSG_CHARACTER_LIST = 8208,
   CMSG_CHARACTER_CREATE = 8209,
   CMSG_CHARACTER_DELETE = 8210,
@@ -130,6 +131,7 @@ enum NetworkPacketType : int {
   SMSG_AUTH_RESULT = 12304,
   SMSG_LOGOUT = 12305,
   SMSG_REGISTER_RESULT = 12306,
+  SMSG_AUDIO_RECORD = 12368,
   SMSG_CHARACTER_CONNECTED = 12320,
   SMSG_CHARACTER_DISCONNECTED = 12321,
   SMSG_CHARACTER_LIST = 12323,
@@ -152,7 +154,7 @@ enum NetworkPacketType : int {
 };
 bool NetworkPacketType_IsValid(int value);
 constexpr NetworkPacketType NetworkPacketType_MIN = ERROR;
-constexpr NetworkPacketType NetworkPacketType_MAX = SMSG_MAP_TELEPORT;
+constexpr NetworkPacketType NetworkPacketType_MAX = SMSG_AUDIO_RECORD;
 constexpr int NetworkPacketType_ARRAYSIZE = NetworkPacketType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* NetworkPacketType_descriptor();

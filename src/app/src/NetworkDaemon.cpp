@@ -4,6 +4,7 @@
 
 #include "EncodingUtils.h"
 #include "Common/Logging/Log.h"
+#include "Engine/Audio/AudioManager.h"
 
 #include <Proto/CRequestServerInfoPacket.pb.h>
 #include <Proto/CClientInfoPacket.pb.h>
@@ -11,11 +12,19 @@
 #include <Proto/SHandshakePacket.pb.h>
 #include <Proto/CHandshakePacket.pb.h>
 #include <Proto/SHandshakeResultPacket.pb.h>
+#include <Proto/SAudioRecordPacket.pb.h>
+#include <Proto/CAudioRecordPacket.pb.h>
+#include <Proto/CAuthPacket.pb.h>
+#include <Proto/SPingPacket.pb.h>
+#include <Proto/CPongPacket.pb.h>
 
 #include <utility>
 #include <boost/asio/connect.hpp>
 
 using namespace Avalon::Network::Packets::Handshake;
+using namespace Avalon::Network::Packets::Generic;
+using namespace Avalon::Network::Packets::Audio;
+using namespace Avalon::Network::Packets::Auth;
 using namespace Avalon::Common;
 
 NetworkDaemon::NetworkDaemon() {
@@ -91,12 +100,33 @@ void NetworkDaemon::Start(boost::asio::io_context &ioContext) {
     }
 }
 
+
+void NetworkDaemon::Login(const std::string &username, const std::string &password) {
+
+    CAuthPacket payload;
+
+    payload.set_username(username);
+    payload.set_password(password);
+
+    SendPacket(CMSG_AUTH, NetworkPacketFlags::Encrypted, payload);
+}
+
+void NetworkDaemon::SendAudioPacket(const std::vector<U8> &audioData) {
+
+    CAudioRecordPacket payload;
+    payload.set_soundbuffer(audioData.data(), audioData.size());
+
+    SendPacket(CMSG_AUDIO_RECORD, NetworkPacketFlags::ClearText, payload);
+}
+
 std::string NetworkPacketTypeToString(NetworkPacketType type) {
     switch (type) {
         case ::UNKNOWN: return "UNKNOWN";
         case ::SMSG_SERVER_INFO: return "SMSG_SERVER_INFO";
         case ::SMSG_SERVER_HANDSHAKE: return "SMSG_SERVER_HANDSHAKE";
         case ::SMSG_SERVER_HANDSHAKE_RESULT: return "SMSG_SERVER_HANDSHAKE_RESULT";
+        case ::SMSG_AUDIO_RECORD: return "SMSG_AUDIO_RECORD";
+        case ::SMSG_PING: return "SMSG_PING";
             // Add all other cases here...
         default: return "UNKNOWN";
     }
@@ -147,6 +177,14 @@ void NetworkDaemon::RegisterHandlers() {
     RegisterPacketHandler(
             NetworkPacketType::SMSG_SERVER_HANDSHAKE_RESULT,
             [this](const NetworkPacket &packet) { OnHandshakeResultPacket(packet); }
+    );
+    RegisterPacketHandler(
+            NetworkPacketType::SMSG_AUDIO_RECORD,
+            [this](const NetworkPacket &packet) { OnAudioPacketReceived(packet); }
+    );
+    RegisterPacketHandler(
+            NetworkPacketType::SMSG_PING,
+            [this](const NetworkPacket &packet) { OnPingPacketReceived(packet); }
     );
 }
 
@@ -227,21 +265,7 @@ void NetworkDaemon::OnServerInfoPacket(const NetworkPacket &packet) {
     CClientInfoPacket payload;
     payload.set_publickey(publicKeyBytes.data(), publicKeyBytes.size());
 
-    // Serialize the payload
-    std::string payloadData;
-    payload.SerializeToString(&payloadData);
-
-    auto* header = new NetworkPacketHeader();
-    header->set_version(0);
-    header->set_type(NetworkPacketType::CMSG_CLIENT_INFO);
-    header->set_protocol(NetworkProtocol::Tcp);
-    header->set_flags(NetworkPacketFlags::ClearText);
-
-    NetworkPacket responsePacket;
-    responsePacket.set_allocated_header(header);
-    responsePacket.set_payload(payloadData);
-
-    _sendPacketQueue->Enqueue(responsePacket);
+    SendPacket(CMSG_CLIENT_INFO, NetworkPacketFlags::ClearText, payload);
 }
 
 void NetworkDaemon::OnHandshakePacket(const NetworkPacket &packet) {
@@ -258,27 +282,7 @@ void NetworkDaemon::OnHandshakePacket(const NetworkPacket &packet) {
     CHandshakePacket payload;
     payload.set_handshakedata(handshakePacket.handshakedata());
 
-    // Serialize the payload
-    std::string cleartextPayloadData;
-    payload.SerializeToString(&cleartextPayloadData);
-
-    auto cleartextPayload = std::vector<U8>(cleartextPayloadData.begin(), cleartextPayloadData.end());
-
-    auto encryptedResponsePayload = _cryptoSession->Encrypt(cleartextPayload);
-
-    auto encryptedResponsePayloadString = std::string(encryptedResponsePayload.begin(), encryptedResponsePayload.end());
-
-    auto* header = new NetworkPacketHeader();
-    header->set_version(0);
-    header->set_type(NetworkPacketType::CMSG_CLIENT_HANDSHAKE);
-    header->set_protocol(NetworkProtocol::Tcp);
-    header->set_flags(NetworkPacketFlags::Encrypted);
-
-    NetworkPacket responsePacket;
-    responsePacket.set_allocated_header(header);
-    responsePacket.set_payload(encryptedResponsePayloadString);
-
-    _sendPacketQueue->Enqueue(responsePacket);
+    SendPacket(CMSG_CLIENT_HANDSHAKE, NetworkPacketFlags::Encrypted, payload);
 }
 
 void NetworkDaemon::OnHandshakeResultPacket(const NetworkPacket &packet) {
@@ -295,4 +299,63 @@ void NetworkDaemon::OnHandshakeResultPacket(const NetworkPacket &packet) {
     LOG_INFO("network", "Server connection handshake result (Verified={})", handshakeResultPacket.verified());
 }
 
+void NetworkDaemon::OnAudioPacketReceived(const NetworkPacket &packet) {
+
+    SAudioRecordPacket audioPacket;
+    audioPacket.ParseFromString(packet.payload());
+
+    // Cast and move the soundbuffer to a U8*
+     U8* soundBuffer = reinterpret_cast<U8*>(const_cast<char*>(audioPacket.soundbuffer().data()));
+
+     // Here packets are coming in chunks, so we need to concatenate them
+     // and then send them to the audio manager
+
+    sAudio->OnAudioReceived(soundBuffer, audioPacket.soundbuffer().size());
+}
+
+void NetworkDaemon::OnPingPacketReceived(const NetworkPacket &packet) {
+
+    SPingPacket pingPacket;
+    pingPacket.ParseFromString(packet.payload());
+
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    // Convert to 100-nanosecond intervals (which is what C# uses)
+    auto ticks = std::chrono::duration_cast<std::chrono::duration<long long, std::ratio<1, 10000000>>>(duration).count();
+
+    // Adjust for the difference between the Unix epoch and the C# DateTime epoch (which is 621,355,968,000,000,000 ticks)
+    ticks += 621355968000000000LL;
+
+    CPongPacket payload;
+    payload.set_accountid(1);
+    payload.set_sequencenumber(pingPacket.sequencenumber());
+    payload.set_ticks(ticks);
+
+    SendPacket(CMSG_PONG, NetworkPacketFlags::ClearText, payload);
+}
+
+void NetworkDaemon::SendPacket(NetworkPacketType type, NetworkPacketFlags flags, google::protobuf::Message &message) {
+
+    // Serialize the payload
+    std::string payloadData;
+    message.SerializeToString(&payloadData);
+
+    if (flags == NetworkPacketFlags::Encrypted) {
+        auto cleartextPayload = std::vector<U8>(payloadData.begin(), payloadData.end());
+        auto encryptedResponsePayload = _cryptoSession->Encrypt(cleartextPayload);
+        payloadData = std::string(encryptedResponsePayload.begin(), encryptedResponsePayload.end());
+    }
+
+    auto* header = new NetworkPacketHeader();
+    header->set_version(0);
+    header->set_type(type);
+    header->set_protocol(NetworkProtocol::Tcp);
+    header->set_flags(flags);
+
+    NetworkPacket packet;
+    packet.set_allocated_header(header);
+    packet.set_payload(payloadData);
+
+    _sendPacketQueue->Enqueue(packet);
+}
 

@@ -9,6 +9,7 @@
 #include <type_traits>
 
 #define READ_BLOCK_SIZE 4096
+//#define READ_BLOCK_SIZE 65536
 #ifdef BOOST_ASIO_HAS_IOCP
 #define SOCKET_USE_IOCP
 #endif

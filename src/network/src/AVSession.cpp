@@ -41,9 +41,16 @@ void AVSession::ReadHandler() {
     if (!IsOpen())
         return;
 
-    _messageReceivedCallback(GetReadBuffer());
+    //TODO: Here we have to get the read buffer and check if it's a complete packet
+    //      we do that by getting the packet size that is encoded in base128 in the start of the packet
 
-    GetReadBuffer().Reset();
+    {
+        // Previous implementation here is wrong
+        _messageReceivedCallback(GetReadBuffer());
+
+        GetReadBuffer().Reset();
+    }
+
 
     AsyncRead();
 }

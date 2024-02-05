@@ -1,0 +1,6 @@
+syntax = "proto3";
+package Avalon.Network.Packets.Audio;
+
+message CAudioRecordPacket {
+   bytes SoundBuffer = 1;
+}
