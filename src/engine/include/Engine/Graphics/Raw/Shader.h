@@ -4,40 +4,53 @@
 
 class Shader {
 public:
-    Shader() = default;
+    Shader() : _program(0), _vertexShaderId(0), _fragmentShaderId(0), _numAttributes(0) {}
     ~Shader() {
         if (_program != 0) {
             glDeleteProgram(_program);
         }
     };
+
     void Init(const std::string& vertexShader, const std::string& fragmentShader) {
         if (_program != 0 || _vertexShaderId != 0 || _fragmentShaderId != 0)
             throw std::runtime_error("Shader already initialized");
         LoadShaders(vertexShader.c_str(), fragmentShader.c_str());
+        _program = CreateProgram(_vertexShaderId, _fragmentShaderId);
     }
 
     void AddAttribute(const std::string& attributeName) {
         if (_vertexShaderId == 0 || _fragmentShaderId == 0)
             throw std::runtime_error("Shader not initialized");
         glBindAttribLocation(_program, _numAttributes++, attributeName.c_str());
+        CheckError();
     }
 
     void Link() {
-        if (_program != 0)
-            throw std::runtime_error("Shader already initialized");
-        _program = Link(_vertexShaderId, _fragmentShaderId);
+        if (_program == 0)
+            throw std::runtime_error("Shader is not initialized");
+        Link(_vertexShaderId, _fragmentShaderId);
     }
 
     void Bind() {
         if (_program == 0)
             throw std::runtime_error("Shader not initialized");
         glUseProgram(_program);
+        CheckError();
+        for (U32 i = 0; i < _numAttributes; i++) {
+            glEnableVertexAttribArray(i);
+            CheckError();
+        }
     }
 
     void Unbind() {
         if (_program == 0)
             throw std::runtime_error("Shader not initialized");
         glUseProgram(0);
+        CheckError();
+        for (U32 i = 0; i < _numAttributes; i++) {
+            glDisableVertexAttribArray(i);
+            CheckError();
+        }
     }
 private:
     GLuint _program;
@@ -47,11 +60,15 @@ private:
 
     GLuint Compile(const char* shaderCode, GLenum type) {
         GLuint shaderId = glCreateShader(type);
+        CheckError();
         glShaderSource(shaderId, 1, &shaderCode, nullptr);
+        CheckError();
         glCompileShader(shaderId);
+        CheckError();
 
         GLint result;
         glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
+        CheckError();
         if (result == GL_FALSE) {
             GLint length;
             glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
@@ -63,30 +80,41 @@ private:
         return shaderId;
     }
 
-    GLuint Link(GLuint vertexShaderId, GLuint fragmentShaderId) {
+    GLuint CreateProgram(GLuint vertexShaderId, GLuint fragmentShaderId)
+    {
         GLuint program = glCreateProgram();
+        CheckError();
         glAttachShader(program, vertexShaderId);
+        CheckError();
         glAttachShader(program, fragmentShaderId);
+        CheckError();
+        return program;
+    }
 
-        glLinkProgram(program);
+    void Link(GLuint vertexShaderId, GLuint fragmentShaderId) {
+        glLinkProgram(_program);
+        CheckError();
 
         GLint result;
-        glGetProgramiv(program, GL_LINK_STATUS, &result);
+        glGetProgramiv(_program, GL_LINK_STATUS, &result);
+        CheckError();
         if (result == GL_FALSE) {
             GLint length;
-            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+            glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
             std::vector<char> error(length);
-            glGetProgramInfoLog(program, length, &length, &error[0]);
-            glDeleteProgram(program);
+            glGetProgramInfoLog(_program, length, &length, &error[0]);
+            glDeleteProgram(_program);
             throw std::runtime_error("Failed to link program: " + std::string(error.begin(), error.end()));
         }
 
-        glDetachShader(program, vertexShaderId);
-        glDetachShader(program, fragmentShaderId);
+        glDetachShader(_program, vertexShaderId);
+        CheckError();
+        glDetachShader(_program, fragmentShaderId);
+        CheckError();
         glDeleteShader(vertexShaderId);
+        CheckError();
         glDeleteShader(fragmentShaderId);
-
-        return program;
+        CheckError();
     }
 
     void LoadShaders(const char* vertexShaderPath, const char* fragmentShaderPath) {
@@ -112,5 +140,14 @@ private:
 
         _vertexShaderId = Compile(vertexShaderCStr, GL_VERTEX_SHADER);
         _fragmentShaderId = Compile(fragmentShaderCStr, GL_FRAGMENT_SHADER);
+    }
+
+    void CheckError() {
+        GLenum err;
+        while((err = glGetError()) != GL_NO_ERROR)
+        {
+            auto errStr = std::string(reinterpret_cast<const char*>(glewGetErrorString(err)));
+            LOG_WARN("graphics", "OpenGL error: {} - {}", std::to_string(err), errStr);
+        }
     }
 };

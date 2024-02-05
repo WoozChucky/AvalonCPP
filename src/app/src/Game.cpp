@@ -13,6 +13,12 @@
 
 #include "Common/Logging/Log.h"
 
+void APIENTRY OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+    if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
+        LOG_WARN("graphics", "OpenGL Debug Message: {}", message);
+    }
+}
+
 Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui::GetIO()){
     // Initialization code here
     _isRunning = false;
@@ -26,7 +32,7 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
     }
 
     const char* glsl_version = "#version 150";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -82,6 +88,17 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
     if (glewError != GLEW_OK) {
         const unsigned char * err = glewGetErrorString(glewError);
         throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
+    }
+
+    if (glewIsSupported("GL_KHR_debug")) {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(OpenGLDebugCallback, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    } else if (glewIsSupported("GL_ARB_debug_output")) {
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+        glDebugMessageCallbackARB(OpenGLDebugCallback, nullptr);
+        glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
     }
 
     sAudio->Initialize([this](U8 *stream, int len) {
@@ -234,19 +251,19 @@ void Game::Update() {
 }
 
 void Game::Render() {
-    // Rendering code here
-    // TODO: Render game elements
+    // 1. Clear the screen
+    glViewport(0, 0, (int)_io.DisplaySize.x, (int)_io.DisplaySize.y);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // 2. Draw your elements
     ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     _shader.Bind();
     _sprite.Draw();
     _shader.Unbind();
 
-    // Clear the screen
-    glViewport(0, 0, (int)_io.DisplaySize.x, (int)_io.DisplaySize.y);
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    // Swap buffers
+    // 3. Swap buffers
     SDL_GL_SwapWindow(_window);
 }
 
