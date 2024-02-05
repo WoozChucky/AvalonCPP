@@ -37,20 +37,41 @@ bool AVSession::Update() {
     return AVSocket::Update();
 }
 
+size_t DecodeBase128(MessageBuffer& buffer) {
+    size_t value = 0;
+    int shift = 0;
+
+    U8* initialPacketBuffer = buffer.GetBasePointer();
+    size_t bufferSize = buffer.GetActiveSize();  // Assuming GetSize() is a function
+
+    for (size_t i = 0; i < bufferSize; ++i) {
+        U8 byte = initialPacketBuffer[i];
+        value |= (byte & 0x7F) << shift;
+        if ((byte & 0x80) == 0)
+            break;
+        shift += 7;
+    }
+
+    return value;
+}
+
 void AVSession::ReadHandler() {
     if (!IsOpen())
         return;
 
-    //TODO: Here we have to get the read buffer and check if it's a complete packet
-    //      we do that by getting the packet size that is encoded in base128 in the start of the packet
+    // Decode the packet size from the start of the buffer
+    size_t packet_size = DecodeBase128(GetReadBuffer());
 
-    {
-        // Previous implementation here is wrong
+    // Check if the buffer contains a complete packet
+    if (GetReadBuffer().GetActiveSize() >= packet_size) {
+        // Pass the complete packet to the callback function
         _messageReceivedCallback(GetReadBuffer());
 
+        // Reset the read buffer
         GetReadBuffer().Reset();
+    } else {
+        LOG_ERROR("session", "Incomplete packet received");
     }
-
 
     AsyncRead();
 }
