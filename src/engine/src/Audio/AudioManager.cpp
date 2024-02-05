@@ -2,6 +2,7 @@
 #include "Common/Logging/Log.h"
 #include <thread>
 #include <algorithm>
+#include <SDL.h>
 
 // Static function to bridge the callback
 static void AudioRecordCallbackBridge(void *userdata, U8 *stream, int len) {
@@ -14,6 +15,12 @@ static void AudioPlaybackCallbackBridge(void *userdata, U8 *stream, int len) {
 }
 
 bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback) {
+
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+        // Handle initialization error
+        throw std::runtime_error("SDL_Init failed");
+    }
 
     SDL_AudioSpec desiredRecordingSpec;
     SDL_zero(desiredRecordingSpec);
@@ -135,6 +142,8 @@ void AudioManager::Shutdown() {
     _playbackBuffer.Release();
 
     SDL_FreeAudioStream(_audioStream);
+
+    SDL_Quit();
 
     LOG_INFO("audio", "Shutdown OK");
 }

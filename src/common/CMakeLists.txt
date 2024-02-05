@@ -9,11 +9,14 @@ find_package(utf8cpp REQUIRED)
 find_package(Boost REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-add_library(${This} STATIC ${SOURCES})
+add_library(${This} SHARED ${SOURCES})
+set_target_properties(${This} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+target_include_directories(${This} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto)
 
-target_include_directories(${This} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
 
 # Add an installation rule to copy the shared library to the output directory
 install(TARGETS ${This}

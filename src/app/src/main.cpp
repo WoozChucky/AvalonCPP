@@ -61,9 +61,13 @@ int main(int argc, char** argv) {
     IMGUI_CHECKVERSION();
     LOG_DEBUG("system", "ImGui library initialized");
 
+    SDL_version version {};
+    SDL_GetVersion(&version);
+
     LOG_INFO("system", "> Using SSL version: {}", OPENSSL_VERSION_TEXT);
     LOG_INFO("system", "> Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
     LOG_INFO("system", "> Using Protobuf version: {}.{}.{}", GOOGLE_PROTOBUF_VERSION / 100000, GOOGLE_PROTOBUF_VERSION / 100 % 1000, GOOGLE_PROTOBUF_VERSION % 100);
+    LOG_INFO("system", "> Using SDL version: {}.{}.{} (rev. {})", version.major, version.minor, version.patch, SDL_GetRevision());
     LOG_INFO("system", "> Using ImGui version: {}.{}.{} (Docking={})", IMGUI_VERSION_NUM / 10000, IMGUI_VERSION_NUM / 100 % 100, IMGUI_VERSION_NUM % 100, true);
 
     boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
