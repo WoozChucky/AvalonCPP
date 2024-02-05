@@ -69,8 +69,6 @@ void AVSession::ReadHandler() {
 
         // Reset the read buffer
         GetReadBuffer().Reset();
-    } else {
-        LOG_ERROR("session", "Incomplete packet received");
     }
 
     AsyncRead();
