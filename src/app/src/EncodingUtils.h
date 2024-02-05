@@ -1,9 +1,4 @@
-//
-// Created by nunol on 2/2/2024.
-//
-
-#ifndef AVALON_ENCODINGUTILS_H
-#define AVALON_ENCODINGUTILS_H
+#pragma once
 
 #include <string>
 #include <sstream>
@@ -71,5 +66,3 @@ bool Avalon::Common::Decoding::Packet(const std::vector<char>& buffer, NetworkPa
 
     return true;
 }
-
-#endif //AVALON_ENCODINGUTILS_H

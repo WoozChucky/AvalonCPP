@@ -10,6 +10,8 @@
 #include <imgui.h>
 #include <SDL.h>
 #include "NetworkDaemon.h"
+#include <Engine/Graphics/Raw/Sprite.h>
+#include <Engine/Graphics/Raw/Shader.h>
 
 
 class Game {
@@ -35,6 +37,9 @@ private:
     bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    Sprite _sprite;
+    Shader _shader;
 
     void HandleEvents();
     void Update();

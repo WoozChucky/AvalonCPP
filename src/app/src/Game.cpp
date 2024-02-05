@@ -60,6 +60,8 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
 
     SDL_GL_MakeCurrent(_window, _glContext);
 
+    glClearDepth(1.0f);
+
     // Setup Dear ImGui context
     ImGui::CreateContext();
     _io = ImGui::GetIO(); (void)_io;
@@ -75,6 +77,7 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Initialize GLEW
+    glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
     if (glewError != GLEW_OK) {
         const unsigned char * err = glewGetErrorString(glewError);
@@ -86,6 +89,11 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
         auto audioData = std::vector<U8>(stream, stream + len);
         _networkDaemon->SendAudioPacket(audioData);
     });
+
+    _sprite.Init(-1, -1, 1, 1);
+    _shader.Init("colorShading.vert", "colorShading.frag");
+    _shader.AddAttribute("position");
+    _shader.Link();
 
     LOG_INFO("game", "Game initialized");
 }
@@ -229,11 +237,14 @@ void Game::Render() {
     // Rendering code here
     // TODO: Render game elements
     ImGui::Render();
+    _shader.Bind();
+    _sprite.Draw();
+    _shader.Unbind();
 
     // Clear the screen
     glViewport(0, 0, (int)_io.DisplaySize.x, (int)_io.DisplaySize.y);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     // Swap buffers
     SDL_GL_SwapWindow(_window);
