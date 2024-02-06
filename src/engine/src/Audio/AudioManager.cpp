@@ -105,7 +105,7 @@ bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback
     //Calculate buffer size
     auto playbackBufferInitialSize = RECORDING_BUFFER_SECONDS * playbackBytesPerSecond;
 
-    _playbackBuffer.Resize(playbackBufferInitialSize);
+    _playbackBuffer = new CircularBuffer(playbackBufferInitialSize);
 
     _audioStream = SDL_NewAudioStream(
             _recordingSpec.format, _recordingSpec.channels, _recordingSpec.freq,
@@ -142,7 +142,8 @@ void AudioManager::Shutdown() {
 
     // Release the buffers
     _recordingBuffer.Release();
-    _playbackBuffer.Release();
+    delete _playbackBuffer;
+    _playbackBuffer = nullptr;
 
     SDL_FreeAudioStream(_audioStream);
 
@@ -189,7 +190,7 @@ void AudioManager::StopPlayback() {
     SDL_PauseAudioDevice(_playbackDeviceId, SDL_TRUE);
 
     // Clear the playback buffer
-    _playbackBuffer.Release();
+   // _playbackBuffer.Release();
 }
 
 AudioManager* AudioManager::Instance() {
@@ -230,14 +231,15 @@ void AudioManager::OnAudioReceived(U8 *stream, int len) {
 
 void AudioManager::AudioPlaybackCallback(void *userdata, U8 *stream, int len) {
     // First we need to check if there's any data in the playback buffer, if not, we can just return
-    if (_playbackBuffer.GetActiveSize() == 0) {
+    if (_playbackBuffer->IsEmpty()) {
         SDL_memset(stream, 0, len); // fill the stream with silence
         return;
     }
 
-    int bytesToCopy = std::min(len, (int)_playbackBuffer.GetActiveSize());
-    std::memcpy(stream, _playbackBuffer.GetReadPointer(), bytesToCopy);
-    _playbackBuffer.ReadCompleted(bytesToCopy);
+    int bytesToCopy = std::min(len, (int)_playbackBuffer->Size());
+
+    auto tempBuffer =  _playbackBuffer->Read(bytesToCopy);
+    std::memcpy(stream,  tempBuffer.data(), bytesToCopy);
 
     // If there's not enough data in the buffer, fill the rest of the stream with silence
     if (bytesToCopy < len) {
@@ -279,8 +281,10 @@ void AudioManager::PlaybackRecordingThread() {
         int available = SDL_AudioStreamAvailable(_audioStream);
         if (available > 0) {
             LOG_DEBUG("audio", "Playback thread copying {} bytes", available);
-            SDL_AudioStreamGet(_audioStream, _playbackBuffer.GetWritePointer(), available);
-            _playbackBuffer.WriteCompleted(available);
+            std::vector<char> tempBuffer(available);
+            SDL_AudioStreamGet(_audioStream, tempBuffer.data(), available);
+
+            _playbackBuffer->Write(tempBuffer);
         }
 
         //Unlock callback
@@ -289,4 +293,5 @@ void AudioManager::PlaybackRecordingThread() {
 
     LOG_INFO("audio", "Playback thread finished");
 }
+
 

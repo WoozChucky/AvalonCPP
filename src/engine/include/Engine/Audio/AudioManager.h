@@ -6,6 +6,7 @@
 #include <functional>
 #include "AudioEncoder.h"
 #include "AudioDecoder.h"
+#include "Common/Utilities/CircularBuffer.h"
 
 typedef std::function<void()> RecordFinishedCallback;
 typedef std::function<void(U8* stream, int len)> AudioRecordedCallback;
@@ -50,7 +51,7 @@ private:
     SDL_AudioStream *_audioStream = nullptr;
     SDL_AudioDeviceID _playbackDeviceId = 0;
     SDL_AudioSpec _playbackSpec;
-    MessageBuffer _playbackBuffer;
+    CircularBuffer* _playbackBuffer;
     bool _isPlaying = false;
 
     AudioRecordedCallback _audioRecordedCallback = nullptr;
