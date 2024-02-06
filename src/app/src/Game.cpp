@@ -110,6 +110,7 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
     _sprite.Init(-1, -1, 1, 1);
     _shader.Init("colorShading.vert", "colorShading.frag");
     _shader.AddAttribute("position");
+    _shader.AddAttribute("color");
     _shader.Link();
 
     LOG_INFO("game", "Game initialized");

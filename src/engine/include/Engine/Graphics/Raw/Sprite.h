@@ -1,5 +1,6 @@
 #include <Common/Types.h>
 #include <GL/glew.h>
+#include <Engine/Graphics/Raw/Vertex.h>
 
 class Sprite {
 public:
@@ -18,21 +19,28 @@ public:
         _width = width;
         _height = height;
 
-        float vertexData[12];
+        Vertex vertexData[6];
         // Triangle 1
-        vertexData[0] = x + width;
-        vertexData[1] = y + height;
-        vertexData[2] = x;
-        vertexData[3] = y + height;
-        vertexData[4] = x;
-        vertexData[5] = y;
+        vertexData[0].position.x = x + width;
+        vertexData[0].position.y = y + height;
+        vertexData[1].position.x = x;
+        vertexData[1].position.y = y + height;
+        vertexData[2].position.x = x;
+        vertexData[2].position.y = y;
         // Triangle 2
-        vertexData[6] = x;
-        vertexData[7] = y;
-        vertexData[8] = x + width;
-        vertexData[9] = y;
-        vertexData[10] = x + width;
-        vertexData[11] = y + height;
+        vertexData[3].position.x = x;
+        vertexData[3].position.y = y;
+        vertexData[4].position.x = x + width;
+        vertexData[4].position.y = y;
+        vertexData[5].position.x = x + width;
+        vertexData[5].position.y = y + height;
+
+        for (int i = 0; i < 6; i++) {
+            vertexData[i].color.r = 255;
+            vertexData[i].color.g = 0;
+            vertexData[i].color.b = 255;
+            vertexData[i].color.a = 255;
+        }
 
         if (_vboId == 0) {
             glGenBuffers(1, &_vboId);
@@ -54,7 +62,14 @@ public:
 
         glEnableVertexAttribArray(0);
         CheckError();
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+        // This is the position attribute pointer
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+        CheckError();
+
+        glEnableVertexAttribArray(1);
+        CheckError();
+        // This is the color attribute pointer
+        glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
         CheckError();
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
