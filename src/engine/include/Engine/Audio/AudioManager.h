@@ -4,6 +4,8 @@
 #include <SDL2/SDL_audio.h>
 #include <opus/opus.h>
 #include <functional>
+#include "AudioEncoder.h"
+#include "AudioDecoder.h"
 
 typedef std::function<void()> RecordFinishedCallback;
 typedef std::function<void(U8* stream, int len)> AudioRecordedCallback;
@@ -27,11 +29,8 @@ public:
 
 private:
 
-    static constexpr int MAX_RECORDING_DEVICES = 10;
-    static constexpr int MAX_PLAYBACK_DEVICES = 10;
-
     //Maximum recording time
-    static constexpr int MAX_RECORDING_SECONDS = 60;
+    static constexpr int MAX_RECORDING_SECONDS = 10;
     //Maximum recording time plus padding
     static constexpr int RECORDING_BUFFER_SECONDS = MAX_RECORDING_SECONDS + 1;
 
@@ -56,10 +55,11 @@ private:
 
     AudioRecordedCallback _audioRecordedCallback = nullptr;
 
-    // Define Opus encoder parameters
-    OpusEncoder* encoder;
-    static constexpr int kSampleRate = 44100;    // Sample rate (Hz)
-    static constexpr int kChannels = 2;           // Number of audio channels (stereo)
+    // Define Opus parameters
+    AudioEncoder _audioEncoder;
+    AudioDecoder _audioDecoder;
+    static constexpr int kSampleRate = 48000;    // Sample rate (Hz)
+    static constexpr int kChannels = 1;           // Number of audio channels (stereo)
     static constexpr int kApplication = OPUS_APPLICATION_VOIP; // Opus application mode for VoIP
     static constexpr int kMaxFrameSize = 960;     // Maximum frame size in samples (20 ms at 48 kHz)
     static constexpr int kBitrate = 24000;        // Target bitrate for stereo audio (24 kbps)

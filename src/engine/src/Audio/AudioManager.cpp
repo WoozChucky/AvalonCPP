@@ -122,6 +122,9 @@ bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback
         _audioRecordedCallback = audioRecordedCallback;
     }
 
+    _audioEncoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
+    _audioDecoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
+
     LOG_INFO("audio", "System initialized");
     return true;
 }
@@ -197,6 +200,23 @@ AudioManager* AudioManager::Instance() {
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
     //Copy audio from stream
     if (_audioRecordedCallback != nullptr) {
+        /*
+        std::vector<U8> pcmData = std::vector<U8>(stream, stream + len);
+        std::vector<U8> encodedData;
+        encodedData.reserve(16384);
+
+        if (!_audioEncoder.Encode(&pcmData, &encodedData)) {
+            return;
+        }
+
+        std::vector<U8> decodedData;
+        decodedData.reserve(16384);
+
+        if (!_audioDecoder.Decode(&encodedData, &decodedData)) {
+            return;
+        }
+        */
+
         _audioRecordedCallback(stream, len);
     } else {
         SDL_AudioStreamPut(_audioStream, stream, len);
