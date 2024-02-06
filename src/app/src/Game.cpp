@@ -13,7 +13,7 @@
 
 #include "Common/Logging/Log.h"
 
-void APIENTRY OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
         LOG_WARN("graphics", "OpenGL Debug Message: {}", message);
     }

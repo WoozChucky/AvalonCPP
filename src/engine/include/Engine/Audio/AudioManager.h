@@ -2,6 +2,7 @@
 #include <Common/Types.h>
 #include <Common/Utilities/MessageBuffer.h>
 #include <SDL2/SDL_audio.h>
+#include <opus/opus.h>
 #include <functional>
 
 typedef std::function<void()> RecordFinishedCallback;
@@ -54,6 +55,14 @@ private:
     bool _isPlaying = false;
 
     AudioRecordedCallback _audioRecordedCallback = nullptr;
+
+    // Define Opus encoder parameters
+    OpusEncoder* encoder;
+    static constexpr int kSampleRate = 44100;    // Sample rate (Hz)
+    static constexpr int kChannels = 2;           // Number of audio channels (stereo)
+    static constexpr int kApplication = OPUS_APPLICATION_VOIP; // Opus application mode for VoIP
+    static constexpr int kMaxFrameSize = 960;     // Maximum frame size in samples (20 ms at 48 kHz)
+    static constexpr int kBitrate = 24000;        // Target bitrate for stereo audio (24 kbps)
 
 };
 

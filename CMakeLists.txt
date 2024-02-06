@@ -26,6 +26,7 @@ find_package(Protobuf)
 find_package(Boost)
 find_package(glew REQUIRED)
 find_package(utf8cpp)
+find_package(Opus)
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)
