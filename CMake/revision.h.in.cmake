@@ -10,8 +10,8 @@
  #define _SOURCE_DIRECTORY          R"(@CMAKE_SOURCE_DIR@)"
  #define _BUILD_DIRECTORY           R"(@BUILDDIR@)"
  #define _MYSQL_EXECUTABLE          R"(@MYSQL_EXECUTABLE@)"
- #define VER_COMPANYNAME_STR        "AvalonCore"
- #define VER_LEGALCOPYRIGHT_STR     "(c)2023-@rev_year@ AvalonCore"
+ #define VER_COMPANYNAME_STR        "Avalon Game Client"
+ #define VER_LEGALCOPYRIGHT_STR     "(c)2023-@rev_year@ Avalon"
  #define VER_FILEVERSION            0,0,0
  #define VER_FILEVERSION_STR        "@rev_hash@ @rev_date@ (@rev_branch@ branch)"
  #define VER_PRODUCTVERSION         VER_FILEVERSION

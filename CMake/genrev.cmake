@@ -74,10 +74,10 @@ set(rev_month ${CMAKE_MATCH_2})
 set(rev_day ${CMAKE_MATCH_3})
 
 # Create the actual revision.h file from the above params
-if(NOT "${rev_hash_cached}" STREQUAL "${rev_hash}" OR NOT "${rev_branch_cached}" STREQUAL "${rev_branch}" OR NOT EXISTS "${BUILDDIR}/revision.h")
+if(NOT "${rev_hash_cached}" STREQUAL "${rev_hash}" OR NOT "${rev_branch_cached}" STREQUAL "${rev_branch}" OR NOT EXISTS "${CMAKE_SOURCE_DIR}/src/app/src/revision.h")
   configure_file(
-    "${CMAKE_SOURCE_DIR}/cmake/revision.h.in.cmake"
-    "${BUILDDIR}/revision.h"
+    "${CMAKE_SOURCE_DIR}/Cmake/revision.h.in.cmake"
+    "${CMAKE_SOURCE_DIR}/src/app/src/revision.h"
     @ONLY
   )
   set(rev_hash_cached "${rev_hash}" CACHE INTERNAL "Cached commit-hash")
