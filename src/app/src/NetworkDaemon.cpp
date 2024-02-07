@@ -49,6 +49,11 @@ NetworkDaemon::~NetworkDaemon() {
 
 void NetworkDaemon::Start(boost::asio::io_context &ioContext) {
 
+    if (isConnected_.load()) {
+        LOG_WARN("network", "Already connected to server");
+        return;
+    }
+
     boost::asio::ip::tcp::socket socket(ioContext);
     boost::asio::ip::tcp::resolver resolver(ioContext);
     boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve("127.0.0.1", "21000");
@@ -103,21 +108,46 @@ void NetworkDaemon::Start(boost::asio::io_context &ioContext) {
 
 void NetworkDaemon::Login(const std::string &username, const std::string &password) {
 
+    if (!isConnected_.load()) {
+        LOG_WARN("network", "Not connected to server");
+        return;
+    }
+
+    if (_isLogged.load()) {
+        LOG_WARN("network", "Already logged in");
+        return;
+    }
+
     CAuthPacket payload;
 
     payload.set_username(username);
     payload.set_password(password);
 
     SendPacket(CMSG_AUTH, NetworkPacketFlags::Encrypted, payload);
+
+    _isLogged.store(true);
 }
 
 void NetworkDaemon::SendAudioPacket(const std::vector<U8> &audioData) {
+
+    if (!isConnected_.load()) {
+        return;
+    }
 
     CAudioRecordPacket payload;
     payload.set_soundbuffer(audioData.data(), audioData.size());
 
     SendPacket(CMSG_AUDIO_RECORD, NetworkPacketFlags::ClearText, payload);
 }
+
+bool NetworkDaemon::IsConnected() const {
+    return isConnected_.load();
+}
+
+bool NetworkDaemon::IsLogged() const {
+    return _isLogged.load();
+}
+
 
 std::string NetworkPacketTypeToString(NetworkPacketType type) {
     switch (type) {
@@ -358,4 +388,6 @@ void NetworkDaemon::SendPacket(NetworkPacketType type, NetworkPacketFlags flags,
 
     _sendPacketQueue->Enqueue(packet);
 }
+
+
 

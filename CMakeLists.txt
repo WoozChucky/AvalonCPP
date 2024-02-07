@@ -27,6 +27,7 @@ find_package(Boost)
 find_package(glew REQUIRED)
 find_package(utf8cpp)
 find_package(Opus)
+find_package(nlohmann_json)
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)

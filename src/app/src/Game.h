@@ -1,9 +1,4 @@
-//
-// Created by nunol on 2/3/2024.
-//
-
-#ifndef AVALONGAME_GAME_H
-#define AVALONGAME_GAME_H
+#pragma once
 
 #include <memory>
 #include <GL/glew.h>
@@ -12,11 +7,13 @@
 #include "NetworkDaemon.h"
 #include <Engine/Graphics/Raw/Sprite.h>
 #include <Engine/Graphics/Raw/Shader.h>
+#include <Engine/Settings.h>
 
+using namespace Avalon::Engine;
 
 class Game {
 public:
-    Game(boost::asio::io_context &ioContext);
+    Game(boost::asio::io_context &ioContext, GameSettings &settings);
     ~Game();
     void Run();
     void Stop();
@@ -30,8 +27,7 @@ private:
     SDL_GLContext _glContext;
     ImGuiIO& _io;
 
-    U32 _desiredFPS = 60;
-    U32 _frameDelay = 1000 / _desiredFPS;
+    U32 _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
     U32 _frameStart = 0;
 
     bool show_demo_window = false;
@@ -40,11 +36,9 @@ private:
 
     Sprite _sprite;
     Shader _shader;
+    GameSettings _settings;
 
     void HandleEvents();
     void Update();
     void Render();
 };
-
-
-#endif //AVALONGAME_GAME_H

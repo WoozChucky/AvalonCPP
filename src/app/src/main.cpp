@@ -23,7 +23,10 @@
 #include <Common/Asio/IoContext.h>
 #include <Common/Logging/Log.h>
 #include <Common/Debugging/Errors.h>
+#include <Engine/Settings.h>
 #include <csignal>
+
+using namespace Avalon::Engine;
 
 std::unique_ptr<Game> game;
 
@@ -98,8 +101,10 @@ int main(int argc, char** argv) {
 
     LOG_INFO("engine", "Starting engine");
 
+    auto settings = LoadGameSettings(DEFAULT_GAME_SETTINGS_PATH);
+
     ImGui::CreateContext();
-    game = std::make_unique<Game>(*ioContext);
+    game = std::make_unique<Game>(*ioContext, settings);
     game->Run();
     game->Shutdown();
     game.reset();

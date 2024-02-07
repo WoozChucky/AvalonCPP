@@ -30,6 +30,9 @@ public:
     void Login(const std::string& username, const std::string& password);
     void SendAudioPacket(const std::vector<U8>& audioData);
 
+    bool IsConnected() const;
+    bool IsLogged() const;
+
 private:
 
     using PacketHandler = std::function<void(const NetworkPacket&)>;
@@ -44,6 +47,7 @@ private:
     std::condition_variable cv_;
     std::mutex mtx_;
     std::atomic<bool> isConnected_ = false;
+    std::atomic<bool> _isLogged = false;
     std::map<NetworkPacketType, PacketHandler> _packetHandlers;
     std::unique_ptr<RingBuffer<NetworkPacket>> _receivedPacketQueue;
     std::unique_ptr<RingBuffer<NetworkPacket>> _sendPacketQueue;

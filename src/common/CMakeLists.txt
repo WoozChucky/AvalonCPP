@@ -14,7 +14,7 @@ set_target_properties(${This} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 target_include_directories(${This} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${This} PRIVATE fmt::fmt utf8cpp Boost::boost OpenSSL::SSL OpenSSL::Crypto nlohmann_json::nlohmann_json)
 
 
 

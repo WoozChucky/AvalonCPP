@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <SDL.h>
 
+using namespace Avalon::Engine;
+
 // Static function to bridge the callback
 static void AudioRecordCallbackBridge(void *userdata, U8 *stream, int len) {
     static_cast<AudioManager*>(userdata)->AudioRecordCallback(userdata, stream, len);
@@ -14,7 +16,7 @@ static void AudioPlaybackCallbackBridge(void *userdata, U8 *stream, int len) {
     static_cast<AudioManager*>(userdata)->AudioPlaybackCallback(userdata, stream, len);
 }
 
-bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback) {
+bool AudioManager::Initialize(AudioSettings& settings, const AudioRecordedCallback& audioRecordedCallback) {
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
@@ -22,70 +24,9 @@ bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback
         throw std::runtime_error("SDL_Init failed");
     }
 
-    SDL_AudioSpec desiredRecordingSpec;
-    SDL_zero(desiredRecordingSpec);
-    desiredRecordingSpec.freq = 44100;
-    desiredRecordingSpec.format = AUDIO_S16;
-    desiredRecordingSpec.channels = 2;
-    desiredRecordingSpec.samples = 4096;
-    desiredRecordingSpec.callback = AudioRecordCallbackBridge;
-    desiredRecordingSpec.userdata = this;
+    _settings = &settings;
 
-    auto gRecordingDeviceCount = SDL_GetNumAudioDevices(SDL_TRUE);
-    if(gRecordingDeviceCount < 1)
-    {
-        LOG_ERROR("audio", "Unable to get audio capture device! SDL Error: {}", SDL_GetError());
-        return false;
-    }
-
-    for(int i = 0; i < gRecordingDeviceCount; ++i)
-    {
-        //Get capture device name
-        const char* deviceName = SDL_GetAudioDeviceName(i, SDL_TRUE);
-        LOG_DEBUG("audio", "Capture Device {} = {}", i, deviceName);
-    }
-
-    auto gPlaybackDeviceCount = SDL_GetNumAudioDevices(SDL_FALSE);
-    if(gPlaybackDeviceCount < 1)
-    {
-        LOG_ERROR("audio", "Unable to get audio playback device! SDL Error: {}", SDL_GetError());
-        return false;
-    }
-
-    for(int i = 0; i < gPlaybackDeviceCount; ++i)
-    {
-        //Get capture device name
-        const char* deviceName = SDL_GetAudioDeviceName(i, SDL_FALSE);
-        LOG_DEBUG("audio", "Output Device {} = {}", i, deviceName);
-    }
-
-    //Open recording device
-    _recordingDeviceId = SDL_OpenAudioDevice(SDL_GetAudioDeviceName(0, SDL_TRUE), SDL_TRUE, &desiredRecordingSpec, &_recordingSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
-    // Device failed to open
-    if(_recordingDeviceId == 0)
-    {
-        //Report error
-        LOG_ERROR("audio", "Failed to open recording device! SDL Error: {}", SDL_GetError());
-        return false;
-    }
-
-    //Default audio spec
-    SDL_AudioSpec desiredPlaybackSpec;
-    SDL_zero(desiredPlaybackSpec);
-    desiredPlaybackSpec.freq = 44100;
-    desiredPlaybackSpec.format = AUDIO_S16; // AUDIO_F32;
-    desiredPlaybackSpec.channels = 2;
-    desiredPlaybackSpec.samples = 4096;
-    desiredPlaybackSpec.callback = AudioPlaybackCallbackBridge;
-    desiredPlaybackSpec.userdata = this;
-
-    //Open playback device
-    _playbackDeviceId = SDL_OpenAudioDevice(SDL_GetAudioDeviceName(0, SDL_FALSE), SDL_FALSE, &desiredPlaybackSpec, &_playbackSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE );
-    //Device failed to open
-    if(_playbackDeviceId == 0)
-    {
-        //Report error
-        LOG_ERROR("audio", "Failed to open playback device! SDL Error: {}", SDL_GetError());
+    if (!OpenRecordingDevice()) {
         return false;
     }
 
@@ -97,6 +38,10 @@ bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback
     auto recordingBufferInitialSize = RECORDING_BUFFER_SECONDS * recordingBytesPerSecond;
 
     _recordingBuffer.Resize(recordingBufferInitialSize);
+
+    if (!OpenPlaybackDevice()) {
+        return false;
+    }
 
     //Calculate per sample bytes
     int playbackBytesPerSample = _playbackSpec.channels * (SDL_AUDIO_BITSIZE(_playbackSpec.format) / 8);
@@ -125,6 +70,8 @@ bool AudioManager::Initialize(const AudioRecordedCallback& audioRecordedCallback
     _audioEncoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
     _audioDecoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
 
+    Playback();
+
     LOG_INFO("audio", "System initialized");
     return true;
 }
@@ -145,11 +92,87 @@ void AudioManager::Shutdown() {
     delete _playbackBuffer;
     _playbackBuffer = nullptr;
 
+    _audioRecordedCallback = nullptr;
+
     SDL_FreeAudioStream(_audioStream);
 
     SDL_Quit();
 
     LOG_INFO("audio", "Shutdown OK");
+}
+
+bool AudioManager::OpenAudioDevice(std::string& deviceName, SDL_AudioSpec& desiredSpec,  SDL_AudioSpec& returnedSpec, SDL_AudioDeviceID& deviceId, bool isRecording) {
+    // Maximum number of attempts to open the device
+    const int maxAttempts = 2;
+
+    for (int attempt = 0; attempt < maxAttempts; ++attempt) {
+        // If the device name is not specified or the previous attempt failed, get the default device
+        if (deviceName.empty() || deviceId == 0) {
+            deviceName = SDL_GetAudioDeviceName(0, isRecording ? SDL_TRUE : SDL_FALSE);
+        }
+
+        // Try to open the device
+        deviceId = SDL_OpenAudioDevice(deviceName.c_str(), isRecording ? SDL_TRUE : SDL_FALSE, &desiredSpec, &returnedSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+
+        // If the device was successfully opened, break the loop
+        if (deviceId != 0) {
+            break;
+        }
+    }
+
+    // If the device could not be opened after the maximum number of attempts, report an error
+    if (deviceId == 0) {
+        LOG_ERROR("audio", "Failed to open {} device! SDL Error: {}", isRecording ? "recording" : "playback", SDL_GetError());
+        return false;
+    }
+
+    return true;
+}
+
+bool AudioManager::OpenRecordingDevice() {
+    SDL_AudioSpec desiredRecordingSpec;
+    SDL_zero(desiredRecordingSpec);
+    desiredRecordingSpec.freq = 44100;
+    desiredRecordingSpec.format = AUDIO_S16;
+    desiredRecordingSpec.channels = 2;
+    desiredRecordingSpec.samples = 4096;
+    desiredRecordingSpec.callback = AudioRecordCallbackBridge;
+    desiredRecordingSpec.userdata = this;
+
+    return OpenAudioDevice(_settings->InputDevice, desiredRecordingSpec, _recordingSpec, _recordingDeviceId, true);
+}
+
+bool AudioManager::OpenPlaybackDevice() {
+    SDL_AudioSpec desiredPlaybackSpec;
+    SDL_zero(desiredPlaybackSpec);
+    desiredPlaybackSpec.freq = 44100;
+    desiredPlaybackSpec.format = AUDIO_S16; // AUDIO_F32;
+    desiredPlaybackSpec.channels = 2;
+    desiredPlaybackSpec.samples = 4096;
+    desiredPlaybackSpec.callback = AudioPlaybackCallbackBridge;
+    desiredPlaybackSpec.userdata = this;
+
+    return OpenAudioDevice(_settings->OutputDevice, desiredPlaybackSpec, _playbackSpec, _playbackDeviceId, false);
+}
+
+std::vector<std::string> AudioManager::GetInputDevices() {
+    std::vector<std::string> devices;
+    int numDevices = SDL_GetNumAudioDevices(SDL_TRUE);
+    devices.reserve(numDevices);
+    for (int i = 0; i < numDevices; i++) {
+        devices.emplace_back(SDL_GetAudioDeviceName(i, SDL_TRUE));
+    }
+    return devices;
+}
+
+std::vector<std::string> AudioManager::GetOutputDevices() {
+    std::vector<std::string> devices;
+    int numDevices = SDL_GetNumAudioDevices(SDL_FALSE);
+    devices.reserve(numDevices);
+    for (int i = 0; i < numDevices; i++) {
+        devices.emplace_back(SDL_GetAudioDeviceName(i, SDL_FALSE));
+    }
+    return devices;
 }
 
 void AudioManager::RecordAudio(const RecordFinishedCallback& callback) {
@@ -173,7 +196,7 @@ void AudioManager::StopRecording() {
     _recordingBuffer.Release();
 }
 
-void AudioManager::PlaybackRecording() {
+void AudioManager::Playback() {
     if (_isPlaying) {
         return;
     }
@@ -199,7 +222,6 @@ AudioManager* AudioManager::Instance() {
 }
 
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
-    //Copy audio from stream
     if (_audioRecordedCallback != nullptr) {
         /*
         std::vector<U8> pcmData = std::vector<U8>(stream, stream + len);
@@ -220,7 +242,10 @@ void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
 
         _audioRecordedCallback(stream, len);
     } else {
-        SDL_AudioStreamPut(_audioStream, stream, len);
+        if (_isPlaying)
+        {
+            SDL_AudioStreamPut(_audioStream, stream, len);
+        }
     }
 }
 
@@ -292,6 +317,14 @@ void AudioManager::PlaybackRecordingThread() {
     }
 
     LOG_INFO("audio", "Playback thread finished");
+}
+
+std::string &AudioManager::GetOutputDeviceName() {
+    return _settings->OutputDevice;
+}
+
+std::string &AudioManager::GetInputDeviceName() {
+    return _settings->InputDevice;
 }
 
 

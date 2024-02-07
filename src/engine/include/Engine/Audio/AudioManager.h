@@ -7,6 +7,9 @@
 #include "AudioEncoder.h"
 #include "AudioDecoder.h"
 #include "Common/Utilities/CircularBuffer.h"
+#include <Engine/Settings.h>
+
+using namespace Avalon::Engine;
 
 typedef std::function<void()> RecordFinishedCallback;
 typedef std::function<void(U8* stream, int len)> AudioRecordedCallback;
@@ -14,13 +17,19 @@ typedef std::function<void(U8* stream, int len)> AudioRecordedCallback;
 class AudioManager {
 
 public:
-    bool Initialize(const AudioRecordedCallback& audioRecordedCallback = nullptr);
+    bool Initialize(AudioSettings& settings, const AudioRecordedCallback& audioRecordedCallback = nullptr);
     void Shutdown();
 
     void RecordAudio(const RecordFinishedCallback& = nullptr);
     void StopRecording();
-    void PlaybackRecording();
+    void Playback();
     void StopPlayback();
+
+    bool IsRecording() const { return _isRecording; }
+    bool IsPlaying() const { return _isPlaying; }
+
+    std::vector<std::string> GetInputDevices();
+    std::vector<std::string> GetOutputDevices();
 
     static AudioManager* Instance();
 
@@ -28,7 +37,12 @@ public:
     void AudioPlaybackCallback(void* userdata, U8* stream, int len);
     void OnAudioReceived(U8* stream, int len);
 
+    std::string& GetOutputDeviceName();
+    std::string& GetInputDeviceName();
+
 private:
+
+    AudioSettings* _settings;
 
     //Maximum recording time
     static constexpr int MAX_RECORDING_SECONDS = 10;
@@ -39,6 +53,10 @@ private:
     ~AudioManager() = default;
     AudioManager(const AudioManager&) = delete;
     AudioManager& operator=(const AudioManager&) = delete;
+
+    bool OpenAudioDevice(std::string& deviceName, SDL_AudioSpec& desiredSpec, SDL_AudioSpec& returnedSpec, SDL_AudioDeviceID& deviceId, bool isRecording);
+    bool OpenRecordingDevice();
+    bool OpenPlaybackDevice();
 
     void RecordAudioThread(const RecordFinishedCallback& = nullptr);
     void PlaybackRecordingThread();

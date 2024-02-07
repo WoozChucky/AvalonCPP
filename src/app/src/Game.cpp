@@ -19,8 +19,9 @@ void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
     }
 }
 
-Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui::GetIO()){
+Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContext(ioContext), _io(ImGui::GetIO()){
     // Initialization code here
+    _settings = settings;
     _isRunning = false;
     _networkDaemon = std::make_unique<NetworkDaemon>();
     _networkDaemon->RegisterHandlers();
@@ -49,8 +50,8 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
             "SDL Game Loop",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            800,
-            600,
+            _settings.Video.Resolution.Width,
+            _settings.Video.Resolution.Height,
             window_flags
     );
 
@@ -101,7 +102,10 @@ Game::Game(boost::asio::io_context &ioContext): ioContext(ioContext), _io(ImGui:
         glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
     }
 
-    sAudio->Initialize([this](U8 *stream, int len) {
+    SDL_GL_SetSwapInterval(_settings.Video.VSync ? 1 : 0);
+    LOG_INFO("graphics", "VSync: {}", _settings.Video.VSync ? "Enabled" : "Disabled");
+
+    sAudio->Initialize(_settings.Audio, [this](U8 *stream, int len) {
         // Audio recorded callback
         auto audioData = std::vector<U8>(stream, stream + len);
         _networkDaemon->SendAudioPacket(audioData);
@@ -125,6 +129,8 @@ void Game::Run() {
     _isRunning = true;
 
     while (_isRunning) {
+
+        _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
 
         _frameStart = SDL_GetTicks();
 
@@ -151,6 +157,13 @@ void Game::Stop() {
 }
 
 void Game::Shutdown() {
+
+    if (SaveGameSettings(_settings, DEFAULT_GAME_SETTINGS_PATH)) {
+        LOG_DEBUG("engine", "Saved game settings to '{}'", DEFAULT_GAME_SETTINGS_PATH);
+    } else {
+        LOG_ERROR("engine", "Failed to save game settings");
+    }
+
     // Cleanup code here
     LOG_INFO("game", "Game shutting down");
     ImGui_ImplOpenGL3_Shutdown();
@@ -185,52 +198,128 @@ void Game::Update() {
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit"))
+        {
+            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+
+
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
     if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);
 
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
     {
         static float f = 0.0f;
         static int counter = 0;
 
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin("Avalon Debugging");
 
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+        //ImGui::CollapsingHeader("Graphics");
+        ImGui::SeparatorText("Graphics");
+        ImGui::Text("Resolution: %d x %d", _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+        ImGui::Text("FPS %d", _settings.Video.TargetFramesPerSecond);
+        ImGui::SliderInt("1", &_settings.Video.TargetFramesPerSecond, 15, 1000);
+
+        //ImGui::CollapsingHeader("Audio");
+        ImGui::SeparatorText("Audio");
+        ImGui::NewLine();
+        if (ImGui::BeginCombo("Input Device", sAudio->GetInputDeviceName().empty() ? "Select an input device" : sAudio->GetInputDeviceName().c_str()))
+        {
+            for (auto& device : sAudio->GetInputDevices()) {
+                bool isSelected = (device == sAudio->GetInputDeviceName());
+                if (ImGui::Selectable(device.c_str(), isSelected)) {
+                    sAudio->Shutdown();
+                    _settings.Audio.InputDevice = device;
+                    sAudio->Initialize(_settings.Audio);
+                }
+                if (isSelected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+            ImGui::EndCombo();
+        }
+        if (ImGui::BeginCombo("Output Device", sAudio->GetOutputDeviceName().empty() ? "Select an output device" : sAudio->GetOutputDeviceName().c_str()))
+        {
+            for (auto& device : sAudio->GetOutputDevices()) {
+                bool isSelected = (device == sAudio->GetOutputDeviceName());
+                if (ImGui::Selectable(device.c_str(), isSelected)) {
+                    sAudio->Shutdown();
+                    _settings.Audio.OutputDevice = device;
+                    sAudio->Initialize(_settings.Audio);
+                }
+                if (isSelected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+            ImGui::EndCombo();
+        }
+        static bool muteAudio = false;
+        ImGui::Checkbox("Mute Audio", &muteAudio);
+        if (!muteAudio) {
+            sAudio->Playback();
+        } else {
+            sAudio->StopPlayback();
+        }
+        ImGui::SameLine();
+        static bool muteMic = true;
+        ImGui::Checkbox("Mute Mic", &muteMic);
+        if (!muteMic) {
+            sAudio->RecordAudio();
+        } else {
+            sAudio->StopRecording();
+        }
+
+
+        ImGui::NewLine();
+        ImGui::Separator();
+        ImGui::NewLine();
+
+
+
+        //ImGui::CollapsingHeader("Network");
+        ImGui::SeparatorText("Network");
+        if (ImGui::Button("Connect")) {
+            _networkDaemon->Start(ioContext);
+        }
+        ImGui::SameLine();
+        ImGui::Text("Status: %s", _networkDaemon->IsConnected() ? "Connected" : "Disconnected");
+        static char username[32] = "";
+        ImGui::InputText("Username", username, IM_ARRAYSIZE(username));
+        static char password[32] = "";
+        ImGui::InputText("Password", password, IM_ARRAYSIZE(password), ImGuiInputTextFlags_Password);
+        if (ImGui::Button("Login")) {
+            _networkDaemon->Login(username, password);
+        }
+        ImGui::SameLine();
+        ImGui::Text("Logged: %s", _networkDaemon->IsLogged() ? "Yes" : "No");
+
+
+        ImGui::Separator();
+
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
+        //ImGui::Checkbox("Another Window", &show_another_window);
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+        ImGui::ColorEdit3("background test", (float*)&clear_color); // Edit 3 floats representing a color
 
         if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
             counter++;
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
-        if (ImGui::Button("Connect")) {
-            _networkDaemon->Start(ioContext);
-        }
-
-        if (ImGui::Button("Login")) {
-            _networkDaemon->Login("admin", "123");
-        }
-
-        if (ImGui::Button("Start Recording")) {
-            sAudio->RecordAudio([]() {});
-        }
-
-        if (ImGui::Button("Stop Recording")) {
-            sAudio->StopRecording();
-        }
-
-        if (ImGui::Button("Playback")) {
-            sAudio->PlaybackRecording();
-        }
-
-        if (ImGui::Button("Stop Playback")) {
-            sAudio->StopPlayback();
-        }
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / _io.Framerate, _io.Framerate);
 
@@ -257,12 +346,14 @@ void Game::Render() {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // 2. Draw your elements
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     _shader.Bind();
     _sprite.Draw();
     _shader.Unbind();
+
+    // 2. Draw your elements
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 
     // 3. Swap buffers
     SDL_GL_SwapWindow(_window);

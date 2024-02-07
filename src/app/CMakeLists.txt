@@ -23,6 +23,20 @@ foreach(SHADER ${SHADERS})
             ${CMAKE_BINARY_DIR}/bin/${SHADER_NAME})
 endforeach()
 
-target_link_libraries(${This} fmt::fmt OpenSSL::SSL protobuf::protobuf SDL2::SDL2 SDL2::SDL2main Boost::boost GLEW::GLEW Opus::opus imgui AvalonProto Common Network Engine)
+target_link_libraries(${This}
+        fmt::fmt
+        OpenSSL::SSL
+        protobuf::protobuf
+        nlohmann_json::nlohmann_json
+        SDL2::SDL2
+        SDL2::SDL2main
+        Boost::boost
+        GLEW::GLEW
+        Opus::opus
+        imgui
+        AvalonProto
+        Common
+        Network
+        Engine)
 
 

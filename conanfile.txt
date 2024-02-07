@@ -7,6 +7,7 @@ boost/1.84.0
 glew/2.2.0
 utfcpp/4.0.4
 opus/1.4
+nlohmann_json/3.11.3
 
 [generators]
 CMakeToolchain
