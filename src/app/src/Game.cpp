@@ -354,7 +354,7 @@ void Game::Update() {
         }
         ImGui::SameLine();
         ImGui::Text("Logged: %s", _networkDaemon->IsLogged() ? "Yes" : "No");
-        ImGui::PlotLines("Ping", _networkDaemon->GetPing().data(), _networkDaemon->GetPing().size(), 0, "ms", 0, 100, ImVec2(0, 80));
+        //ImGui::PlotLines("Ping", _networkDaemon->GetPing().data(), _networkDaemon->GetPing().size(), 0, "ms", 0, 100, ImVec2(0, 80));
 
 
         ImGui::NewLine();
