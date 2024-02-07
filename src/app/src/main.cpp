@@ -102,8 +102,6 @@ int main(int argc, char** argv) {
                                           });
     }
 
-    LOG_INFO("engine", "Starting engine");
-
     auto settings = LoadGameSettings(DEFAULT_GAME_SETTINGS_PATH);
 
     ImGui::CreateContext();

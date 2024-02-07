@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <SDL.h>
 #include "NetworkDaemon.h"
+#include "Engine/Graphics/Raw/Texture.h"
 #include <Engine/Graphics/Raw/Sprite.h>
 #include <Engine/Graphics/Raw/Shader.h>
 #include <Engine/Settings.h>
@@ -34,7 +35,7 @@ private:
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    Sprite _sprite;
+    std::vector<Sprite*> _sprites;
     Shader _shader;
     F32 _shaderTime = 0.0f;
     GameSettings _settings;

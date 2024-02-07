@@ -13,15 +13,8 @@ else()
     endif()
 endif()
 
-file(GLOB SHADERS "shaders/*")
-
-foreach(SHADER ${SHADERS})
-    get_filename_component(SHADER_NAME ${SHADER} NAME)
-    add_custom_command(TARGET ${This} PRE_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            ${SHADER}
-            ${CMAKE_BINARY_DIR}/bin/${SHADER_NAME})
-endforeach()
+file(COPY ${CMAKE_SOURCE_DIR}/Assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY shaders DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 target_link_libraries(${This}
         fmt::fmt

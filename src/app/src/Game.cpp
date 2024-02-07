@@ -12,6 +12,7 @@
 
 
 #include "Common/Logging/Log.h"
+#include "Engine/Graphics/AssetManager.h"
 
 void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
@@ -32,10 +33,10 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         throw std::runtime_error("SDL_Init failed");
     }
 
-    const char* glsl_version = "#version 150";
+    const char* glsl_version = "#version 450";
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
@@ -91,6 +92,10 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
     }
 
+    auto x = glGetString(GL_VERSION);
+    std::string str(reinterpret_cast<const char*>(x));
+    LOG_DEBUG("system", "> Using OpenGL version: {}", str.c_str());
+
     if (glewIsSupported("GL_KHR_debug")) {
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -111,17 +116,24 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         _networkDaemon->SendAudioPacket(audioData);
     });
 
-    _sprite.Init(-1, -1, 1, 1);
-    _shader.Init("colorShading.vert", "colorShading.frag");
+    _sprites.push_back(new Sprite());
+    _sprites[0]->Init(-1, -1, 1, 1, TexturesName::Player);
+    _sprites.push_back(new Sprite());
+    _sprites[1]->Init(0, -1, 1, 1, TexturesName::Player);
+
+    _shader.Init("shaders/colorShading.vert", "shaders/colorShading.frag");
     _shader.AddAttribute("position");
     _shader.AddAttribute("color");
+    _shader.AddAttribute("textCoord");
     _shader.Link();
 
     LOG_INFO("game", "Game initialized");
 }
 
 Game::~Game() {
+    _sprites.clear();
     sAudio->Shutdown();
+    sAssetManager->Shutdown();
 }
 
 void Game::Run() {
@@ -351,10 +363,19 @@ void Game::Render() {
 
         _shader.Bind();
 
+        glActiveTexture(GL_TEXTURE0);
+
+        auto textureLocation = _shader.GetUniformLocation("spriteTexture");
+        glUniform1i(textureLocation, 0);
+
         auto timeLocation = _shader.GetUniformLocation("time");
         glUniform1f(timeLocation, _shaderTime);
 
-        _sprite.Draw();
+        for (auto& sprite : _sprites) {
+            sprite->Draw();
+        }
+
+        glBindTexture(GL_TEXTURE_2D, 0);
         _shader.Unbind();
     }
 
