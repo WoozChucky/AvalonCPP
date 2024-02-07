@@ -42,6 +42,16 @@ public:
             vertexData[i].color.a = 255;
         }
 
+        vertexData[1].color.r = 0;
+        vertexData[1].color.g = 0;
+        vertexData[1].color.b = 255;
+        vertexData[1].color.a = 255;
+
+        vertexData[4].color.r = 0;
+        vertexData[4].color.g = 255;
+        vertexData[4].color.b = 0;
+        vertexData[4].color.a = 255;
+
         if (_vboId == 0) {
             glGenBuffers(1, &_vboId);
             CheckError();

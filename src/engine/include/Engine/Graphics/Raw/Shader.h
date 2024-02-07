@@ -25,6 +25,15 @@ public:
         CheckError();
     }
 
+    GLint GetUniformLocation(const std::string& uniformName) const {
+        if (_program == 0)
+            throw std::runtime_error("Shader not initialized");
+        auto location = glGetUniformLocation(_program, uniformName.c_str());
+        if (location == GL_INVALID_INDEX)
+            throw std::runtime_error("Uniform " + uniformName + " not found in shader");
+        return location;
+    }
+
     void Link() {
         if (_program == 0)
             throw std::runtime_error("Shader is not initialized");
@@ -75,6 +84,7 @@ private:
             std::vector<char> error(length);
             glGetShaderInfoLog(shaderId, length, &length, &error[0]);
             glDeleteShader(shaderId);
+            LOG_ERROR("graphics", "Failed to compile shader: {}", std::string(error.begin(), error.end()));
             throw std::runtime_error("Failed to compile shader: " + std::string(error.begin(), error.end()));
         }
         return shaderId;

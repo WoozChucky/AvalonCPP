@@ -346,9 +346,17 @@ void Game::Render() {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    _shader.Bind();
-    _sprite.Draw();
-    _shader.Unbind();
+    {
+        _shaderTime += 0.05f;
+
+        _shader.Bind();
+
+        auto timeLocation = _shader.GetUniformLocation("time");
+        glUniform1f(timeLocation, _shaderTime);
+
+        _sprite.Draw();
+        _shader.Unbind();
+    }
 
     // 2. Draw your elements
     ImGui::Render();

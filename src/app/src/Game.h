@@ -36,6 +36,7 @@ private:
 
     Sprite _sprite;
     Shader _shader;
+    F32 _shaderTime = 0.0f;
     GameSettings _settings;
 
     void HandleEvents();

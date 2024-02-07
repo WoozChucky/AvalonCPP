@@ -4,6 +4,7 @@ in vec2 position;
 in vec4 color;
 
 out vec4 fragmentColor;
+out vec2 fragmentPosition;
 
 void main() {
     // Set x and y to the position of the vertex
@@ -13,4 +14,5 @@ void main() {
 
     // Set the color of the vertex
     fragmentColor = color;
+    fragmentPosition = position;
 }
