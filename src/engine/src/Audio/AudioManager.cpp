@@ -30,27 +30,9 @@ bool AudioManager::Initialize(AudioSettings& settings, const AudioRecordedCallba
         return false;
     }
 
-    //Calculate per sample bytes
-    int recordingBytesPerSample = _recordingSpec.channels * (SDL_AUDIO_BITSIZE(_recordingSpec.format) / 8);
-    //Calculate bytes per second
-    int recordingBytesPerSecond = _recordingSpec.freq * recordingBytesPerSample;
-    //Calculate buffer size
-    auto recordingBufferInitialSize = RECORDING_BUFFER_SECONDS * recordingBytesPerSecond;
-
-    _recordingBuffer.Resize(recordingBufferInitialSize);
-
     if (!OpenPlaybackDevice()) {
         return false;
     }
-
-    //Calculate per sample bytes
-    int playbackBytesPerSample = _playbackSpec.channels * (SDL_AUDIO_BITSIZE(_playbackSpec.format) / 8);
-    //Calculate bytes per second
-    int playbackBytesPerSecond = _playbackSpec.freq * playbackBytesPerSample;
-    //Calculate buffer size
-    auto playbackBufferInitialSize = RECORDING_BUFFER_SECONDS * playbackBytesPerSecond;
-
-    _playbackBuffer = new CircularBuffer(playbackBufferInitialSize);
 
     _audioStream = SDL_NewAudioStream(
             _recordingSpec.format, _recordingSpec.channels, _recordingSpec.freq,
@@ -87,11 +69,6 @@ void AudioManager::Shutdown() {
     SDL_UnlockAudioDevice(_recordingDeviceId);
     SDL_UnlockAudioDevice(_playbackDeviceId);
 
-    // Release the buffers
-    _recordingBuffer.Release();
-    delete _playbackBuffer;
-    _playbackBuffer = nullptr;
-
     _audioRecordedCallback = nullptr;
 
     SDL_FreeAudioStream(_audioStream);
@@ -112,7 +89,7 @@ bool AudioManager::OpenAudioDevice(std::string& deviceName, SDL_AudioSpec& desir
         }
 
         // Try to open the device
-        deviceId = SDL_OpenAudioDevice(deviceName.c_str(), isRecording ? SDL_TRUE : SDL_FALSE, &desiredSpec, &returnedSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+        deviceId = SDL_OpenAudioDevice(deviceName.c_str(), isRecording ? SDL_TRUE : SDL_FALSE, &desiredSpec, &returnedSpec, 0);
 
         // If the device was successfully opened, break the loop
         if (deviceId != 0) {
@@ -132,7 +109,7 @@ bool AudioManager::OpenAudioDevice(std::string& deviceName, SDL_AudioSpec& desir
 bool AudioManager::OpenRecordingDevice() {
     SDL_AudioSpec desiredRecordingSpec;
     SDL_zero(desiredRecordingSpec);
-    desiredRecordingSpec.freq = 44100;
+    desiredRecordingSpec.freq = 48000;
     desiredRecordingSpec.format = AUDIO_S16;
     desiredRecordingSpec.channels = 2;
     desiredRecordingSpec.samples = 4096;
@@ -145,8 +122,8 @@ bool AudioManager::OpenRecordingDevice() {
 bool AudioManager::OpenPlaybackDevice() {
     SDL_AudioSpec desiredPlaybackSpec;
     SDL_zero(desiredPlaybackSpec);
-    desiredPlaybackSpec.freq = 44100;
-    desiredPlaybackSpec.format = AUDIO_S16; // AUDIO_F32;
+    desiredPlaybackSpec.freq = 48000;
+    desiredPlaybackSpec.format = AUDIO_S16;
     desiredPlaybackSpec.channels = 2;
     desiredPlaybackSpec.samples = 4096;
     desiredPlaybackSpec.callback = AudioPlaybackCallbackBridge;
@@ -180,8 +157,10 @@ void AudioManager::RecordAudio(const RecordFinishedCallback& callback) {
         return;
     }
     _isRecording = true;
-    std::thread recordThread(&AudioManager::RecordAudioThread, this, callback);
-    recordThread.detach();
+
+    SDL_PauseAudioDevice( _recordingDeviceId, SDL_FALSE );
+
+    LOG_DEBUG("audio", "Recording thread finished");
 }
 
 void AudioManager::StopRecording() {
@@ -191,9 +170,6 @@ void AudioManager::StopRecording() {
     _isRecording = false;
     SDL_PauseAudioDevice(_recordingDeviceId, SDL_TRUE);
     SDL_AudioStreamFlush(_audioStream);
-
-    // Clear the recording buffer
-    _recordingBuffer.Release();
 }
 
 void AudioManager::Playback() {
@@ -201,8 +177,8 @@ void AudioManager::Playback() {
         return;
     }
     _isPlaying = true;
-    std::thread playbackThread(&AudioManager::PlaybackRecordingThread, this);
-    playbackThread.detach();
+    SDL_PauseAudioDevice( _playbackDeviceId, SDL_FALSE );
+    LOG_INFO("audio", "Playback thread finished");
 }
 
 void AudioManager::StopPlayback() {
@@ -222,101 +198,49 @@ AudioManager* AudioManager::Instance() {
 }
 
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
+    if (!_isRecording) {
+        return;
+    }
+
+    const int num_samples = len / sizeof(S16);
+    S16* samples = (S16*)stream;
+    for (int i = 0; i < num_samples; i++) {
+        samples[i] *= _settings->InputVolume / 100.0f;
+    }
+
+    SDL_AudioStreamPut(_audioStream, stream, len);
+
     if (_audioRecordedCallback != nullptr) {
-        /*
-        std::vector<U8> pcmData = std::vector<U8>(stream, stream + len);
-        std::vector<U8> encodedData;
-        encodedData.reserve(16384);
-
-        if (!_audioEncoder.Encode(&pcmData, &encodedData)) {
-            return;
-        }
-
-        std::vector<U8> decodedData;
-        decodedData.reserve(16384);
-
-        if (!_audioDecoder.Decode(&encodedData, &decodedData)) {
-            return;
-        }
-        */
-
-        _audioRecordedCallback(stream, len);
-    } else {
-        if (_isPlaying)
-        {
-            SDL_AudioStreamPut(_audioStream, stream, len);
-        }
+        //_audioRecordedCallback(stream, len);
     }
 }
 
 void AudioManager::OnAudioReceived(U8 *stream, int len) {
-    //Copy audio from stream
+    if (!_isPlaying) {
+        return;
+    }
     SDL_AudioStreamPut(_audioStream, stream, len);
 }
 
 void AudioManager::AudioPlaybackCallback(void *userdata, U8 *stream, int len) {
-    // First we need to check if there's any data in the playback buffer, if not, we can just return
-    if (_playbackBuffer->IsEmpty()) {
-        SDL_memset(stream, 0, len); // fill the stream with silence
-        return;
-    }
 
-    int bytesToCopy = std::min(len, (int)_playbackBuffer->Size());
+    const int convertedBytes = SDL_AudioStreamGet(_audioStream, stream, len);
 
-    auto tempBuffer =  _playbackBuffer->Read(bytesToCopy);
-    std::memcpy(stream,  tempBuffer.data(), bytesToCopy);
+    if (convertedBytes > 0) {
 
-    // If there's not enough data in the buffer, fill the rest of the stream with silence
-    if (bytesToCopy < len) {
-        SDL_memset(stream + bytesToCopy, 0, len - bytesToCopy);
-    }
-}
-
-void AudioManager::RecordAudioThread(const RecordFinishedCallback& callback) {
-
-    SDL_PauseAudioDevice( _recordingDeviceId, SDL_FALSE );
-
-    while(_isRecording)
-    {
-        //Lock callback
-        SDL_LockAudioDevice( _recordingDeviceId );
-
-        //Unlock callback
-        SDL_UnlockAudioDevice( _recordingDeviceId );
-    }
-
-    // Call the callback function if it's not nullptr
-    if(callback != nullptr)
-    {
-        callback();
-    }
-
-    LOG_DEBUG("audio", "Recording thread finished");
-}
-
-void AudioManager::PlaybackRecordingThread() {
-    SDL_PauseAudioDevice( _playbackDeviceId, SDL_FALSE );
-
-    while(_isPlaying || SDL_AudioStreamAvailable(_audioStream) > 0)
-    {
-        //Lock callback
-        SDL_LockAudioDevice( _playbackDeviceId );
-
-        // Copy audio from stream
-        int available = SDL_AudioStreamAvailable(_audioStream);
-        if (available > 0) {
-            LOG_DEBUG("audio", "Playback thread copying {} bytes", available);
-            std::vector<char> tempBuffer(available);
-            SDL_AudioStreamGet(_audioStream, tempBuffer.data(), available);
-
-            _playbackBuffer->Write(tempBuffer);
+        const int num_samples = convertedBytes / sizeof(S16);
+        S16* samples = (S16*)stream;
+        for (int i = 0; i < num_samples; i++) {
+            samples[i] *= _settings->OutputVolume / 100.0f;
         }
 
-        //Unlock callback
-        SDL_UnlockAudioDevice( _playbackDeviceId );
     }
 
-    LOG_INFO("audio", "Playback thread finished");
+    len -= convertedBytes;
+    stream += convertedBytes;
+    if (len > 0) {
+        SDL_memset(stream, '\0', len); // fill the rest of the stream with silence
+    }
 }
 
 std::string &AudioManager::GetOutputDeviceName() {

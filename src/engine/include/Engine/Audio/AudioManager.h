@@ -58,18 +58,13 @@ private:
     bool OpenRecordingDevice();
     bool OpenPlaybackDevice();
 
-    void RecordAudioThread(const RecordFinishedCallback& = nullptr);
-    void PlaybackRecordingThread();
-
     SDL_AudioDeviceID _recordingDeviceId = 0;
     SDL_AudioSpec _recordingSpec;
-    MessageBuffer _recordingBuffer;
     bool _isRecording = false;
 
     SDL_AudioStream *_audioStream = nullptr;
     SDL_AudioDeviceID _playbackDeviceId = 0;
     SDL_AudioSpec _playbackSpec;
-    CircularBuffer* _playbackBuffer;
     bool _isPlaying = false;
 
     AudioRecordedCallback _audioRecordedCallback = nullptr;
@@ -78,10 +73,10 @@ private:
     AudioEncoder _audioEncoder;
     AudioDecoder _audioDecoder;
     static constexpr int kSampleRate = 48000;    // Sample rate (Hz)
-    static constexpr int kChannels = 1;           // Number of audio channels (stereo)
+    static constexpr int kChannels = 2;           // Number of audio channels (stereo)
     static constexpr int kApplication = OPUS_APPLICATION_VOIP; // Opus application mode for VoIP
     static constexpr int kMaxFrameSize = 960;     // Maximum frame size in samples (20 ms at 48 kHz)
-    static constexpr int kBitrate = 24000;        // Target bitrate for stereo audio (24 kbps)
+    static constexpr int kBitrate = 32000;        // Target bitrate for stereo audio (24 kbps)
 
 };
 

@@ -241,12 +241,48 @@ void Game::Update() {
         ImGui::Begin("Avalon Debugging");
 
         //ImGui::CollapsingHeader("Graphics");
+        ImGui::NewLine();
         ImGui::SeparatorText("Graphics");
+        ImGui::NewLine();
         ImGui::Text("Resolution: %d x %d", _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-        ImGui::Text("FPS %d", _settings.Video.TargetFramesPerSecond);
-        ImGui::SliderInt("1", &_settings.Video.TargetFramesPerSecond, 15, 1000);
+        static int resOption = 1;
+        ImGui::RadioButton("1280 × 720", &resOption, 0); ImGui::SameLine();
+        ImGui::RadioButton("1920 x 1080", &resOption, 1); ImGui::SameLine();
+        ImGui::RadioButton("2560 x 1440", &resOption, 2);
+        if (_currentResolution != (ResolutionOption)resOption) {
+            _currentResolution = (ResolutionOption)resOption;
+            switch (_currentResolution) {
+                case RESOLUTION_1280x720:
+                    _settings.Video.Resolution.Width = 1280;
+                    _settings.Video.Resolution.Height = 720;
+                    break;
+                case RESOLUTION_1920x1080:
+                    _settings.Video.Resolution.Width = 1920;
+                    _settings.Video.Resolution.Height = 1080;
+                    break;
+                case RESOLUTION_2560x1440:
+                    _settings.Video.Resolution.Width = 2560;
+                    _settings.Video.Resolution.Height = 1440;
+                    break;
+            }
+            SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+        }
+
+        ImGui::Text("FPS %.1f (%.3f ms/frame)", _io.Framerate, 1000.0f / _io.Framerate);
+        static int fpsOption = _settings.Video.TargetFramesPerSecond;
+        ImGui::RadioButton("30FPS", &fpsOption, 30); ImGui::SameLine();
+        ImGui::RadioButton("60FPS", &fpsOption, 60); ImGui::SameLine();
+        ImGui::RadioButton("120FPS", &fpsOption, 120); ImGui::SameLine();
+        ImGui::RadioButton("144FPS", &fpsOption, 144); ImGui::SameLine();
+        ImGui::RadioButton("240FPS", &fpsOption, 240); ImGui::SameLine();
+        ImGui::RadioButton("360FPS", &fpsOption, 360);
+        if (_settings.Video.TargetFramesPerSecond != (FPSOption)fpsOption) {
+            _settings.Video.TargetFramesPerSecond = (FPSOption)fpsOption;
+        }
 
         //ImGui::CollapsingHeader("Audio");
+        ImGui::NewLine();
+        ImGui::NewLine();
         ImGui::SeparatorText("Audio");
         ImGui::NewLine();
         if (ImGui::BeginCombo("Input Device", sAudio->GetInputDeviceName().empty() ? "Select an input device" : sAudio->GetInputDeviceName().c_str()))
@@ -264,6 +300,7 @@ void Game::Update() {
             }
             ImGui::EndCombo();
         }
+        ImGui::SliderInt("Input Volume", &_settings.Audio.InputVolume, 0, 100);
         if (ImGui::BeginCombo("Output Device", sAudio->GetOutputDeviceName().empty() ? "Select an output device" : sAudio->GetOutputDeviceName().c_str()))
         {
             for (auto& device : sAudio->GetOutputDevices()) {
@@ -279,16 +316,18 @@ void Game::Update() {
             }
             ImGui::EndCombo();
         }
+        ImGui::SliderInt("Output Volume", &_settings.Audio.OutputVolume, 0, 100);
+
         static bool muteAudio = false;
-        ImGui::Checkbox("Mute Audio", &muteAudio);
+        ImGui::Checkbox("Audio", &muteAudio);
         if (!muteAudio) {
-            sAudio->Playback();
+            _settings.Audio.OutputVolume = 100;
         } else {
-            sAudio->StopPlayback();
+            _settings.Audio.OutputVolume = 0;
         }
         ImGui::SameLine();
         static bool muteMic = true;
-        ImGui::Checkbox("Mute Mic", &muteMic);
+        ImGui::Checkbox("Microphone", &muteMic);
         if (!muteMic) {
             sAudio->RecordAudio();
         } else {
@@ -297,10 +336,7 @@ void Game::Update() {
 
 
         ImGui::NewLine();
-        ImGui::Separator();
         ImGui::NewLine();
-
-
 
         //ImGui::CollapsingHeader("Network");
         ImGui::SeparatorText("Network");
@@ -318,23 +354,19 @@ void Game::Update() {
         }
         ImGui::SameLine();
         ImGui::Text("Logged: %s", _networkDaemon->IsLogged() ? "Yes" : "No");
+        ImGui::PlotLines("Ping", _networkDaemon->GetPing().data(), _networkDaemon->GetPing().size(), 0, "ms", 0, 100, ImVec2(0, 80));
 
 
-        ImGui::Separator();
+        ImGui::NewLine();
+        ImGui::NewLine();
+        ImGui::NewLine();
 
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
         //ImGui::Checkbox("Another Window", &show_another_window);
 
         ImGui::ColorEdit3("background test", (float*)&clear_color); // Edit 3 floats representing a color
 
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / _io.Framerate, _io.Framerate);
-
+        ImGui::Separator();
         if (ImGui::Button("Quit")) {
             _isRunning = false;
         }

@@ -34,9 +34,9 @@ namespace Avalon::Engine {
 
     struct AudioSettings {
         std::string InputDevice;
-        U32 InputVolume;
+        int InputVolume;
         std::string OutputDevice;
-        U32 OutputVolume;
+        int OutputVolume;
     };
 
     struct GameSettings {

@@ -40,7 +40,7 @@ public:
         }
 
         opus_encoder_ctl(_encoder, OPUS_SET_BITRATE(kBitrate));
-        opus_encoder_ctl(_encoder, OPUS_SET_FORCE_CHANNELS(1)); // Mono audio
+        opus_encoder_ctl(_encoder, OPUS_SET_FORCE_CHANNELS(2));
         opus_encoder_ctl(_encoder, OPUS_SET_SIGNAL(OPUS_SIGNAL_VOICE)); // Optimize for voice signals
         opus_encoder_ctl(_encoder, OPUS_SET_BANDWIDTH(OPUS_AUTO)); // Automatically select the bandwidth
         opus_encoder_ctl(_encoder, OPUS_SET_COMPLEXITY(10)); // Adjust complexity as needed
@@ -50,7 +50,7 @@ public:
         return true;
     }
 
-    bool Encode(std::vector<U8>* pcmData, std::vector<U8>* encodedData) {
+    bool Encode(U8* pcmData, size_t pcmLength, U8* encodedData, size_t& encodedLength) {
         if (_encoder == nullptr) {
             LOG_ERROR("audio", "Opus encoder is not initialized");
             return false;
@@ -61,7 +61,7 @@ public:
         }
 
         for (int i = 0; i < (_channels * _frameSize); i++)
-            _inputBuffer[i] = pcmData->at(i);
+            _inputBuffer[i] = pcmData[i];
 
         if (_outputBuffer == nullptr) {
             _outputBuffer = new U8[kMaxOutputSize];
@@ -77,8 +77,8 @@ public:
             return false;
         }
 
-        encodedData->resize(encodedSize);
-        encodedData->insert(encodedData->begin(), _outputBuffer, _outputBuffer + encodedSize);
+        encodedLength = encodedSize;
+        memcpy(encodedData, _outputBuffer, encodedSize);
 
         delete[] _inputBuffer;
         _inputBuffer = nullptr;
@@ -90,7 +90,7 @@ public:
 
 private:
 
-    static constexpr U32 kBitrate = 24000;
+    static constexpr U32 kBitrate = 32000;
     static constexpr U32 kMaxOutputSize = 16384;
 
     OpusEncoder* _encoder = nullptr;
