@@ -56,13 +56,18 @@ void NetworkDaemon::Start(boost::asio::io_context &ioContext) {
 
     boost::asio::ip::tcp::socket socket(ioContext);
     boost::asio::ip::tcp::resolver resolver(ioContext);
-    boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve("127.0.0.1", "21000");
-    boost::asio::connect(socket, endpoints);
-
-    _session = std::make_shared<AVSession>(std::move(socket));
-    _session->SetConnectResultCallback([this](bool success) { OnConnectionResult(success); });
-    _session->SetMessageReceivedCallback([this](MessageBuffer &buffer) { OnDataReceived(buffer); });
-    _session->Start();
+    boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve("play.avalon.monster", "21000");
+    boost::asio::async_connect(socket, endpoints,
+                               [this, &socket](const boost::system::error_code &error, const boost::asio::ip::tcp::endpoint &endpoint) {
+                                   if (!error) {
+                                       _session = std::make_shared<AVSession>(std::move(socket));
+                                       _session->SetConnectResultCallback([this](bool success) { OnConnectionResult(success); });
+                                       _session->SetMessageReceivedCallback([this](MessageBuffer &buffer) { OnDataReceived(buffer); });
+                                       _session->Start();
+                                   } else {
+                                       OnConnectionResult(false);
+                                   }
+                               });
 
     std::unique_lock<std::mutex> lock(mtx_);
     if (cv_.wait_for(lock, std::chrono::seconds(5), [this] { return isConnected_.load(); })) {

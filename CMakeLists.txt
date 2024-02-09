@@ -31,6 +31,7 @@ find_package(nlohmann_json)
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)
+add_subdirectory(vendor/SDL_mixer)
 
 if (WIN32)
     add_definitions(-DAV_PLATFORM_WIN)
