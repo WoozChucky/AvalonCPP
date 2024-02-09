@@ -12,21 +12,6 @@
 
 using namespace Avalon::Engine;
 
-enum ResolutionOption {
-    RESOLUTION_1280x720 = 0,
-    RESOLUTION_1920x1080 = 1,
-    RESOLUTION_2560x1440 = 2
-};
-
-enum FPSOption {
-    FPS_30 = 30,
-    FPS_60 = 60,
-    FPS_120 = 120,
-    FPS_144 = 144,
-    FPS_240 = 240,
-    FPS_360 = 360
-};
-
 class Game {
 public:
     Game(boost::asio::io_context &ioContext, GameSettings &settings);

@@ -33,10 +33,10 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         throw std::runtime_error("SDL_Init failed");
     }
 
-    const char* glsl_version = "#version 450";
+    const char* glsl_version = "#version 410";
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
@@ -75,7 +75,7 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     _io = ImGui::GetIO(); (void)_io;
     _io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     _io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    _io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;               // Enable Docking
+    _io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();

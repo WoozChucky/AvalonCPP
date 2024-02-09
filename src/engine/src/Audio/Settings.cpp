@@ -21,13 +21,13 @@ namespace Avalon::Engine {
     void from_json(const json& j, Avalon::Engine::VideoSettings& res)
     {
         j.at("Resolution").get_to(res.Resolution);
-        j.at("Fullscreen").get_to(res.Fullscreen);
+        j.at("Mode").get_to(res.Mode);
         j.at("VSync").get_to(res.VSync);
         j.at("TargetFramesPerSecond").get_to(res.TargetFramesPerSecond);
     }
     void to_json(json& j, const Avalon::Engine::VideoSettings& res)
     {
-        j = json{{"Resolution", res.Resolution}, {"Fullscreen", res.Fullscreen}, {"VSync", res.VSync}, {"TargetFramesPerSecond", res.TargetFramesPerSecond}};
+        j = json{{"Resolution", res.Resolution}, {"Mode", res.Mode}, {"VSync", res.VSync}, {"TargetFramesPerSecond", res.TargetFramesPerSecond}};
     }
 
     void from_json(const json& j, Avalon::Engine::AudioSettings& res)
