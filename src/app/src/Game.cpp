@@ -45,24 +45,26 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    auto window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL  | SDL_WINDOW_ALLOW_HIGHDPI);
 
     _window = SDL_CreateWindow(
             "SDL Game Loop",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            _settings.Video.Resolution.Width,
-            _settings.Video.Resolution.Height,
-            window_flags
+            (S32) _settings.Video.Resolution.Width,
+            (S32) _settings.Video.Resolution.Height,
+            _settings.Video.Mode
     );
 
     if (!_window) {
         throw std::runtime_error("SDL_CreateWindow failed");
     }
 
+    _currentResolution = _settings.Video.Resolution.GetResolutionOption();
+
     _glContext = SDL_GL_CreateContext(_window);
     if (!_glContext) {
         // Handle context creation error
+        LOG_ERROR("graphics", "SDL_GL_CreateContext failed. {}", SDL_GetError());
         throw std::runtime_error("SDL_GL_CreateContext failed");
     }
 
@@ -92,8 +94,7 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
     }
 
-    auto x = glGetString(GL_VERSION);
-    std::string str(reinterpret_cast<const char*>(x));
+    std::string str(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
     LOG_DEBUG("system", "> Using OpenGL version: {}", str.c_str());
 
     if (glewIsSupported("GL_KHR_debug")) {
@@ -245,7 +246,7 @@ void Game::Update() {
         ImGui::SeparatorText("Graphics");
         ImGui::NewLine();
         ImGui::Text("Resolution: %d x %d", _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-        static int resOption = 1;
+        static int resOption = _currentResolution;
         ImGui::RadioButton("1280 × 720", &resOption, 0); ImGui::SameLine();
         ImGui::RadioButton("1920 x 1080", &resOption, 1); ImGui::SameLine();
         ImGui::RadioButton("2560 x 1440", &resOption, 2);
@@ -266,6 +267,7 @@ void Game::Update() {
                     break;
             }
             SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+            SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
         }
 
         ImGui::Text("FPS %.1f (%.3f ms/frame)", _io.Framerate, 1000.0f / _io.Framerate);

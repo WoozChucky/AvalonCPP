@@ -1,7 +1,9 @@
 #include <Engine/Settings.h>
 #include <Common/Utilities/JsonUtils.h>
+#include <Common/Logging/Log.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
+
 
 using json = nlohmann::json;
 using namespace Avalon::Engine;
@@ -53,7 +55,6 @@ namespace Avalon::Engine {
     }
 
 
-
     Optional<GameSettings> LoadGameSettingsFile(const String& path)
     {
         std::ifstream file(path);
@@ -62,14 +63,19 @@ namespace Avalon::Engine {
             return {};
         }
 
-        auto content = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        try {
+            auto content = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-        auto settings = Utilities::Json::Deserialize<GameSettings>(content);
+            auto settings = Utilities::Json::Deserialize<GameSettings>(content);
 
-        content.clear();
-        file.close();
+            content.clear();
+            file.close();
 
-        return settings;
+            return settings;
+        } catch (const std::exception& e) {
+            LOG_WARN("settings", "Failed to load user game settings: {}", e.what());
+            return {};
+        }
     }
 
     GameSettings Avalon::Engine::LoadGameSettings(const std::string& path)
