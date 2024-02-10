@@ -13,6 +13,7 @@
 
 #include "Common/Logging/Log.h"
 #include "Engine/Graphics/AssetManager.h"
+#include "Engine/Input/InputManager.h"
 
 void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
@@ -111,16 +112,20 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     SDL_GL_SetSwapInterval(_settings.Video.VSync ? 1 : 0);
     LOG_INFO("graphics", "VSync: {}", _settings.Video.VSync ? "Enabled" : "Disabled");
 
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     sAudio->Initialize(_settings.Audio, [this](U8 *stream, int len) {
         // Audio recorded callback
         auto audioData = std::vector<U8>(stream, stream + len);
         _networkDaemon->SendAudioPacket(audioData);
     });
 
-    _sprites.push_back(new Sprite());
-    _sprites[0]->Init(-1, -1, 1, 1, TexturesName::Player);
-    _sprites.push_back(new Sprite());
-    _sprites[1]->Init(0, -1, 1, 1, TexturesName::Player);
+    _camera.Init(_settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+
+    //_sprites.push_back(new Sprite());
+    //_sprites[0]->Init(0.0f, 0.0f, 50.0f, 50.f, TexturesName::Player);
 
     _shader.Init("shaders/colorShading.vert", "shaders/colorShading.frag");
     _shader.AddAttribute("position");
@@ -128,11 +133,12 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     _shader.AddAttribute("textCoord");
     _shader.Link();
 
+    _spriteBatch.Initialize();
+
     LOG_INFO("game", "Game initialized");
 }
 
 Game::~Game() {
-    _sprites.clear();
     sAudio->Shutdown();
     sAssetManager->Shutdown();
 }
@@ -145,14 +151,14 @@ void Game::Run() {
 
         _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
 
-        _frameStart = SDL_GetTicks();
+        _frameStart = SDL_GetTicks64();
 
         HandleEvents();
         Update();
         Render();
 
         // Calculate frame time
-        auto frameTime = SDL_GetTicks() - _frameStart;
+        auto frameTime = SDL_GetTicks64() - _frameStart;
 
         // Cap frame rate
         if (_frameDelay > frameTime) {
@@ -194,13 +200,45 @@ void Game::HandleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
-            _isRunning = false;
-        if (event.type == SDL_WINDOWEVENT
-            && event.window.event == SDL_WINDOWEVENT_CLOSE
-            && event.window.windowID == SDL_GetWindowID(_window)) {
-            _isRunning = false;
+        switch (event.type) {
+            case SDL_QUIT:
+                _isRunning = false;
+                break;
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_CLOSE
+                && event.window.windowID == SDL_GetWindowID(_window)) {
+                    _isRunning = false;
+                }
+                break;
+            case SDL_KEYUP:
+                sInputManager->ReleaseKey(event.key.keysym.sym);
+                break;
+            case SDL_KEYDOWN:
+                sInputManager->PressKey(event.key.keysym.sym);
+                break;
         }
+    }
+
+    if (sInputManager->IsKeyDown(SDLK_w)) {
+        _camera.SetPosition(_camera.GetPosition() + glm::vec2(0.0f, 10.0f));
+    }
+    if (sInputManager->IsKeyDown(SDLK_s)) {
+        _camera.SetPosition(_camera.GetPosition() + glm::vec2(0.0f, -10.0f));
+    }
+    if (sInputManager->IsKeyDown(SDLK_a)) {
+        _camera.SetPosition(_camera.GetPosition() + glm::vec2(-10.0f, 0.0f));
+    }
+    if (sInputManager->IsKeyDown(SDLK_d)) {
+        _camera.SetPosition(_camera.GetPosition() + glm::vec2(10.0f, 0.0f));
+    }
+    if (sInputManager->IsKeyDown(SDLK_q)) {
+        _camera.SetScale(_camera.GetScale() + 0.1f);
+    }
+    if (sInputManager->IsKeyDown(SDLK_e)) {
+        _camera.SetScale(_camera.GetScale() - 0.1f);
+    }
+    if (sInputManager->IsKeyDown(SDLK_ESCAPE)) {
+        _isRunning = false;
     }
 }
 
@@ -269,6 +307,21 @@ void Game::Update() {
             SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
             SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
         }
+
+        ImGui::Text("Mode: %s",
+                    _settings.Video.Mode == VideoMode::Windowed ? "Windowed"
+                    : _settings.Video.Mode == VideoMode::Borderless ? "Borderless"
+                    : _settings.Video.Mode == VideoMode::Fullscreen ? "Fullscreen" : "Fullscreen Borderless"
+        );
+        static int modeOption = _settings.Video.Mode;
+        ImGui::RadioButton("Windowed", &modeOption, VideoMode::Windowed); ImGui::SameLine();
+        ImGui::RadioButton("Borderless", &modeOption, VideoMode::Borderless); ImGui::SameLine();
+        ImGui::RadioButton("Fullscreen", &modeOption, VideoMode::Fullscreen); ImGui::SameLine();
+        ImGui::RadioButton("Fullscreen Borderless", &modeOption, VideoMode::FullscreenBorderless);
+        //if (_settings.Video.Mode != (VideoMode)modeOption) {
+        //    _settings.Video.Mode = (VideoMode)modeOption;
+        //    SDL_SetWindowFullscreen(_window, _settings.Video.Mode);
+        //}
 
         ImGui::Text("FPS %.1f (%.3f ms/frame)", _io.Framerate, 1000.0f / _io.Framerate);
         static int fpsOption = _settings.Video.TargetFramesPerSecond;
@@ -384,6 +437,8 @@ void Game::Update() {
             show_another_window = false;
         ImGui::End();
     }
+
+    _camera.Update();
 }
 
 void Game::Render() {
@@ -402,12 +457,40 @@ void Game::Render() {
         auto textureLocation = _shader.GetUniformLocation("spriteTexture");
         glUniform1i(textureLocation, 0);
 
-        auto timeLocation = _shader.GetUniformLocation("time");
-        glUniform1f(timeLocation, _shaderTime);
+        //auto timeLocation = _shader.GetUniformLocation("time");
+        //glUniform1f(timeLocation, _shaderTime);
 
-        for (auto& sprite : _sprites) {
-            sprite->Draw();
+        auto projectionLocation = _shader.GetUniformLocation("projection");
+        glm::mat4 cameraMatrix = _camera.GetCameraMatrix();
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+        _spriteBatch.Begin();
+
+        static Color color;
+        color.r = 255;
+        color.g = 255;
+        color.b = 255;
+        color.a = 255;
+
+        static U32 textureId =  sAssetManager->GetTexture(TexturesName::Player).Id;
+
+        for (int i = 0; i < 1; ++i) {
+            _spriteBatch.Draw(
+                    glm::vec4(0.0f, 0.0f, 50.0f, 50.0f), // Position and dimensions
+                    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),  // UV coordinates
+                    textureId, // Texture
+                    0.0f, // Depth
+                    color // Color
+            );
         }
+
+        _spriteBatch.End();
+
+        _spriteBatch.Render();
+
+        //for (auto& sprite : _sprites) {
+        //    sprite->Draw();
+        //}
 
         glBindTexture(GL_TEXTURE_2D, 0);
         _shader.Unbind();

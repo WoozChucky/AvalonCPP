@@ -2,7 +2,6 @@
 #include <Common/Types.h>
 #include <Common/Utilities/MessageBuffer.h>
 #include <SDL2/SDL_audio.h>
-#include <opus/opus.h>
 #include <functional>
 #include "AudioEncoder.h"
 #include "AudioDecoder.h"
@@ -69,15 +68,8 @@ private:
 
     AudioRecordedCallback _audioRecordedCallback = nullptr;
 
-    // Define Opus parameters
     AudioEncoder _audioEncoder;
     AudioDecoder _audioDecoder;
-    static constexpr int kSampleRate = 48000;    // Sample rate (Hz)
-    static constexpr int kChannels = 2;           // Number of audio channels (stereo)
-    static constexpr int kApplication = OPUS_APPLICATION_VOIP; // Opus application mode for VoIP
-    static constexpr int kMaxFrameSize = 960;     // Maximum frame size in samples (20 ms at 48 kHz)
-    static constexpr int kBitrate = 32000;        // Target bitrate for stereo audio (24 kbps)
-
 };
 
 #define sAudio AudioManager::Instance()

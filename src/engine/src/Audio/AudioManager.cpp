@@ -3,6 +3,13 @@
 #include <thread>
 #include <algorithm>
 #include <SDL.h>
+#include <zlib.h>
+#include <cassert>
+#include <iostream>
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
+#include <boost/iostreams/filter/bzip2.hpp>
 
 using namespace Avalon::Engine;
 
@@ -48,9 +55,6 @@ bool AudioManager::Initialize(AudioSettings& settings, const AudioRecordedCallba
     if (audioRecordedCallback != nullptr) {
         _audioRecordedCallback = audioRecordedCallback;
     }
-
-    _audioEncoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
-    _audioDecoder.Initialize(kSampleRate, kChannels, kMaxFrameSize);
 
     Playback();
 
@@ -197,6 +201,113 @@ AudioManager* AudioManager::Instance() {
     return &instance;
 }
 
+void compress_memory(void *in_data, size_t in_data_size, std::vector<uint8_t> &out_data)
+{
+    std::vector<uint8_t> buffer;
+
+    const size_t BUFSIZE = 128 * 1024;
+    uint8_t temp_buffer[BUFSIZE];
+
+    z_stream strm;
+    strm.zalloc = 0;
+    strm.zfree = 0;
+    strm.next_in = reinterpret_cast<uint8_t *>(in_data);
+    strm.avail_in = in_data_size;
+    strm.next_out = temp_buffer;
+    strm.avail_out = BUFSIZE;
+
+    deflateInit(&strm, Z_BEST_COMPRESSION);
+
+    while (strm.avail_in != 0)
+    {
+        int res = deflate(&strm, Z_NO_FLUSH);
+        assert(res == Z_OK);
+        if (strm.avail_out == 0)
+        {
+            buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+            strm.next_out = temp_buffer;
+            strm.avail_out = BUFSIZE;
+        }
+    }
+
+    int deflate_res = Z_OK;
+    while (deflate_res == Z_OK)
+    {
+        if (strm.avail_out == 0)
+        {
+            buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+            strm.next_out = temp_buffer;
+            strm.avail_out = BUFSIZE;
+        }
+        deflate_res = deflate(&strm, Z_FINISH);
+    }
+
+    assert(deflate_res == Z_STREAM_END);
+    buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE - strm.avail_out);
+    deflateEnd(&strm);
+
+    out_data.swap(buffer);
+}
+
+void uncompress_memory(const std::vector<uint8_t>& in_data, std::vector<uint8_t>& out_data) {
+    std::vector<uint8_t> buffer;
+
+    const size_t BUFSIZE = 128 * 1024;
+    uint8_t temp_buffer[BUFSIZE];
+
+    z_stream strm;
+    strm.zalloc = 0;
+    strm.zfree = 0;
+    strm.next_in = const_cast<uint8_t*>(in_data.data());
+    strm.avail_in = in_data.size();
+    strm.next_out = temp_buffer;
+    strm.avail_out = BUFSIZE;
+
+    inflateInit(&strm);
+
+    while (strm.avail_in != 0) {
+        int res = inflate(&strm, Z_NO_FLUSH);
+        assert(res != Z_STREAM_ERROR);
+        switch (res) {
+            case Z_NEED_DICT:
+            case Z_DATA_ERROR:
+            case Z_MEM_ERROR:
+                inflateEnd(&strm);
+                std::cerr << "Error while decompressing data" << std::endl;
+                return;
+        }
+
+        if (strm.avail_out == 0) {
+            buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+            strm.next_out = temp_buffer;
+            strm.avail_out = BUFSIZE;
+        }
+    }
+
+    int inflate_res = Z_OK;
+    while (inflate_res == Z_OK) {
+        if (strm.avail_out == 0) {
+            buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+            strm.next_out = temp_buffer;
+            strm.avail_out = BUFSIZE;
+        }
+        inflate_res = inflate(&strm, Z_FINISH);
+        switch (inflate_res) {
+            case Z_NEED_DICT:
+            case Z_STREAM_ERROR:
+                inflateEnd(&strm);
+                std::cerr << "Error while decompressing data" << std::endl;
+                return;
+        }
+    }
+
+    assert(inflate_res == Z_STREAM_END);
+    buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE - strm.avail_out);
+    inflateEnd(&strm);
+
+    out_data.swap(buffer);
+}
+
 void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
     if (!_isRecording) {
         return;
@@ -208,7 +319,15 @@ void AudioManager::AudioRecordCallback(void *userdata, U8 *stream, int len) {
         samples[i] *= _settings->InputVolume / 100.0f;
     }
 
-    SDL_AudioStreamPut(_audioStream, stream, len);
+    std::vector<U8> compresed;
+
+    compress_memory(stream, len, compresed);
+
+    std::vector<U8> uncompressed;
+
+    uncompress_memory(compresed, uncompressed);
+
+    SDL_AudioStreamPut(_audioStream, uncompressed.data(), uncompressed.size());
 
     if (_audioRecordedCallback != nullptr) {
         //_audioRecordedCallback(stream, len);

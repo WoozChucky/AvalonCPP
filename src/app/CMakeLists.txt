@@ -23,10 +23,10 @@ target_link_libraries(${This}
         nlohmann_json::nlohmann_json
         SDL2::SDL2
         SDL2::SDL2main
-        SDL2_mixer
+        ZLIB::ZLIB
         Boost::boost
         GLEW::GLEW
-        Opus::opus
+        glm::glm
         imgui
         AvalonProto
         Common

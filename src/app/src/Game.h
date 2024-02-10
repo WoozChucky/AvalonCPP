@@ -6,6 +6,8 @@
 #include <SDL.h>
 #include "NetworkDaemon.h"
 #include "Engine/Graphics/Raw/Texture.h"
+#include "Engine/Graphics/Camera2D.h"
+#include "Engine/Graphics/SpriteBatch.h"
 #include <Engine/Graphics/Raw/Sprite.h>
 #include <Engine/Graphics/Raw/Shader.h>
 #include <Engine/Settings.h>
@@ -28,14 +30,15 @@ private:
     SDL_GLContext _glContext;
     ImGuiIO& _io;
 
-    U32 _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
-    U32 _frameStart = 0;
+    U64 _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
+    U64 _frameStart = 0;
 
     bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    std::vector<Sprite*> _sprites;
+    Camera2D _camera;
+    SpriteBatch _spriteBatch;
     Shader _shader;
     F32 _shaderTime = 0.0f;
     GameSettings _settings;
