@@ -31,7 +31,7 @@ public:
     }
 
     void Draw(SpriteBatch& spriteBatch) {
-        Color color{};
+        ColorRGBA8 color{};
         color.r = 255;
         color.g = 255;
         color.b = 255;

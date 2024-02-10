@@ -3,11 +3,15 @@
 #include <Common/Types.h>
 
 struct Position {
+    Position() : x(0), y(0) {}
+    Position(F32 x, F32 y) : x(x), y(y) {}
     F32 x;
     F32 y;
 };
 
-struct Color {
+struct ColorRGBA8 {
+    ColorRGBA8() : r(0), g(0), b(0), a(0) {}
+    ColorRGBA8(U8 r, U8 g, U8 b, U8 a) : r(r), g(g), b(b), a(a) {}
     U8 r;
     U8 g;
     U8 b;
@@ -15,13 +19,15 @@ struct Color {
 };
 
 struct TextureCoordinate {
+    TextureCoordinate() : U(0), V(0) {}
+    TextureCoordinate(F32 u, F32 v) : U(u), V(v) {}
     F32 U;
     F32 V;
 };
 
 struct Vertex {
     Position position;
-    Color color;
+    ColorRGBA8 color;
     TextureCoordinate textureCoordinate;
 
     void SetPosition(F32 x, F32 y) {

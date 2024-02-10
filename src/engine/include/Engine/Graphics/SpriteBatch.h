@@ -68,7 +68,7 @@ public:
         CreateRenderBatches();
     }
 
-    void Draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, F32 depth, const Color& color) {
+    void Draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, F32 depth, const ColorRGBA8& color) {
         auto* glyph = new Glyph();
         glyph->Texture = texture;
         glyph->Depth = depth;

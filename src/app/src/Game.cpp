@@ -196,6 +196,7 @@ void Game::Shutdown() {
 }
 
 void Game::HandleEvents() {
+    sInputManager->Update();
     // Event handling
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -494,7 +495,7 @@ void Game::Render() {
 
         _spriteBatch.Begin();
 
-        static Color color;
+        static ColorRGBA8 color;
         color.r = 255;
         color.g = 255;
         color.b = 255;

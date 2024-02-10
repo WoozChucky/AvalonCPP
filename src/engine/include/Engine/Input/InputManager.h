@@ -10,11 +10,23 @@ public:
         return &instance;
     };
 
+    void Update() {
+        _previousKeys = _keys;
+    }
+
     void PressKey(U32 key) {
         _keys[key] = true;
     }
     void ReleaseKey(U32 key) {
         _keys[key] = false;
+    }
+
+    bool IsKeyPressed(U32 key) {
+        return IsKeyDown(key) && !_previousKeys[key];
+    }
+
+    bool IsKeyReleased(U32 key) {
+        return !IsKeyDown(key) && _previousKeys[key];
     }
 
     bool IsKeyDown(U32 key) {
@@ -41,6 +53,7 @@ private:
     InputManager& operator=(const InputManager&) = delete;
 
     std::unordered_map<U32, bool> _keys;
+    std::unordered_map<U32, bool> _previousKeys;
     glm::vec2 _mouseCoords = glm::vec2(0.0f);
 };
 
