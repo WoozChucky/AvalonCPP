@@ -25,6 +25,15 @@ public:
         return false;
     }
 
+    void SetMouseCoords(F32 x, F32 y) {
+        _mouseCoords.x = x;
+        _mouseCoords.y = y;
+    }
+
+    glm::vec2 GetMouseCoords() const {
+        return _mouseCoords;
+    }
+
 private:
     InputManager() = default;
     ~InputManager() = default;
@@ -32,6 +41,7 @@ private:
     InputManager& operator=(const InputManager&) = delete;
 
     std::unordered_map<U32, bool> _keys;
+    glm::vec2 _mouseCoords = glm::vec2(0.0f);
 };
 
 #define sInputManager InputManager::Instance()

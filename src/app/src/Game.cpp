@@ -216,6 +216,15 @@ void Game::HandleEvents() {
             case SDL_KEYDOWN:
                 sInputManager->PressKey(event.key.keysym.sym);
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                sInputManager->PressKey(event.button.button);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                sInputManager->ReleaseKey(event.button.button);
+                break;
+            case SDL_MOUSEMOTION:
+                sInputManager->SetMouseCoords(event.motion.x, event.motion.y);
+                break;
         }
     }
 
@@ -239,6 +248,15 @@ void Game::HandleEvents() {
     }
     if (sInputManager->IsKeyDown(SDLK_ESCAPE)) {
         _isRunning = false;
+    }
+    if (sInputManager->IsKeyDown(SDL_BUTTON_LEFT)) {
+        glm::vec2 mouseCoords = sInputManager->GetMouseCoords();
+        mouseCoords = _camera.ConvertScreenToWorld(mouseCoords);
+        // LOG_INFO("game", "Mouse Coords: ({}, {})", mouseCoords.x, mouseCoords.y);
+        glm::vec2 playerPosition(0.0f);
+        glm::vec2 direction = glm::normalize(mouseCoords - playerPosition);
+
+        _projectiles.emplace_back(playerPosition, direction, 0.5f, 1000);
     }
 }
 
@@ -439,6 +457,16 @@ void Game::Update() {
     }
 
     _camera.Update();
+
+    for(auto i = 0; i < _projectiles.size();) {
+        _projectiles[i].Update(1);
+        if (_projectiles[i].GetLifeTime() == 0) {
+            _projectiles[i] = _projectiles.back();
+            _projectiles.pop_back();
+        } else {
+            ++i;
+        }
+    }
 }
 
 void Game::Render() {
@@ -484,13 +512,13 @@ void Game::Render() {
             );
         }
 
+        for(auto& projectile : _projectiles) {
+            projectile.Draw(_spriteBatch);
+        }
+
         _spriteBatch.End();
 
         _spriteBatch.Render();
-
-        //for (auto& sprite : _sprites) {
-        //    sprite->Draw();
-        //}
 
         glBindTexture(GL_TEXTURE_2D, 0);
         _shader.Unbind();

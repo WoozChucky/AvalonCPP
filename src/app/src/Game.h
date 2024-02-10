@@ -8,6 +8,7 @@
 #include "Engine/Graphics/Raw/Texture.h"
 #include "Engine/Graphics/Camera2D.h"
 #include "Engine/Graphics/SpriteBatch.h"
+#include "Engine/Graphics/Projectile.h"
 #include <Engine/Graphics/Raw/Sprite.h>
 #include <Engine/Graphics/Raw/Shader.h>
 #include <Engine/Settings.h>
@@ -39,6 +40,7 @@ private:
 
     Camera2D _camera;
     SpriteBatch _spriteBatch;
+    std::vector<Projectile> _projectiles;
     Shader _shader;
     F32 _shaderTime = 0.0f;
     GameSettings _settings;
