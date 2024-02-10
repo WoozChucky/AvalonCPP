@@ -1,7 +1,7 @@
 set(This Avalon)
 project(${This})
 
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/**/*.cpp" "src/*.h" "src/**/*.h")
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     add_executable(${This} ${SOURCES})

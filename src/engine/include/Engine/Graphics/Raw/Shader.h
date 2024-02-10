@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Common/Types.h>
 #include <GL/glew.h>
 #include <fstream>
