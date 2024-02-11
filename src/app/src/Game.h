@@ -46,6 +46,7 @@ private:
     GameSettings _settings;
     ResolutionOption _currentResolution = RESOLUTION_1280x720;
     FPSOption _currentFPS = FPS_60;
+    bool _debugWindow = false;
 
     void HandleEvents();
     void Update();

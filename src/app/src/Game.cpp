@@ -14,6 +14,7 @@
 #include "Common/Logging/Log.h"
 #include "Engine/Graphics/AssetManager.h"
 #include "Engine/Input/InputManager.h"
+#include <chrono>
 
 void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
@@ -147,26 +148,75 @@ void Game::Run() {
 
     _isRunning = true;
 
+    const float SIMULATION_DT = 1.0f / 60.0f;
+    const float RENDER_DT = 1.0f / 120.0f;
+
+    // Initialize variables for timing
+    auto startTime  = std::chrono::high_resolution_clock::now();
+    auto lastFPSUpdateTime = startTime;
+    auto lastSimulationUpdateTime = startTime;
+    auto lastRenderUpdateTime = startTime;
+    double accumulatedSimulationTime = 0.0;
+    double accumulatedRenderTime = 0.0;
+    int simulationFrames = 0;
+    int renderFrames = 0;
+
     while (_isRunning) {
+        // Calculate time since last simulation update
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        double deltaTime = std::chrono::duration<double>(currentTime - startTime).count();
 
-        _frameDelay = 1000 / _settings.Video.TargetFramesPerSecond;
+        if (_debugWindow) {
+            // Here we update the game as fast as possible and that is fine cause we want to debug
+            HandleEvents();
+            Update();
+            Render();
+        } else {
 
-        _frameStart = SDL_GetTicks64();
+            // Calculate time since last simulation update
+            double simulationDeltaTime = std::chrono::duration<double>(currentTime - lastSimulationUpdateTime).count();
+            accumulatedSimulationTime += simulationDeltaTime;
+            lastSimulationUpdateTime = currentTime;
 
-        HandleEvents();
-        Update();
-        Render();
+            // Update simulation in fixed timestep increments
+            while (accumulatedSimulationTime >= SIMULATION_DT) {
+                HandleEvents();
+                Update();
+                accumulatedSimulationTime -= SIMULATION_DT;
+                simulationFrames++;
+            }
 
-        // Calculate frame time
-        auto frameTime = SDL_GetTicks64() - _frameStart;
+            // Calculate time since last render
+            double renderDeltaTime = std::chrono::duration<double>(currentTime - lastRenderUpdateTime).count();
+            accumulatedRenderTime += renderDeltaTime;
+            lastRenderUpdateTime = currentTime;
 
-        // Cap frame rate
-        if (_frameDelay > frameTime) {
-            SDL_Delay(_frameDelay - frameTime);
+            // Render in fixed timestep increments
+            if (accumulatedRenderTime >= RENDER_DT) {
+                Render();
+                accumulatedRenderTime -= RENDER_DT;
+                renderFrames++;
+            }
+
+            // Print actual framerates every second
+            if (currentTime - lastFPSUpdateTime >= std::chrono::milliseconds(50)) {
+                double elapsedTimeSinceFPSUpdate = std::chrono::duration<double>(currentTime - lastFPSUpdateTime).count();
+
+                // Calculate FPS for simulation and rendering
+                double simulationFPS = simulationFrames / elapsedTimeSinceFPSUpdate;
+                double renderFPS = renderFrames / elapsedTimeSinceFPSUpdate;
+
+                // Update window title with frame time
+                SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
+                simulationFrames = 0;
+                renderFrames = 0;
+                lastFPSUpdateTime = currentTime;
+            }
+
+
+            // Sleep to control loop speed
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
-
-        // Update window title with frame time
-        SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame ({:.1f} FPS)", 1000.0f / _io.Framerate, _io.Framerate).c_str());
     }
 
 }
@@ -207,7 +257,7 @@ void Game::HandleEvents() {
                 break;
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_CLOSE
-                && event.window.windowID == SDL_GetWindowID(_window)) {
+                    && event.window.windowID == SDL_GetWindowID(_window)) {
                     _isRunning = false;
                 }
                 break;
@@ -262,200 +312,203 @@ void Game::HandleEvents() {
 }
 
 void Game::Update() {
-    // Game logic update code here
     // Start the Dear ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
+    if (_debugWindow) {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
 
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("File"))
+        if (ImGui::BeginMainMenuBar())
         {
-            ImGui::EndMenu();
+            if (ImGui::BeginMenu("File"))
+            {
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Edit"))
+            {
+                if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+                if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+                ImGui::Separator();
+                if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+                if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+                if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+                ImGui::EndMenu();
+            }
+            ImGui::EndMainMenuBar();
         }
-        if (ImGui::BeginMenu("Edit"))
+
+
+        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
+
         {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            static float f = 0.0f;
+            static int counter = 0;
+
+            ImGui::Begin("Avalon Debugging");
+
+            //ImGui::CollapsingHeader("Graphics");
+            ImGui::NewLine();
+            ImGui::SeparatorText("Graphics");
+            ImGui::NewLine();
+            ImGui::Text("Resolution: %d x %d", _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+            static int resOption = _currentResolution;
+            ImGui::RadioButton("1280 × 720", &resOption, 0); ImGui::SameLine();
+            ImGui::RadioButton("1920 x 1080", &resOption, 1); ImGui::SameLine();
+            ImGui::RadioButton("2560 x 1440", &resOption, 2);
+            if (_currentResolution != (ResolutionOption)resOption) {
+                _currentResolution = (ResolutionOption)resOption;
+                switch (_currentResolution) {
+                    case RESOLUTION_1280x720:
+                        _settings.Video.Resolution.Width = 1280;
+                        _settings.Video.Resolution.Height = 720;
+                        break;
+                    case RESOLUTION_1920x1080:
+                        _settings.Video.Resolution.Width = 1920;
+                        _settings.Video.Resolution.Height = 1080;
+                        break;
+                    case RESOLUTION_2560x1440:
+                        _settings.Video.Resolution.Width = 2560;
+                        _settings.Video.Resolution.Height = 1440;
+                        break;
+                }
+                SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+                SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            }
+
+            ImGui::Text("Mode: %s",
+                        _settings.Video.Mode == VideoMode::Windowed ? "Windowed"
+                                                                    : _settings.Video.Mode == VideoMode::Borderless ? "Borderless"
+                                                                                                                    : _settings.Video.Mode == VideoMode::Fullscreen ? "Fullscreen" : "Fullscreen Borderless"
+            );
+            static int modeOption = _settings.Video.Mode;
+            ImGui::RadioButton("Windowed", &modeOption, VideoMode::Windowed); ImGui::SameLine();
+            ImGui::RadioButton("Borderless", &modeOption, VideoMode::Borderless); ImGui::SameLine();
+            ImGui::RadioButton("Fullscreen", &modeOption, VideoMode::Fullscreen); ImGui::SameLine();
+            ImGui::RadioButton("Fullscreen Borderless", &modeOption, VideoMode::FullscreenBorderless);
+            //if (_settings.Video.Mode != (VideoMode)modeOption) {
+            //    _settings.Video.Mode = (VideoMode)modeOption;
+            //    SDL_SetWindowFullscreen(_window, _settings.Video.Mode);
+            //}
+
+            ImGui::Text("FPS %.1f (%.3f ms/frame)", _io.Framerate, 1000.0f / _io.Framerate);
+            static int fpsOption = _settings.Video.TargetFramesPerSecond;
+            ImGui::RadioButton("30FPS", &fpsOption, 30); ImGui::SameLine();
+            ImGui::RadioButton("60FPS", &fpsOption, 60); ImGui::SameLine();
+            ImGui::RadioButton("120FPS", &fpsOption, 120); ImGui::SameLine();
+            ImGui::RadioButton("144FPS", &fpsOption, 144); ImGui::SameLine();
+            ImGui::RadioButton("240FPS", &fpsOption, 240); ImGui::SameLine();
+            ImGui::RadioButton("360FPS", &fpsOption, 360);
+            if (_settings.Video.TargetFramesPerSecond != (FPSOption)fpsOption) {
+                _settings.Video.TargetFramesPerSecond = (FPSOption)fpsOption;
+            }
+
+            //ImGui::CollapsingHeader("Audio");
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::SeparatorText("Audio");
+            ImGui::NewLine();
+            if (ImGui::BeginCombo("Input Device", sAudio->GetInputDeviceName().empty() ? "Select an input device" : sAudio->GetInputDeviceName().c_str()))
+            {
+                for (auto& device : sAudio->GetInputDevices()) {
+                    bool isSelected = (device == sAudio->GetInputDeviceName());
+                    if (ImGui::Selectable(device.c_str(), isSelected)) {
+                        sAudio->Shutdown();
+                        _settings.Audio.InputDevice = device;
+                        sAudio->Initialize(_settings.Audio);
+                    }
+                    if (isSelected) {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+                ImGui::EndCombo();
+            }
+            ImGui::SliderInt("Input Volume", &_settings.Audio.InputVolume, 0, 100);
+            if (ImGui::BeginCombo("Output Device", sAudio->GetOutputDeviceName().empty() ? "Select an output device" : sAudio->GetOutputDeviceName().c_str()))
+            {
+                for (auto& device : sAudio->GetOutputDevices()) {
+                    bool isSelected = (device == sAudio->GetOutputDeviceName());
+                    if (ImGui::Selectable(device.c_str(), isSelected)) {
+                        sAudio->Shutdown();
+                        _settings.Audio.OutputDevice = device;
+                        sAudio->Initialize(_settings.Audio);
+                    }
+                    if (isSelected) {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+                ImGui::EndCombo();
+            }
+            ImGui::SliderInt("Output Volume", &_settings.Audio.OutputVolume, 0, 100);
+
+            static bool muteAudio = false;
+            ImGui::Checkbox("Audio", &muteAudio);
+            if (!muteAudio) {
+                _settings.Audio.OutputVolume = 100;
+            } else {
+                _settings.Audio.OutputVolume = 0;
+            }
+            ImGui::SameLine();
+            static bool muteMic = true;
+            ImGui::Checkbox("Microphone", &muteMic);
+            if (!muteMic) {
+                sAudio->RecordAudio();
+            } else {
+                sAudio->StopRecording();
+            }
+
+
+            ImGui::NewLine();
+            ImGui::NewLine();
+
+            //ImGui::CollapsingHeader("Network");
+            ImGui::SeparatorText("Network");
+            if (ImGui::Button("Connect")) {
+                _networkDaemon->Start(ioContext);
+            }
+            ImGui::SameLine();
+            ImGui::Text("Status: %s", _networkDaemon->IsConnected() ? "Connected" : "Disconnected");
+            static char username[32] = "";
+            ImGui::InputText("Username", username, IM_ARRAYSIZE(username));
+            static char password[32] = "";
+            ImGui::InputText("Password", password, IM_ARRAYSIZE(password), ImGuiInputTextFlags_Password);
+            if (ImGui::Button("Login")) {
+                _networkDaemon->Login(username, password);
+            }
+            ImGui::SameLine();
+            ImGui::Text("Logged: %s", _networkDaemon->IsLogged() ? "Yes" : "No");
+            //ImGui::PlotLines("Ping", _networkDaemon->GetPing().data(), _networkDaemon->GetPing().size(), 0, "ms", 0, 100, ImVec2(0, 80));
+
+
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::NewLine();
+
+            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+            //ImGui::Checkbox("Another Window", &show_another_window);
+
+            ImGui::ColorEdit3("background test", (float*)&clear_color); // Edit 3 floats representing a color
+
             ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
-
-
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-    {
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Avalon Debugging");
-
-        //ImGui::CollapsingHeader("Graphics");
-        ImGui::NewLine();
-        ImGui::SeparatorText("Graphics");
-        ImGui::NewLine();
-        ImGui::Text("Resolution: %d x %d", _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-        static int resOption = _currentResolution;
-        ImGui::RadioButton("1280 × 720", &resOption, 0); ImGui::SameLine();
-        ImGui::RadioButton("1920 x 1080", &resOption, 1); ImGui::SameLine();
-        ImGui::RadioButton("2560 x 1440", &resOption, 2);
-        if (_currentResolution != (ResolutionOption)resOption) {
-            _currentResolution = (ResolutionOption)resOption;
-            switch (_currentResolution) {
-                case RESOLUTION_1280x720:
-                    _settings.Video.Resolution.Width = 1280;
-                    _settings.Video.Resolution.Height = 720;
-                    break;
-                case RESOLUTION_1920x1080:
-                    _settings.Video.Resolution.Width = 1920;
-                    _settings.Video.Resolution.Height = 1080;
-                    break;
-                case RESOLUTION_2560x1440:
-                    _settings.Video.Resolution.Width = 2560;
-                    _settings.Video.Resolution.Height = 1440;
-                    break;
+            if (ImGui::Button("Quit")) {
+                _isRunning = false;
             }
-            SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-            SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            ImGui::End();
         }
 
-        ImGui::Text("Mode: %s",
-                    _settings.Video.Mode == VideoMode::Windowed ? "Windowed"
-                    : _settings.Video.Mode == VideoMode::Borderless ? "Borderless"
-                    : _settings.Video.Mode == VideoMode::Fullscreen ? "Fullscreen" : "Fullscreen Borderless"
-        );
-        static int modeOption = _settings.Video.Mode;
-        ImGui::RadioButton("Windowed", &modeOption, VideoMode::Windowed); ImGui::SameLine();
-        ImGui::RadioButton("Borderless", &modeOption, VideoMode::Borderless); ImGui::SameLine();
-        ImGui::RadioButton("Fullscreen", &modeOption, VideoMode::Fullscreen); ImGui::SameLine();
-        ImGui::RadioButton("Fullscreen Borderless", &modeOption, VideoMode::FullscreenBorderless);
-        //if (_settings.Video.Mode != (VideoMode)modeOption) {
-        //    _settings.Video.Mode = (VideoMode)modeOption;
-        //    SDL_SetWindowFullscreen(_window, _settings.Video.Mode);
-        //}
-
-        ImGui::Text("FPS %.1f (%.3f ms/frame)", _io.Framerate, 1000.0f / _io.Framerate);
-        static int fpsOption = _settings.Video.TargetFramesPerSecond;
-        ImGui::RadioButton("30FPS", &fpsOption, 30); ImGui::SameLine();
-        ImGui::RadioButton("60FPS", &fpsOption, 60); ImGui::SameLine();
-        ImGui::RadioButton("120FPS", &fpsOption, 120); ImGui::SameLine();
-        ImGui::RadioButton("144FPS", &fpsOption, 144); ImGui::SameLine();
-        ImGui::RadioButton("240FPS", &fpsOption, 240); ImGui::SameLine();
-        ImGui::RadioButton("360FPS", &fpsOption, 360);
-        if (_settings.Video.TargetFramesPerSecond != (FPSOption)fpsOption) {
-            _settings.Video.TargetFramesPerSecond = (FPSOption)fpsOption;
-        }
-
-        //ImGui::CollapsingHeader("Audio");
-        ImGui::NewLine();
-        ImGui::NewLine();
-        ImGui::SeparatorText("Audio");
-        ImGui::NewLine();
-        if (ImGui::BeginCombo("Input Device", sAudio->GetInputDeviceName().empty() ? "Select an input device" : sAudio->GetInputDeviceName().c_str()))
+        // 3. Show another simple window.
+        if (show_another_window)
         {
-            for (auto& device : sAudio->GetInputDevices()) {
-                bool isSelected = (device == sAudio->GetInputDeviceName());
-                if (ImGui::Selectable(device.c_str(), isSelected)) {
-                    sAudio->Shutdown();
-                    _settings.Audio.InputDevice = device;
-                    sAudio->Initialize(_settings.Audio);
-                }
-                if (isSelected) {
-                    ImGui::SetItemDefaultFocus();
-                }
-            }
-            ImGui::EndCombo();
+            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            ImGui::Text("Hello from another window!");
+            if (ImGui::Button("Close Me"))
+                show_another_window = false;
+            ImGui::End();
         }
-        ImGui::SliderInt("Input Volume", &_settings.Audio.InputVolume, 0, 100);
-        if (ImGui::BeginCombo("Output Device", sAudio->GetOutputDeviceName().empty() ? "Select an output device" : sAudio->GetOutputDeviceName().c_str()))
-        {
-            for (auto& device : sAudio->GetOutputDevices()) {
-                bool isSelected = (device == sAudio->GetOutputDeviceName());
-                if (ImGui::Selectable(device.c_str(), isSelected)) {
-                    sAudio->Shutdown();
-                    _settings.Audio.OutputDevice = device;
-                    sAudio->Initialize(_settings.Audio);
-                }
-                if (isSelected) {
-                    ImGui::SetItemDefaultFocus();
-                }
-            }
-            ImGui::EndCombo();
-        }
-        ImGui::SliderInt("Output Volume", &_settings.Audio.OutputVolume, 0, 100);
-
-        static bool muteAudio = false;
-        ImGui::Checkbox("Audio", &muteAudio);
-        if (!muteAudio) {
-            _settings.Audio.OutputVolume = 100;
-        } else {
-            _settings.Audio.OutputVolume = 0;
-        }
-        ImGui::SameLine();
-        static bool muteMic = true;
-        ImGui::Checkbox("Microphone", &muteMic);
-        if (!muteMic) {
-            sAudio->RecordAudio();
-        } else {
-            sAudio->StopRecording();
-        }
-
-
-        ImGui::NewLine();
-        ImGui::NewLine();
-
-        //ImGui::CollapsingHeader("Network");
-        ImGui::SeparatorText("Network");
-        if (ImGui::Button("Connect")) {
-            _networkDaemon->Start(ioContext);
-        }
-        ImGui::SameLine();
-        ImGui::Text("Status: %s", _networkDaemon->IsConnected() ? "Connected" : "Disconnected");
-        static char username[32] = "";
-        ImGui::InputText("Username", username, IM_ARRAYSIZE(username));
-        static char password[32] = "";
-        ImGui::InputText("Password", password, IM_ARRAYSIZE(password), ImGuiInputTextFlags_Password);
-        if (ImGui::Button("Login")) {
-            _networkDaemon->Login(username, password);
-        }
-        ImGui::SameLine();
-        ImGui::Text("Logged: %s", _networkDaemon->IsLogged() ? "Yes" : "No");
-        //ImGui::PlotLines("Ping", _networkDaemon->GetPing().data(), _networkDaemon->GetPing().size(), 0, "ms", 0, 100, ImVec2(0, 80));
-
-
-        ImGui::NewLine();
-        ImGui::NewLine();
-        ImGui::NewLine();
-
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        //ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::ColorEdit3("background test", (float*)&clear_color); // Edit 3 floats representing a color
-
-        ImGui::Separator();
-        if (ImGui::Button("Quit")) {
-            _isRunning = false;
-        }
-        ImGui::End();
     }
 
-    // 3. Show another simple window.
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            show_another_window = false;
-        ImGui::End();
-    }
+    // Game logic update code here
 
     _camera.Update();
 
@@ -472,7 +525,7 @@ void Game::Update() {
 
 void Game::Render() {
     // 1. Clear the screen
-    glViewport(0, 0, (int)_io.DisplaySize.x, (int)_io.DisplaySize.y);
+    glViewport(0, 0, (int)_settings.Video.Resolution.Width, (int)_settings.Video.Resolution.Height);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -526,9 +579,10 @@ void Game::Render() {
     }
 
     // 2. Draw your elements
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+    if (_debugWindow) {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
 
     // 3. Swap buffers
     SDL_GL_SwapWindow(_window);
