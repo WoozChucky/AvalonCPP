@@ -149,7 +149,7 @@ void Game::Run() {
     _isRunning = true;
 
     const float SIMULATION_DT = 1.0f / 60.0f;
-    const float RENDER_DT = 1.0f / 120.0f;
+
 
     // Initialize variables for timing
     auto startTime  = std::chrono::high_resolution_clock::now();
@@ -166,11 +166,49 @@ void Game::Run() {
         auto currentTime = std::chrono::high_resolution_clock::now();
         double deltaTime = std::chrono::duration<double>(currentTime - startTime).count();
 
-        if (_debugWindow) {
-            // Here we update the game as fast as possible and that is fine cause we want to debug
+        const float RENDER_DT = 1.0f / (F32)_settings.Video.TargetFramesPerSecond;
+
+        if (_transitionToDebug) {
+            _debugWindow = !_debugWindow;
+            _transitionToDebug = false;
             HandleEvents();
             Update();
             Render();
+            continue;
+        }
+
+        if (_debugWindow) {
+
+            // Calculate time since last simulation update
+            double simulationDeltaTime = std::chrono::duration<double>(currentTime - lastSimulationUpdateTime).count();
+            accumulatedSimulationTime += simulationDeltaTime;
+            lastSimulationUpdateTime = currentTime;
+
+            // Update simulation in fixed timestep increments
+            while (accumulatedSimulationTime >= SIMULATION_DT) {
+                HandleEvents();
+                Update();
+                Render();
+                accumulatedSimulationTime -= SIMULATION_DT;
+                simulationFrames++;
+                renderFrames++;
+            }
+
+            // Print actual framerates every second
+            if (currentTime - lastFPSUpdateTime >= std::chrono::milliseconds(50)) {
+                double elapsedTimeSinceFPSUpdate = std::chrono::duration<double>(currentTime - lastFPSUpdateTime).count();
+
+                // Calculate FPS for simulation and rendering
+                double simulationFPS = simulationFrames / elapsedTimeSinceFPSUpdate;
+                double renderFPS = renderFrames / elapsedTimeSinceFPSUpdate;
+
+                // Update window title with frame time
+                SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
+                simulationFrames = 0;
+                renderFrames = 0;
+                lastFPSUpdateTime = currentTime;
+            }
+
         } else {
 
             // Calculate time since last simulation update
@@ -212,11 +250,10 @@ void Game::Run() {
                 renderFrames = 0;
                 lastFPSUpdateTime = currentTime;
             }
-
-
-            // Sleep to control loop speed
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
+
+        // Sleep to control loop speed
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
 }
@@ -277,6 +314,10 @@ void Game::HandleEvents() {
                 sInputManager->SetMouseCoords(event.motion.x, event.motion.y);
                 break;
         }
+    }
+
+    if (sInputManager->IsKeyPressed(SDLK_F8)) {
+        _transitionToDebug = !_transitionToDebug;
     }
 
     if (sInputManager->IsKeyDown(SDLK_w)) {
