@@ -1,15 +1,16 @@
 #pragma once
 
 #include <Common/Types.h>
-#include "SpriteBatch.h"
-#include "Entity.h"
+
 #include "Engine/Graphics/Raw/Shader.h"
+#include "Engine/Graphics/SpriteBatch.h"
+#include "Engine/Graphics/Entities/Entity.h"
 
 class EntityRenderer {
 public:
     ~EntityRenderer() { }
 
-    virtual void Render(SpriteBatch& spriteBatch, const std::vector<Entity>& entities, const glm::mat4& projetionMatrix) {
+    virtual void Render(SpriteBatch& spriteBatch, const std::vector<Entity*>& entities, const glm::mat4& projetionMatrix) {
 
         if (_shader == nullptr) {
             _shader = std::make_unique<Shader>();
@@ -32,7 +33,7 @@ public:
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &(projetionMatrix[0][0]));
 
         for (auto entity : entities) {
-            entity.Draw(spriteBatch);
+            entity->Draw(spriteBatch);
         }
 
         spriteBatch.End();

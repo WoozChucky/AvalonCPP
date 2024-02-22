@@ -13,6 +13,14 @@ public:
         }
     };
 
+    void InitFromSource(const char* vertexShader, const char* fragmentShader) {
+        if (_program != 0 || _vertexShaderId != 0 || _fragmentShaderId != 0)
+            throw std::runtime_error("Shader already initialized");
+        _vertexShaderId = Compile(vertexShader, GL_VERTEX_SHADER);
+        _fragmentShaderId = Compile(fragmentShader, GL_FRAGMENT_SHADER);
+        _program = CreateProgram(_vertexShaderId, _fragmentShaderId);
+    }
+
     void Init(const std::string& vertexShader, const std::string& fragmentShader) {
         if (_program != 0 || _vertexShaderId != 0 || _fragmentShaderId != 0)
             throw std::runtime_error("Shader already initialized");

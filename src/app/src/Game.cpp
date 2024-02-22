@@ -8,13 +8,11 @@
 #else
 #include <SDL_opengl.h>
 #endif
+
 #include <Engine/Audio/AudioManager.h>
-
-
+#include <Engine/Graphics/AssetManager.h>
 #include "Common/Logging/Log.h"
-#include "Engine/Graphics/AssetManager.h"
 #include "Engine/Input/InputManager.h"
-#include "Engine/Graphics/Player.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/TestingScene.h"
 #include <chrono>

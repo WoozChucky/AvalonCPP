@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Common/Types.h"
-#include "SpriteBatch.h"
-#include "Projectile.h"
+
 #include "Engine/Graphics/Raw/Shader.h"
+#include "Engine/Graphics/SpriteBatch.h"
+#include "Engine/Graphics/Entities/Projectile.h"
 
 class ProjectileRenderer {
 public:

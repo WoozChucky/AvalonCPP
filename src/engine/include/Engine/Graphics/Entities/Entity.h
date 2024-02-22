@@ -4,8 +4,8 @@
 #include <glm/glm.hpp>
 #include "Engine/Graphics/Raw/Texture.h"
 #include "Engine/Graphics/Raw/Vertex.h"
-#include "AssetManager.h"
-#include "SpriteBatch.h"
+#include "Engine/Graphics/AssetManager.h"
+#include "Engine/Graphics/SpriteBatch.h"
 
 class Entity {
 public:

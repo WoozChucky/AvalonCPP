@@ -10,7 +10,8 @@
 enum class TexturesName {
     Player,
     Enemy,
-    Background
+    Background,
+    Ball
 };
 
 class AssetManager {
@@ -39,10 +40,13 @@ public:
                 filePath = "Assets/Textures/player.png";
                 break;
             case TexturesName::Enemy:
-                filePath = "assets/enemy.png";
+                filePath = "Assets/Textures/cursor.png";
                 break;
             case TexturesName::Background:
-                filePath = "assets/background.png";
+                filePath = "Assets/Textures/background.png";
+                break;
+            case TexturesName::Ball:
+                filePath = "Assets/Textures/icon.png";
                 break;
         }
 

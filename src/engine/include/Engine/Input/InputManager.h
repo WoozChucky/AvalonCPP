@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Common/Types.h>
+#include <glm/glm.hpp>
 #include <unordered_map>
 
 class InputManager {

@@ -27,6 +27,7 @@ target_link_libraries(${This}
         ZLIB::ZLIB
         GLEW::GLEW
         glm::glm
+        box2d::box2d
         nlohmann_json::nlohmann_json
         Common)
 
