@@ -37,6 +37,15 @@ public:
             _lastMoveDirection = glm::vec2(1.0f, 0.0f);
             isMoving = true;
         }
+        if (sInputManager->IsKeyDown(SDLK_SPACE)) {
+            // Running
+            Speed = 175.0f;
+            _frameTime = 0.10f;
+        } else {
+            // Walking
+            Speed = 100.0f;
+            _frameTime = 0.20f;
+        }
 
         // Normalize velocity if necessary
         if (isMoving && (Velocity.x != 0.0f || Velocity.y != 0.0f)) {
@@ -106,13 +115,13 @@ private:
     int GetAnimationIndexFromDirection(glm::vec2 direction) const {
         // Determine animation index based on player direction
         if (direction.x > 0.0f) {
-            return 3 + (_currentFrame % 3); // Right-facing animation (frames 3, 4, 5)
+            return 4; // Right-facing animation (frames 3, 4, 5)
         } else if (direction.x < 0.0f) {
-            return 6 + (_currentFrame % 3); // Left-facing animation (frames 6, 7, 8)
+            return 7; // Left-facing animation (frames 6, 7, 8)
         } else if (direction.y > 0.0f) {
-            return _currentFrame % 3; // Down-facing animation (frames 0, 1, 2)
+            return 1; // Down-facing animation (frames 0, 1, 2)
         } else if (direction.y < 0.0f) {
-            return 9 + (_currentFrame % 3); // Up-facing animation (frames 9, 10, 11)
+            return 10; // Up-facing animation (frames 9, 10, 11)
         } else {
             return 0; // Default animation (standing still, frames 0, 1, 2)
         }
