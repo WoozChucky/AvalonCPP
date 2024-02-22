@@ -2,6 +2,8 @@
 
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
+#include <Box2D/Box2D.h>
+
 #include "Scene.h"
 #include "Engine/Graphics/Camera2D.h"
 #include "Engine/Graphics/SpriteBatch.h"
@@ -74,7 +76,7 @@ public:
 
             glm::vec2 direction = glm::normalize(mouseCoords - _player->GetPosition());
 
-            _projectiles.emplace_back(_player->GetPosition(), glm::vec2(64, 64), direction, 100.f, 1000);
+            _projectiles.emplace_back(new Projectile(_player->GetPosition(), glm::vec2(64, 64), direction, 100.f, 1000));
         }
 
         _camera.SetPosition(_player->GetPosition());
@@ -85,8 +87,9 @@ public:
         }
 
         for(auto i = 0; i < _projectiles.size();) {
-            _projectiles[i].Update(deltaTime);
-            if (_projectiles[i].GetLifeTime() == 0) {
+            _projectiles[i]->Update(deltaTime);
+            if (_projectiles[i]->GetLifeTime() == 0) {
+                delete _projectiles[i]; // Delete the object
                 _projectiles[i] = _projectiles.back();
                 _projectiles.pop_back();
             } else {
@@ -101,8 +104,8 @@ public:
 
 
         for (auto& projectile : _projectiles) {
-            glm::vec4 destRect(projectile.GetPosition().x, projectile.GetPosition().y, projectile.GetSize());
-            _debugRenderer.DrawCircle(destRect, ColorRGBA8(255, 255, 255, 255), projectile.GetSize().x / 2.f);
+            glm::vec4 destRect(projectile->GetPosition().x, projectile->GetPosition().y, projectile->GetSize());
+            _debugRenderer.DrawCircle(destRect, ColorRGBA8(255, 255, 255, 255), projectile->GetSize().x / 2.f);
         }
 
         for (auto& entity : _entities) {
@@ -115,6 +118,11 @@ public:
     };
 
     void Shutdown() override {
+
+        for (auto& entity : _entities) {
+            delete entity;
+        }
+        _entities.clear();
         _debugRenderer.Dispose();
         LOG_INFO("game", "Shutting down TestingScene");
     };
@@ -126,7 +134,7 @@ private:
     DebugRenderer _debugRenderer;
 
     ProjectileRenderer _projectileRenderer;
-    std::vector<Projectile> _projectiles;
+    std::vector<Projectile*> _projectiles;
 
     EntityRenderer _entityRenderer;
     std::vector<Entity*> _entities;

@@ -11,7 +11,7 @@ public:
     Projectile(glm::vec2 position, glm::vec2 size, glm::vec2 velocity, F32 speed, F32 lifeTime) : Entity(TexturesName::Ball, position, size, velocity, speed) {
         _lifeTime = lifeTime;
     }
-    ~Projectile() = default;
+    ~Projectile() {}
 
     void Update(F32 deltaTime) override {
         Position += Velocity * Speed * deltaTime;

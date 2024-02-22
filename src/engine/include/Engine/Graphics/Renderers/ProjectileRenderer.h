@@ -10,7 +10,7 @@ class ProjectileRenderer {
 public:
     ~ProjectileRenderer() { }
 
-    virtual void Render(SpriteBatch& spriteBatch, const std::vector<Projectile>& projectiles, const glm::mat4& projetionMatrix) {
+    virtual void Render(SpriteBatch& spriteBatch, const std::vector<Projectile*>& projectiles, const glm::mat4& projetionMatrix) {
 
         if (_shader == nullptr) {
             _shader = std::make_unique<Shader>();
@@ -32,8 +32,8 @@ public:
         auto projectionLocation = _shader->GetUniformLocation("projection");
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &(projetionMatrix[0][0]));
 
-        for (auto projectile : projectiles) {
-            projectile.Draw(spriteBatch);
+        for (auto& projectile : projectiles) {
+            projectile->Draw(spriteBatch);
         }
 
         spriteBatch.End();
