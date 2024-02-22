@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Common/Types.h>
-#include <unordered_map>
 #include "Scene.h"
+#include <unordered_map>
 
 class SceneManager {
 public:
@@ -11,7 +10,12 @@ public:
         return &instance;
     };
 
-    void AddScene(const std::string& id, Scene* scene, U32 width, U32 height) {
+    void Initialize() {
+        _scenes.clear();
+        _activeScene.clear();
+    }
+
+    void AddScene(const std::string& id, IScene* scene, U32 width, U32 height) {
         _scenes[id] = scene;
         scene->Initialize(width, height);
     }
@@ -20,12 +24,16 @@ public:
         _activeScene = id;
     }
 
-    void Update() {
-        _scenes[_activeScene]->Update();
+    void onSDLEvent(SDL_Event& event) {
+        _scenes[_activeScene]->onSDLEvent(event);
     }
 
-    void Draw(SpriteBatch& spriteBatch) {
-        _scenes[_activeScene]->Draw(spriteBatch);
+    void Update(F32 deltaTime) {
+        _scenes[_activeScene]->Update(deltaTime);
+    }
+
+    void Draw() {
+        _scenes[_activeScene]->Draw();
     }
 
     void Shutdown() {
@@ -41,7 +49,7 @@ private:
     SceneManager(const SceneManager&) = delete;
     SceneManager& operator=(const SceneManager&) = delete;
 
-    std::unordered_map<std::string, Scene*> _scenes;
+    std::unordered_map<std::string, IScene*> _scenes;
     std::string _activeScene;
 };
 

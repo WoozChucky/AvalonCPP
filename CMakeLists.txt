@@ -29,6 +29,7 @@ find_package(utf8cpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(glm REQUIRED)
+find_package(freetype REQUIRED)
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)

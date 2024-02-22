@@ -23,6 +23,7 @@ target_link_libraries(${This}
         OpenSSL::SSL
         OpenSSL::Crypto
         SDL2::SDL2
+        Freetype::Freetype
         ZLIB::ZLIB
         GLEW::GLEW
         glm::glm

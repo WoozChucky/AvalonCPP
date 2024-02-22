@@ -9,6 +9,8 @@
 #include "Engine/Graphics/Camera2D.h"
 #include "Engine/Graphics/SpriteBatch.h"
 #include "Engine/Graphics/Projectile.h"
+#include "Engine/Graphics/ProjectileRenderer.h"
+#include "Engine/Graphics/EntityRenderer.h"
 #include <Engine/Graphics/Raw/Sprite.h>
 #include <Engine/Graphics/Raw/Shader.h>
 #include <Engine/Settings.h>
@@ -38,10 +40,6 @@ private:
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    Camera2D _camera;
-    SpriteBatch _spriteBatch;
-    std::vector<Projectile> _projectiles;
-    Shader _shader;
     F32 _shaderTime = 0.0f;
     GameSettings _settings;
     ResolutionOption _currentResolution = RESOLUTION_1280x720;
@@ -49,7 +47,7 @@ private:
     bool _debugWindow = false;
     bool _transitionToDebug = false;
 
-    void HandleEvents();
-    void Update();
+    void HandleEvents(F32 deltaTime);
+    void Update(F32 deltaTime);
     void Render();
 };

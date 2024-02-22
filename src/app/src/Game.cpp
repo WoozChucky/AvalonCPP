@@ -14,7 +14,12 @@
 #include "Common/Logging/Log.h"
 #include "Engine/Graphics/AssetManager.h"
 #include "Engine/Input/InputManager.h"
+#include "Engine/Graphics/Player.h"
+#include "Scenes/SceneManager.h"
+#include "Scenes/TestingScene.h"
 #include <chrono>
+
+#include <freetype/freetype.h>
 
 void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
@@ -123,18 +128,9 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
         _networkDaemon->SendAudioPacket(audioData);
     });
 
-    _camera.Init(_settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-
-    //_sprites.push_back(new Sprite());
-    //_sprites[0]->Init(0.0f, 0.0f, 50.0f, 50.f, TexturesName::Player);
-
-    _shader.Init("shaders/colorShading.vert", "shaders/colorShading.frag");
-    _shader.AddAttribute("position");
-    _shader.AddAttribute("color");
-    _shader.AddAttribute("textCoord");
-    _shader.Link();
-
-    _spriteBatch.Initialize();
+    sSceneManager->Initialize();
+    sSceneManager->AddScene("Testing", new TestingScene(), _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+    sSceneManager->SetActiveScene("Testing");
 
     LOG_INFO("game", "Game initialized");
 }
@@ -142,6 +138,7 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
 Game::~Game() {
     sAudio->Shutdown();
     sAssetManager->Shutdown();
+    sSceneManager->Shutdown();
 }
 
 void Game::Run() {
@@ -171,8 +168,8 @@ void Game::Run() {
         if (_transitionToDebug) {
             _debugWindow = !_debugWindow;
             _transitionToDebug = false;
-            HandleEvents();
-            Update();
+            HandleEvents(SIMULATION_DT);
+            Update(SIMULATION_DT);
             Render();
             continue;
         }
@@ -186,8 +183,8 @@ void Game::Run() {
 
             // Update simulation in fixed timestep increments
             while (accumulatedSimulationTime >= SIMULATION_DT) {
-                HandleEvents();
-                Update();
+                HandleEvents(SIMULATION_DT);
+                Update(SIMULATION_DT);
                 Render();
                 accumulatedSimulationTime -= SIMULATION_DT;
                 simulationFrames++;
@@ -218,8 +215,8 @@ void Game::Run() {
 
             // Update simulation in fixed timestep increments
             while (accumulatedSimulationTime >= SIMULATION_DT) {
-                HandleEvents();
-                Update();
+                HandleEvents(SIMULATION_DT);
+                Update(SIMULATION_DT);
                 accumulatedSimulationTime -= SIMULATION_DT;
                 simulationFrames++;
             }
@@ -282,7 +279,7 @@ void Game::Shutdown() {
     SDL_Quit();
 }
 
-void Game::HandleEvents() {
+void Game::HandleEvents(F32 deltaTime) {
     sInputManager->Update();
     // Event handling
     SDL_Event event;
@@ -313,46 +310,23 @@ void Game::HandleEvents() {
             case SDL_MOUSEMOTION:
                 sInputManager->SetMouseCoords(event.motion.x, event.motion.y);
                 break;
+            case SDL_MOUSEWHEEL:
+                sInputManager->SetMouseWheel(event.wheel.x, event.wheel.y);
+                break;
         }
+        sSceneManager->onSDLEvent(event);
     }
 
     if (sInputManager->IsKeyPressed(SDLK_F8)) {
         _transitionToDebug = !_transitionToDebug;
     }
 
-    if (sInputManager->IsKeyDown(SDLK_w)) {
-        _camera.SetPosition(_camera.GetPosition() + glm::vec2(0.0f, 10.0f));
-    }
-    if (sInputManager->IsKeyDown(SDLK_s)) {
-        _camera.SetPosition(_camera.GetPosition() + glm::vec2(0.0f, -10.0f));
-    }
-    if (sInputManager->IsKeyDown(SDLK_a)) {
-        _camera.SetPosition(_camera.GetPosition() + glm::vec2(-10.0f, 0.0f));
-    }
-    if (sInputManager->IsKeyDown(SDLK_d)) {
-        _camera.SetPosition(_camera.GetPosition() + glm::vec2(10.0f, 0.0f));
-    }
-    if (sInputManager->IsKeyDown(SDLK_q)) {
-        _camera.SetScale(_camera.GetScale() + 0.1f);
-    }
-    if (sInputManager->IsKeyDown(SDLK_e)) {
-        _camera.SetScale(_camera.GetScale() - 0.1f);
-    }
     if (sInputManager->IsKeyDown(SDLK_ESCAPE)) {
         _isRunning = false;
     }
-    if (sInputManager->IsKeyDown(SDL_BUTTON_LEFT)) {
-        glm::vec2 mouseCoords = sInputManager->GetMouseCoords();
-        mouseCoords = _camera.ConvertScreenToWorld(mouseCoords);
-        // LOG_INFO("game", "Mouse Coords: ({}, {})", mouseCoords.x, mouseCoords.y);
-        glm::vec2 playerPosition(0.0f);
-        glm::vec2 direction = glm::normalize(mouseCoords - playerPosition);
-
-        _projectiles.emplace_back(playerPosition, direction, 0.5f, 1000);
-    }
 }
 
-void Game::Update() {
+void Game::Update(F32 deltaTime) {
     // Start the Dear ImGui frame
     if (_debugWindow) {
         ImGui_ImplOpenGL3_NewFrame();
@@ -549,19 +523,7 @@ void Game::Update() {
         }
     }
 
-    // Game logic update code here
-
-    _camera.Update();
-
-    for(auto i = 0; i < _projectiles.size();) {
-        _projectiles[i].Update(1);
-        if (_projectiles[i].GetLifeTime() == 0) {
-            _projectiles[i] = _projectiles.back();
-            _projectiles.pop_back();
-        } else {
-            ++i;
-        }
-    }
+    sSceneManager->Update(deltaTime);
 }
 
 void Game::Render() {
@@ -570,54 +532,7 @@ void Game::Render() {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    {
-        _shaderTime += 0.05f;
-
-        _shader.Bind();
-
-        glActiveTexture(GL_TEXTURE0);
-
-        auto textureLocation = _shader.GetUniformLocation("spriteTexture");
-        glUniform1i(textureLocation, 0);
-
-        //auto timeLocation = _shader.GetUniformLocation("time");
-        //glUniform1f(timeLocation, _shaderTime);
-
-        auto projectionLocation = _shader.GetUniformLocation("projection");
-        glm::mat4 cameraMatrix = _camera.GetCameraMatrix();
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-        _spriteBatch.Begin();
-
-        static ColorRGBA8 color;
-        color.r = 255;
-        color.g = 255;
-        color.b = 255;
-        color.a = 255;
-
-        static U32 textureId =  sAssetManager->GetTexture(TexturesName::Player).Id;
-
-        for (int i = 0; i < 1; ++i) {
-            _spriteBatch.Draw(
-                    glm::vec4(0.0f, 0.0f, 50.0f, 50.0f), // Position and dimensions
-                    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),  // UV coordinates
-                    textureId, // Texture
-                    0.0f, // Depth
-                    color // Color
-            );
-        }
-
-        for(auto& projectile : _projectiles) {
-            projectile.Draw(_spriteBatch);
-        }
-
-        _spriteBatch.End();
-
-        _spriteBatch.Render();
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        _shader.Unbind();
-    }
+    sSceneManager->Draw();
 
     // 2. Draw your elements
     if (_debugWindow) {

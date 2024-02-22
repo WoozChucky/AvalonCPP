@@ -18,7 +18,7 @@ public:
     ~Projectile() = default;
 
     void Update(F32 deltaTime) {
-        _position += _velocity * _speed;
+        _position += _velocity * _speed * deltaTime;
         _lifeTime -= 1;
     }
 
@@ -31,15 +31,10 @@ public:
     }
 
     void Draw(SpriteBatch& spriteBatch) {
-        ColorRGBA8 color{};
-        color.r = 255;
-        color.g = 255;
-        color.b = 255;
-        color.a = 255;
         glm::vec4 destRect(_position.x, _position.y, 30, 30);
         glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
-        spriteBatch.Draw(destRect, uvRect, _texture.Id, 0.0f, color);
+        spriteBatch.Draw(destRect, uvRect, _texture.Id, 0.0f, _color);
     }
 
 private:
@@ -48,4 +43,5 @@ private:
     glm::vec2 _velocity;
     F32 _speed;
     F32 _lifeTime;
+    ColorRGBA8 _color = { 255, 255, 255, 255 };
 };

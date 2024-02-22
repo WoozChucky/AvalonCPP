@@ -42,6 +42,15 @@ public:
         _mouseCoords.y = y;
     }
 
+    void SetMouseWheel(F32 x, F32 y) {
+        _mouseWheel.x = x;
+        _mouseWheel.y = y;
+    }
+
+    glm::vec2 GetMouseWheel() const {
+        return _mouseWheel;
+    }
+
     glm::vec2 GetMouseCoords() const {
         return _mouseCoords;
     }
@@ -55,6 +64,7 @@ private:
     std::unordered_map<U32, bool> _keys;
     std::unordered_map<U32, bool> _previousKeys;
     glm::vec2 _mouseCoords = glm::vec2(0.0f);
+    glm::vec2 _mouseWheel = glm::vec2(0.0f);
 };
 
 #define sInputManager InputManager::Instance()

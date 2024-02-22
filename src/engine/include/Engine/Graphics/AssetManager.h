@@ -29,6 +29,7 @@ public:
         for (auto& texture : _textures) {
             glDeleteTextures(1, &texture.second.Id);
         }
+        LOG_INFO("graphics", "AssetManager shutdown");
     };
 
     Texture GetTexture(TexturesName name) {
