@@ -2,19 +2,24 @@
 
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
-#include <Box2D/Box2D.h>
+#include <tmxlite/Map.hpp>
 
 #include "Scene.h"
 #include "Engine/Graphics/Camera2D.h"
 #include "Engine/Graphics/SpriteBatch.h"
 #include "Engine/Graphics/Renderers/ProjectileRenderer.h"
-#include "Engine/Graphics/Renderers/EntityRenderer.h"
-#include "Engine/Graphics/Entities/Player.h"
+#include "Engine/Graphics/Renderers/GameObjectRenderer.h"
+#include "Engine/Graphics/GameObjects/Entities/Player.h"
 #include "Engine/Input/InputManager.h"
 #include "Engine/Graphics/Renderers/DebugRenderer.h"
-#include "Engine/Graphics/Entities/Enemy.h"
+#include "Engine/Graphics/GameObjects/Entities/Enemy.h"
 #include "Engine/Graphics/Renderers/LightRenderer.h"
-#include "Engine/Graphics/Light.h"
+#include "Engine/Graphics/GameObjects/Lights/Light.h"
+#include "Engine/Graphics/Maps/MapLayer.h"
+#include "Engine/Graphics/Renderers/MapRenderer.h"
+#include "Engine/Graphics/Renderers/TorchRenderer.h"
+#include "Engine/Graphics/GameObjects/Lights/TorchLight.h"
+#include "Engine/Graphics/GameObjects/Entities/Torch.h"
 
 class TestingScene : public IScene {
 
@@ -27,16 +32,19 @@ public:
 
         _player = new Player(glm::vec2(0.0f, 0.0f), glm::vec2(64.0f, 64.0f), glm::vec2(0.0f, 0.0f), 100.f);
 
-        _entities.emplace_back(_player);
-        _entities.emplace_back(new Enemy(glm::vec2(100.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
-        _entities.emplace_back(new Enemy(glm::vec2(-600.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
-        _entities.emplace_back(new Enemy(glm::vec2(100.0f, 200.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
+        _gameObjects.emplace_back(_player);
+        _gameObjects.emplace_back(new Enemy(glm::vec2(100.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
+        _gameObjects.emplace_back(new Enemy(glm::vec2(-600.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
+        _gameObjects.emplace_back(new Enemy(glm::vec2(100.0f, 200.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
+        _gameObjects.emplace_back(new Torch(glm::vec2(-533.0f, 450.0f), 64, ColorRGBA8::White()));
 
         _playerLight = new Light(glm::vec2(0.0f, 0.0f), 256.0f * 2, ColorRGBA8(128, 128, 128, 128));
         _mouseLight = new Light(glm::vec2(0.0f, 0.0f), 128.0f * 2, ColorRGBA8(0, 153, 153, 150));
 
         _lights.emplace_back(_playerLight);
         _lights.emplace_back(_mouseLight);
+
+        _torchLights.emplace_back(new TorchLight(glm::vec2(-500.0f, 500.0f), 128, ColorRGBA8::White()));
 
         _spriteBatch.Initialize();
 
@@ -88,8 +96,8 @@ public:
         _camera.SetPosition(_player->GetPosition());
         _camera.Update();
 
-        for (auto entity : _entities) {
-            entity->Update(deltaTime);
+        for (auto gameObject : _gameObjects) {
+            gameObject->Update(deltaTime);
         }
 
         for(auto i = 0; i < _projectiles.size();) {
@@ -104,11 +112,14 @@ public:
         }
     };
 
-    void Draw() override {
-        _entityRenderer.Render(_spriteBatch, _entities, _camera.GetCameraMatrix());
-        //_projectileRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
+    void Draw(F32 deltaTime) override {
+
         _lightRenderer.Render(_spriteBatch, _lights, _camera.GetCameraMatrix());
-        _lightRenderer.Render(_spriteBatch, getLightsFromProjectiles(_projectiles), _camera.GetCameraMatrix());
+        _lightRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
+        _torchRenderer.Render(_spriteBatch, _torchLights, _camera.GetCameraMatrix(), deltaTime);
+        _gameObjectRenderer.Render(_spriteBatch, _gameObjects, _camera.GetCameraMatrix());
+        //_projectileRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
+
 
         if (_debugRender) {
             for (auto& projectile : _projectiles) {
@@ -116,8 +127,8 @@ public:
                 _debugRenderer.DrawCircle(destRect, ColorRGBA8(255, 255, 255, 255), projectile->GetSize().x / 2.f);
             }
 
-            for (auto& entity : _entities) {
-                glm::vec4 destRect(entity->GetPosition().x, entity->GetPosition().y, entity->GetSize());
+            for (auto& gameObject : _gameObjects) {
+                glm::vec4 destRect(gameObject->GetPosition().x, gameObject->GetPosition().y, gameObject->GetSize());
                 _debugRenderer.DrawBox(destRect, ColorRGBA8(255, 255, 255, 255), 0.0f);
             }
 
@@ -128,10 +139,10 @@ public:
 
     void Shutdown() override {
 
-        for (auto& entity : _entities) {
-            delete entity;
+        for (auto& gameObject : _gameObjects) {
+            delete gameObject;
         }
-        _entities.clear();
+        _gameObjects.clear();
         for (auto& projectile : _projectiles) {
             delete projectile;
         }
@@ -140,6 +151,10 @@ public:
             delete light;
         }
         _lights.clear();
+        for (auto& torch : _torchLights) {
+            delete torch;
+        }
+        _torchLights.clear();
 
         _debugRenderer.Dispose();
         LOG_INFO("game", "Shutting down TestingScene");
@@ -154,8 +169,12 @@ private:
     ProjectileRenderer _projectileRenderer;
     std::vector<Projectile*> _projectiles;
 
-    EntityRenderer _entityRenderer;
-    std::vector<Entity*> _entities;
+    GameObjectRenderer _gameObjectRenderer;
+
+    std::vector<GameObject*> _gameObjects;
+
+    TorchRenderer _torchRenderer;
+    std::vector<TorchLight*> _torchLights;
 
     LightRenderer _lightRenderer;
     Light* _playerLight;
@@ -165,15 +184,5 @@ private:
     Player* _player{};
 
     bool _debugRender = false;
-
-    std::vector<Light*> getLightsFromProjectiles(std::vector<Projectile*>& projectiles) {
-        std::vector<Light*> lights(projectiles.size());
-
-        // Use std::transform to extract light pointers from projectiles
-        std::transform(projectiles.begin(), projectiles.end(), lights.begin(),
-                       [](const Projectile* projectilePtr) { return projectilePtr->GetLight(); });
-
-        return lights;
-    }
 
 };

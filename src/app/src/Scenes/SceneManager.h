@@ -32,8 +32,8 @@ public:
         _scenes[_activeScene]->Update(deltaTime);
     }
 
-    void Draw() {
-        _scenes[_activeScene]->Draw();
+    void Draw(F32 deltaTime) {
+        _scenes[_activeScene]->Draw(deltaTime);
     }
 
     void Shutdown() {

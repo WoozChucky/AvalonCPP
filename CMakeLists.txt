@@ -31,6 +31,7 @@ find_package(ZLIB REQUIRED)
 find_package(glm REQUIRED)
 find_package(freetype REQUIRED)
 find_package(box2d REQUIRED)
+find_package(tmxlite REQUIRED)
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)

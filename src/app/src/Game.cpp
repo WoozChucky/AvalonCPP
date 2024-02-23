@@ -15,6 +15,7 @@
 #include "Engine/Input/InputManager.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/TestingScene.h"
+#include "Scenes/MapScene.h"
 #include <chrono>
 
 #include <freetype/freetype.h>
@@ -120,6 +121,8 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    sAssetManager->Initialize();
+
     sAudio->Initialize(_settings.Audio, [this](U8 *stream, int len) {
         // Audio recorded callback
         auto audioData = std::vector<U8>(stream, stream + len);
@@ -128,7 +131,9 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
 
     sSceneManager->Initialize();
     sSceneManager->AddScene("Testing", new TestingScene(), _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+    //sSceneManager->AddScene("Maping", new MapScene(), _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
     sSceneManager->SetActiveScene("Testing");
+    //sSceneManager->SetActiveScene("Maping");
 
     LOG_INFO("game", "Game initialized");
 }
@@ -168,7 +173,7 @@ void Game::Run() {
             _transitionToDebug = false;
             HandleEvents(SIMULATION_DT);
             Update(SIMULATION_DT);
-            Render();
+            Render(RENDER_DT);
             continue;
         }
 
@@ -183,7 +188,7 @@ void Game::Run() {
             while (accumulatedSimulationTime >= SIMULATION_DT) {
                 HandleEvents(SIMULATION_DT);
                 Update(SIMULATION_DT);
-                Render();
+                Render(RENDER_DT);
                 accumulatedSimulationTime -= SIMULATION_DT;
                 simulationFrames++;
                 renderFrames++;
@@ -226,7 +231,7 @@ void Game::Run() {
 
             // Render in fixed timestep increments
             if (accumulatedRenderTime >= RENDER_DT) {
-                Render();
+                Render(RENDER_DT);
                 accumulatedRenderTime -= RENDER_DT;
                 renderFrames++;
             }
@@ -524,13 +529,13 @@ void Game::Update(F32 deltaTime) {
     sSceneManager->Update(deltaTime);
 }
 
-void Game::Render() {
+void Game::Render(F32 deltaTime) {
     // 1. Clear the screen
     glViewport(0, 0, (int)_settings.Video.Resolution.Width, (int)_settings.Video.Resolution.Height);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    sSceneManager->Draw();
+    sSceneManager->Draw(deltaTime);
 
     // 2. Draw your elements
     if (_debugWindow) {

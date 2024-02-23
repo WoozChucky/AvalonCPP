@@ -2,10 +2,9 @@
 
 #include <Common/Types.h>
 #include "Engine/Graphics/Raw/Vertex.h"
-#include "SpriteBatch.h"
 #include <glm/glm.hpp>
 
-class Light {
+class Light : public IDrawable {
 
 public:
     explicit Light(glm::vec2 position, F32 size, ColorRGBA8 color) {
@@ -14,7 +13,7 @@ public:
         Color = color;
     }
 
-    void Draw(SpriteBatch& spriteBatch) {
+    void Draw(SpriteBatch& spriteBatch) override {
         glm::vec4 destRect(Position.x - Size / 2.f, Position.y - Size / 2.f, Size, Size);
 
         glm::vec4 uvRect(-1, -1, 2, 2);

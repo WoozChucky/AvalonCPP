@@ -37,5 +37,5 @@ private:
 
     void HandleEvents(F32 deltaTime);
     void Update(F32 deltaTime);
-    void Render();
+    void Render(F32 deltaTime);
 };

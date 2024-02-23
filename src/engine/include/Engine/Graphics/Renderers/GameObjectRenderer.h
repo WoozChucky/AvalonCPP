@@ -4,13 +4,13 @@
 
 #include "Engine/Graphics/Raw/Shader.h"
 #include "Engine/Graphics/SpriteBatch.h"
-#include "Engine/Graphics/Entities/Entity.h"
+#include "Engine/Graphics/GameObjects/Entities/Entity.h"
 
-class EntityRenderer {
+class GameObjectRenderer {
 public:
-    ~EntityRenderer() { }
+    ~GameObjectRenderer() { }
 
-    virtual void Render(SpriteBatch& spriteBatch, const std::vector<Entity*>& entities, const glm::mat4& projetionMatrix) {
+    virtual void Render(SpriteBatch& spriteBatch, const std::vector<GameObject*>& objects, const glm::mat4& projetionMatrix) {
 
         if (_shader == nullptr) {
             _shader = std::make_unique<Shader>();
@@ -32,8 +32,8 @@ public:
         auto projectionLocation = _shader->GetUniformLocation("projection");
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &(projetionMatrix[0][0]));
 
-        for (auto entity : entities) {
-            entity->Draw(spriteBatch);
+        for (auto object : objects) {
+            object->Draw(spriteBatch);
         }
 
         spriteBatch.End();

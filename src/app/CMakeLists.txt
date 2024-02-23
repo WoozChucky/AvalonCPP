@@ -28,7 +28,7 @@ target_link_libraries(${This}
         Boost::boost
         GLEW::GLEW
         glm::glm
-        box2d::box2d
+        tmxlite::tmxlite
         imgui
         AvalonProto
         Common

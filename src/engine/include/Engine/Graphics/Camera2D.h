@@ -11,7 +11,7 @@ public:
     void Init(U32 screenWidth, U32 screenHeight) {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
-        _orthoMatrix = glm::ortho(0.0f, (F32)_screenWidth, 0.0f, (F32)_screenHeight);
+        _orthoMatrix = glm::ortho(0.0f, (F32)_screenWidth, 0.0f, (F32)_screenHeight, -0.1f, 100.f);
     }
 
     void Update() {

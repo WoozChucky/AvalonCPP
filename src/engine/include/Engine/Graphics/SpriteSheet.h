@@ -12,7 +12,7 @@ public:
         _cellSize = cellSize;
     }
 
-    glm::vec4 GetUVs(int index) {
+    glm::vec4 GetUVs(int index) const {
         int xTile = index % _size.x;
         int yTile = index / _size.x;
 

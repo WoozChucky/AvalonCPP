@@ -19,5 +19,5 @@ void main() {
     // Set the color of the vertex
     fragmentColor = color;
     fragmentPosition = position;
-    fragmentTextCoord = vec2(textCoord.x, 1.0 - textCoord.y); // Invert the y-axis since OpenGL uses a different coordinate system and the texture is upside down
+    fragmentTextCoord = vec2(textCoord.x, textCoord.y); // Invert the y-axis since OpenGL uses a different coordinate system and the texture is upside down
 }

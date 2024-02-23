@@ -4,7 +4,7 @@
 
 #include "Engine/Graphics/Raw/Shader.h"
 #include "Engine/Graphics/SpriteBatch.h"
-#include "Engine/Graphics/Entities/Projectile.h"
+#include "Engine/Graphics/GameObjects/Entities/Projectile.h"
 
 class ProjectileRenderer {
 public:

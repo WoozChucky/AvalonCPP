@@ -4,10 +4,10 @@
 #include <glm/glm.hpp>
 #include "Engine/Graphics/Raw/Vertex.h"
 #include "Entity.h"
-#include "Engine/Graphics/Light.h"
+#include "Engine/Graphics/GameObjects/Lights/Light.h"
 
 
-class Projectile : public Entity{
+class Projectile : public Entity {
 public:
     Projectile(glm::vec2 position, glm::vec2 size, glm::vec2 velocity, F32 speed, F32 lifeTime) : Entity(TexturesName::Ball, position, size, velocity, speed) {
         _lifeTime = lifeTime;

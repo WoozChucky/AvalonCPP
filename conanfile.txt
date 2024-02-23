@@ -12,7 +12,6 @@ glm/cci.20230113
 tmxlite/1.4.4
 freetype/2.13.2
 sdl_ttf/2.20.2
-box2d/2.4.1
 
 [generators]
 CMakeToolchain

@@ -1,8 +1,9 @@
 #pragma once
 
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <Engine/Graphics/Raw/Texture.h>
-#include <Common/Utilities/FileUtils.h>
-#include <Engine/Graphics/picopng.h>
+#include <Engine/Graphics/stb_image.h>
 #include <GL/glew.h>
 #include <map>
 #include <string>
@@ -11,7 +12,9 @@ enum class TexturesName {
     Player,
     Enemy,
     Background,
-    Ball
+    Ball,
+    Map,
+    Torch
 };
 
 class AssetManager {
@@ -23,6 +26,7 @@ public:
     };
 
     bool Initialize() {
+        stbi_set_flip_vertically_on_load(true);
         return true;
     };
 
@@ -33,7 +37,7 @@ public:
         LOG_INFO("graphics", "AssetManager shutdown");
     };
 
-    Texture GetTexture(TexturesName name) {
+    Texture GetTexture(TexturesName name, bool isAtlas = false) {
         std::string filePath;
         switch (name) {
             case TexturesName::Player:
@@ -48,10 +52,16 @@ public:
             case TexturesName::Ball:
                 filePath = "Assets/Textures/icon.png";
                 break;
+            case TexturesName::Map:
+                filePath = "Assets/Textures/map.png";
+                break;
+            case TexturesName::Torch:
+                filePath = "Assets/Textures/torch.png";
+                break;
         }
 
         if (_textures.find(name) == _textures.end()) {
-            _textures[name] = LoadTexture(filePath);
+            _textures[name] = isAtlas ? LoadTextureAtlas(filePath) : LoadTexture(filePath);
         }
 
         return _textures[name];
@@ -67,21 +77,11 @@ private:
 
         Texture texture = {};
 
-        std::vector<U8> in;
-        std::vector<U8> out;
+        int width, height, channels;
 
-
-        if (!File::ReadBinaryContent(filePath, in)) {
-            throw std::runtime_error("Failed to read file: " + filePath);
-        }
-
-        std::vector<U8> image;
-        unsigned long width, height;
-
-        int error = decodePNG(out, width, height, in.data(), in.size());
-
-        if (error != 0) {
-            throw std::runtime_error("Failed to decode PNG: " + filePath);
+        auto pixels = stbi_load(filePath.c_str(), &width, &height, &channels, 4);
+        if (!pixels) {
+            throw std::runtime_error("Failed to load image: " + filePath);
         }
 
         texture.Width = width;
@@ -89,7 +89,7 @@ private:
 
         glGenTextures(1, &texture.Id);
         glBindTexture(GL_TEXTURE_2D, texture.Id);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out.data());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -98,6 +98,38 @@ private:
         glGenerateMipmap(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        stbi_image_free(pixels);
+
+        return texture;
+    };
+
+    Texture LoadTextureAtlas(const std::string& filePath) {
+        Texture texture = {};
+
+        int width, height, channels;
+
+        auto pixels = stbi_load(filePath.c_str(), &width, &height, &channels, 4);
+        if (!pixels) {
+            throw std::runtime_error("Failed to load image: " + filePath);
+        }
+
+        texture.Width = width;
+        texture.Height = height;
+
+        glGenTextures(1, &texture.Id);
+        glBindTexture(GL_TEXTURE_2D, texture.Id);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        stbi_image_free(pixels);
 
         return texture;
     };
