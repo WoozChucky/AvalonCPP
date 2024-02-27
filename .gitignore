@@ -56,3 +56,6 @@ cmake-build-debug/
 CMakeUserPresets.json
 
 src/app/src/revision.h
+
+bin/
+bin-int/

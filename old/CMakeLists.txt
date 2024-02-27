@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 set(This AvalonGame)
-project(${This} VERSION 1.0.0 LANGUAGES C CXX)
+set(CMAKE_C_COMPILER "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.39.33519/bin/Hostx64/x64/cl.exe")
+set(CMAKE_CXX_COMPILER "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.39.33519/bin/Hostx64/x64/cl.exe")
+project(${This} VERSION 1.0.0)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 17)

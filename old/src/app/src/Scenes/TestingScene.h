@@ -30,10 +30,10 @@ public:
     void Initialize(U32 width, U32 height) override {
         _camera.Init(width, height);
 
-        _player = new Player(glm::vec2(0.0f, 0.0f), glm::vec2(64.0f, 64.0f), glm::vec2(0.0f, 0.0f), 100.f);
+        _player = new Player(glm::vec2(100.0f, -100.0f), glm::vec2(64.0f, 64.0f), glm::vec2(0.0f, 0.0f), 100.f);
 
         _gameObjects.emplace_back(_player);
-        _gameObjects.emplace_back(new Enemy(glm::vec2(100.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
+        _gameObjects.emplace_back(new Enemy(glm::vec2(0.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
         _gameObjects.emplace_back(new Enemy(glm::vec2(-600.0f, 0.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
         _gameObjects.emplace_back(new Enemy(glm::vec2(100.0f, 200.0f), glm::vec2(128.0f, 128.0f), glm::vec2(0.0f, 0.0f), 100.f));
         _gameObjects.emplace_back(new Torch(glm::vec2(-533.0f, 450.0f), 64, ColorRGBA8::White()));
@@ -118,7 +118,7 @@ public:
         _lightRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
         _torchRenderer.Render(_spriteBatch, _torchLights, _camera.GetCameraMatrix(), deltaTime);
         _gameObjectRenderer.Render(_spriteBatch, _gameObjects, _camera.GetCameraMatrix());
-        //_projectileRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
+        _projectileRenderer.Render(_spriteBatch, _projectiles, _camera.GetCameraMatrix());
 
 
         if (_debugRender) {
