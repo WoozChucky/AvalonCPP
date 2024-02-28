@@ -6,9 +6,13 @@
 
 extern Avalon::Application* Avalon::CreateApplication();
 
-inline int main(int argc, char** argv)
+int main(int argc, char** argv)
 {
-	printf("Avalon Engine\n");
+	Avalon::Log::Init();
+	AV_CORE_WARN("Initialized Log!");
+	int time = 10;
+	AV_INFO("Hello! Var={0}", time);
+
 	const auto app = Avalon::CreateApplication();
 	app->Run();
 	delete app;

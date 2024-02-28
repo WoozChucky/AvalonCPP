@@ -10,6 +10,7 @@
 	#error Avalon only supports Windows!
 #endif
 
+#define BIT(x) (1 << x)
 
 typedef float F32;
 typedef int S32;
