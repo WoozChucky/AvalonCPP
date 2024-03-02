@@ -1,5 +1,5 @@
 #include "avpch.h"
-#include "WindowsInput.h"
+#include "Avalon/Core/Input.h"
 
 #include <GLFW/glfw3.h>
 
@@ -7,23 +7,21 @@
 
 namespace Avalon {
 
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
-
-	bool WindowsInput::IsKeyPressedImpl(KeyCode keycode)
+	bool Input::IsKeyPressed(KeyCode keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetKey(window, static_cast<U32>(keycode));
-		return state == GLFW_PRESS || state == GLFW_REPEAT;
+		return state == GLFW_PRESS;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
+	bool Input::IsMouseButtonPressed(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, static_cast<U32>(button));
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<F32, F32> WindowsInput::GetMousePositionImpl()
+	glm::vec2 Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
@@ -31,16 +29,14 @@ namespace Avalon {
 		return { (F32)xpos, (F32)ypos };
 	}
 
-	F32 WindowsInput::GetMouseXImpl()
+	F32 Input::GetMouseX()
 	{
-		auto [x, y] = GetMousePositionImpl();
-		return x;
+		return GetMousePosition().x;
 	}
 
-	F32 WindowsInput::GetMouseYImpl()
+	F32 Input::GetMouseY()
 	{
-		auto [x, y] = GetMousePositionImpl();
-		return y;
+		return GetMousePosition().y;
 	}
 
 }

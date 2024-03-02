@@ -22,6 +22,9 @@ namespace Avalon
 		virtual void Clear() = 0;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, U32 indexCount = 0) = 0;
+		virtual void DrawLines(const Ref<VertexArray>& vertexArray, U32 vertexCount) = 0;
+
+		virtual void SetLineWidth(F32 width) = 0;
 
 		inline static API GetAPI() { return s_API; }
 		static Scope<RendererAPI> Create();

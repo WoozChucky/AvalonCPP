@@ -49,18 +49,18 @@ void Sandbox2D::OnUpdate(Avalon::Timestep ts)
 	// Update
 	m_CameraController.OnUpdate(ts);
 
-	if (Avalon::Input::IsMouseButtonPressed(AV_MOUSE_BUTTON_LEFT))
+	if (Avalon::Input::IsMouseButtonPressed(Avalon::Mouse::ButtonLeft))
 	{
-		auto [x, y] = Avalon::Input::GetMousePosition();
+		auto mouse = Avalon::Input::GetMousePosition();
 		auto width = Avalon::Application::Get().GetWindow().GetWidth();
 		auto height = Avalon::Application::Get().GetWindow().GetHeight();
 
 		auto bounds = m_CameraController.GetBounds();
 		auto pos = m_CameraController.GetCamera().GetPosition();
-		x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-		y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+		mouse.x = (mouse.x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+		mouse.y = bounds.GetHeight() * 0.5f - (mouse.y / height) * bounds.GetHeight();
 
-		m_Particle.Position = { x + pos.x, y + pos.y };
+		m_Particle.Position = { mouse.x + pos.x, mouse.y + pos.y };
 		for (int i = 0; i < 2; i++)
 			m_ParticleSystem.Emit(m_Particle);
 	}

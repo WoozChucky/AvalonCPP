@@ -14,5 +14,8 @@ namespace Avalon
 		virtual void SetViewport(U32 x, U32 y, U32 width, U32 height) override;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, U32 indexCount = 0) override;
+		virtual void DrawLines(const Ref<VertexArray>& vertexArray, U32 vertexCount) override;
+
+		virtual void SetLineWidth(F32 width) override;
 	};
 }

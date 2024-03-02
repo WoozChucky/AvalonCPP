@@ -128,6 +128,9 @@ namespace Avalon {
 	{
 		AV_PROFILE_FUNCTION();
 
+		if (s_Data.QuadIndexCount == 0)
+			return; // Nothing to draw
+
 		U32 dataSize = (U8*)s_Data.QuadVertexBufferPtr - (U8*)s_Data.QuadVertexBufferBase;
 		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
 
@@ -136,9 +139,7 @@ namespace Avalon {
 
 	void Renderer2D::Flush()
 	{
-		if (s_Data.QuadIndexCount == 0)
-			return; // Nothing to draw
-
+		
 		// Bind textures
 		for (U32 i = 0; i < s_Data.TextureSlotIndex; i++)
 			s_Data.TextureSlots[i]->Bind(i);

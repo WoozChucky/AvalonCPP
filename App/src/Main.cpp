@@ -1,8 +1,6 @@
 #include <Avalon.h>
 #include <Avalon/Core/EntryPoint.h>
 
-#include <Platform/OpenGL/OpenGLShader.h>
-
 #include <imgui/imgui.h>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -186,20 +184,20 @@ public:
 		// AV_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 
 
-		if (Avalon::Input::IsKeyPressed(AV_KEY_W))
+		if (Avalon::Input::IsKeyPressed(Avalon::Key::W))
 		{
 			m_TrianglePosition.y += m_TriangleSpeed * ts;
 		}
-		else if (Avalon::Input::IsKeyPressed(AV_KEY_S))
+		else if (Avalon::Input::IsKeyPressed(Avalon::Key::S))
 		{
 			m_TrianglePosition.y -= m_TriangleSpeed * ts;
 		}
 
-		if (Avalon::Input::IsKeyPressed(AV_KEY_A))
+		if (Avalon::Input::IsKeyPressed(Avalon::Key::A))
 		{
 			m_TrianglePosition.x -= m_TriangleSpeed * ts;
 		}
-		else if (Avalon::Input::IsKeyPressed(AV_KEY_D))
+		else if (Avalon::Input::IsKeyPressed(Avalon::Key::D))
 		{
 			m_TrianglePosition.x += m_TriangleSpeed * ts;
 		}
@@ -220,8 +218,8 @@ public:
 
 			static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-			std::dynamic_pointer_cast<Avalon::OpenGLShader>(m_FlatColorShader)->Bind();
-			std::dynamic_pointer_cast<Avalon::OpenGLShader>(m_FlatColorShader)->SetFloat3("u_Color", m_SquareColor);
+			m_FlatColorShader->Bind();
+			m_FlatColorShader->SetFloat3("u_Color", m_SquareColor);
 			
 			for (int y = 0; y < 20; y++)
 			{
@@ -284,8 +282,8 @@ public:
 	AvalonApplication()
 	{
 		// PushLayer(new ExampleLayer());
-		// PushLayer(new Sandbox2D());
-		PushLayer(new RPGLayer());
+		PushLayer(new Sandbox2D());
+		//PushLayer(new RPGLayer());
 	}
 
 	~AvalonApplication()

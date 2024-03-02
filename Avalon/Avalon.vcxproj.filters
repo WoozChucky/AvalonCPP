@@ -135,9 +135,6 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>src\Platform\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -152,6 +149,8 @@
     <ClInclude Include="src\Avalon\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Avalon\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
+    <ClInclude Include="src\Avalon\Renderer\UniformBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Avalon\Core\Application.cpp">
@@ -231,10 +230,11 @@
     </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Avalon\Renderer\SubTexture2D.cpp" />
-    <ClCompile Include="src\Avalon\Core\Input.cpp" />
     <ClCompile Include="src\Avalon\Core\Window.cpp" />
     <ClCompile Include="src\Avalon\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Avalon\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="src\Avalon\Renderer\UniformBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
   </ItemGroup>
 </Project>
