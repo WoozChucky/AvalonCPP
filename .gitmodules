@@ -7,3 +7,9 @@
 [submodule "Avalon/vendor/glfw"]
 	path = Avalon/vendor/glfw
 	url = https://github.com/WoozChucky/glfw
+[submodule "Avalon/vendor/imgui"]
+	path = Avalon/vendor/imgui
+	url = https://github.com/WoozChucky/imgui
+[submodule "Avalon/vendor/glm"]
+	path = Avalon/vendor/glm
+	url = https://github.com/WoozChucky/glm

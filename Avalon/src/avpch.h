@@ -12,6 +12,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Avalon/Core/Log.h"
+#include "Avalon/Debug/Instrumentor.h"
+
 #if AV_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

@@ -1,48 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Avalon">
-      <UniqueIdentifier>{06AC0CA8-F24D-377E-DB08-4BD2C749BECE}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Avalon\Events">
-      <UniqueIdentifier>{2AD59332-9695-0F69-5FD0-58E6CB4F5445}</UniqueIdentifier>
+    <Filter Include="src\Avalon">
+      <UniqueIdentifier>{3D856B05-293D-AD52-9244-86AE7E1B4843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Avalon\Core">
+      <UniqueIdentifier>{B5772AF0-2103-98B4-2A14-1BA9961EF4B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Avalon\Events">
+      <UniqueIdentifier>{814AC9A9-ED60-C73F-36D8-5261A22D98C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Avalon\ImGui">
+      <UniqueIdentifier>{2734E4F5-132D-0348-3C5F-E8CC28B7E253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Avalon\Renderer">
+      <UniqueIdentifier>{83FD4038-EF5E-1E46-78CC-64F8E42C5505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\Windows">
+      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Avalon.h" />
-    <ClInclude Include="src\Avalon\Application.h">
-      <Filter>Avalon</Filter>
+    <ClInclude Include="src\Avalon.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Avalon\Core.h">
-      <Filter>Avalon</Filter>
+    <ClInclude Include="src\Avalon\Core\Application.h">
+      <Filter>src\Avalon\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Avalon\EntryPoint.h">
-      <Filter>Avalon</Filter>
+    <ClInclude Include="src\Avalon\Core\Base.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\EntryPoint.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Input.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\KeyCodes.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Layer.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\LayerStack.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Log.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\MouseCodes.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Timestep.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Window.h">
+      <Filter>src\Avalon\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Events\ApplicationEvent.h">
-      <Filter>Avalon\Events</Filter>
+      <Filter>src\Avalon\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Events\Event.h">
-      <Filter>Avalon\Events</Filter>
+      <Filter>src\Avalon\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Events\KeyEvent.h">
-      <Filter>Avalon\Events</Filter>
+      <Filter>src\Avalon\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Events\MouseEvent.h">
-      <Filter>Avalon\Events</Filter>
+      <Filter>src\Avalon\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Avalon\Log.h">
-      <Filter>Avalon</Filter>
+    <ClInclude Include="src\Avalon\ImGui\ImGuiLayer.h">
+      <Filter>src\Avalon\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\avpch.h" />
+    <ClInclude Include="src\Avalon\Renderer\Buffer.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\GraphicsContext.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\OrthographicCamera.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\OrthographicCameraController.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\RenderCommand.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\Renderer.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\RendererAPI.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\Shader.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\Texture.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\VertexArray.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>src\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>src\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\avpch.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Debug\Instrumentor.h" />
+    <ClInclude Include="src\Avalon\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\Avalon\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\Avalon\Renderer\FrameBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Avalon\Application.cpp">
-      <Filter>Avalon</Filter>
+    <ClCompile Include="src\Avalon\Core\Application.cpp">
+      <Filter>src\Avalon\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Avalon\Log.cpp">
-      <Filter>Avalon</Filter>
+    <ClCompile Include="src\Avalon\Core\Layer.cpp">
+      <Filter>src\Avalon\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\avpch.cpp" />
+    <ClCompile Include="src\Avalon\Core\LayerStack.cpp">
+      <Filter>src\Avalon\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Core\Log.cpp">
+      <Filter>src\Avalon\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\ImGui\ImGuiBuild.cpp">
+      <Filter>src\Avalon\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\ImGui\ImGuiLayer.cpp">
+      <Filter>src\Avalon\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Buffer.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\RenderCommand.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Renderer.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\RendererAPI.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Shader.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Texture.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\VertexArray.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\avpch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\Avalon\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\Avalon\Core\Input.cpp" />
+    <ClCompile Include="src\Avalon\Core\Window.cpp" />
+    <ClCompile Include="src\Avalon\Renderer\GraphicsContext.cpp" />
+    <ClCompile Include="src\Avalon\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
   </ItemGroup>
 </Project>

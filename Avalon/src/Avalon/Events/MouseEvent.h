@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Event.h"
+#include "Avalon/Events/Event.h"
+#include "Avalon/Core/Input.h"
 
 namespace Avalon {
 
-	class AVALON_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(F32 x, F32 y)
@@ -27,7 +28,7 @@ namespace Avalon {
 		F32 m_MouseX, m_MouseY;
 	};
 
-	class AVALON_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(F32 xOffset, F32 yOffset)
@@ -50,24 +51,24 @@ namespace Avalon {
 		F32 m_XOffset, m_YOffset;
 	};
 
-	class AVALON_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
-		inline S32 GetMouseButton() const { return m_Button; }
+		inline MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	protected:
-		MouseButtonEvent(S32 button)
+		MouseButtonEvent(MouseCode button)
 			: m_Button(button) {}
 
-		S32 m_Button;
+		MouseCode m_Button;
 	};
 
-	class AVALON_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(S32 button)
+		MouseButtonPressedEvent(MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -80,10 +81,10 @@ namespace Avalon {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class AVALON_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(S32 button)
+		MouseButtonReleasedEvent(MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override

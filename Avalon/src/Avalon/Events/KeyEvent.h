@@ -1,27 +1,28 @@
 #pragma once
 
 #include "Event.h"
+#include "Avalon/Core/Input.h"
 
 namespace Avalon {
 
-	class AVALON_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
-		inline S32 GetKeyCode() const { return m_KeyCode; }
+		KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 	protected:
-		KeyEvent(S32 keycode)
+		KeyEvent(KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
-		S32 m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
-	class AVALON_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(S32 keycode, S32 repeatCount)
+		KeyPressedEvent(KeyCode keycode, S32 repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
 		inline S32 GetRepeatCount() const { return m_RepeatCount; }
@@ -39,10 +40,10 @@ namespace Avalon {
 		S32 m_RepeatCount;
 	};
 
-	class AVALON_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(S32 keycode)
+		KeyReleasedEvent(KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		std::string ToString() const override
@@ -55,10 +56,10 @@ namespace Avalon {
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class AVALON_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(S32 keycode)
+		KeyTypedEvent(KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		std::string ToString() const override

@@ -1,10 +1,11 @@
 #pragma once
+#include "avpch.h"
 
 #include "Event.h"
 
 namespace Avalon {
 
-	class AVALON_API WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(U32 width, U32 height)
@@ -27,7 +28,7 @@ namespace Avalon {
 		U32 m_Width, m_Height;
 	};
 
-	class AVALON_API WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 		public:
 			WindowCloseEvent() {}
@@ -36,7 +37,7 @@ namespace Avalon {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AVALON_API AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 		public:
 			AppTickEvent() {}
@@ -45,7 +46,7 @@ namespace Avalon {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AVALON_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 		public:
 			AppUpdateEvent() {}
@@ -54,7 +55,7 @@ namespace Avalon {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AVALON_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 		public:
 			AppRenderEvent() {}
