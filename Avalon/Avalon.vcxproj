@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="src\Avalon.h" />
     <ClInclude Include="src\Avalon\Core\Application.h" />
+    <ClInclude Include="src\Avalon\Core\Assert.h" />
     <ClInclude Include="src\Avalon\Core\Base.h" />
     <ClInclude Include="src\Avalon\Core\EntryPoint.h" />
     <ClInclude Include="src\Avalon\Core\Input.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\Avalon\Core\LayerStack.h" />
     <ClInclude Include="src\Avalon\Core\Log.h" />
     <ClInclude Include="src\Avalon\Core\MouseCodes.h" />
+    <ClInclude Include="src\Avalon\Core\PlatformDetection.h" />
     <ClInclude Include="src\Avalon\Core\Timestep.h" />
     <ClInclude Include="src\Avalon\Core\Window.h" />
     <ClInclude Include="src\Avalon\Debug\Instrumentor.h" />

@@ -151,6 +151,8 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Avalon\Renderer\UniformBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
+    <ClInclude Include="src\Avalon\Core\PlatformDetection.h" />
+    <ClInclude Include="src\Avalon\Core\Assert.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Avalon\Core\Application.cpp">
