@@ -9,6 +9,11 @@ workspace "Avalon"
         "Distribution"
     }
 
+    flags
+	{
+		"MultiProcessorCompile"
+	}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
@@ -54,7 +59,7 @@ project "Avalon"
         "%{IncludeDir.GLAD}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.glm}",
-        "%{IncludeDir.stb_image}"
+        "%{IncludeDir.stb_image}",
     }
 
     defines
@@ -67,7 +72,7 @@ project "Avalon"
         "GLFW",
         "GLAD",
         "ImGui",
-        "opengl32.lib"
+        "opengl32.lib",
     }
 
     filter "system:windows"

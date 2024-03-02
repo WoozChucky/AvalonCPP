@@ -11,8 +11,8 @@ namespace Avalon {
 		WindowResizeEvent(U32 width, U32 height)
 			: m_Width(width), m_Height(height) {}
 
-		inline U32 GetWidth() const { return m_Width; }
-		inline U32 GetHeight() const { return m_Height; }
+		U32 GetWidth() const { return m_Width; }
+		U32 GetHeight() const { return m_Height; }
 
 		std::string ToString() const override
 		{

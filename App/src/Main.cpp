@@ -279,7 +279,8 @@ private:
 class AvalonApplication : public Avalon::Application
 {
 public:
-	AvalonApplication()
+	AvalonApplication(const Avalon::ApplicationSpecification& specification)
+		: Application(specification)
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
@@ -292,8 +293,13 @@ public:
 
 };
 
-Avalon::Application* Avalon::CreateApplication()
+Avalon::Application* Avalon::CreateApplication(Avalon::ApplicationCommandLineArgs args)
 {
-	return new AvalonApplication();
+	ApplicationSpecification spec;
+	spec.Name = "Avalon App Test";
+	//spec.WorkingDirectory = "../Hazelnut";
+	spec.CommandLineArgs = args;
+
+	return new AvalonApplication(spec);
 }
 

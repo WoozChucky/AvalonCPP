@@ -1,5 +1,5 @@
-[18:23:45] [info] [31156 - 6916] AVALON: Creating window Avalon Engine (1280, 720)
-[18:23:46] [info] [31156 - 6916] AVALON: OpenGL Info:
-[18:23:46] [info] [31156 - 6916] AVALON:   Vendor: NVIDIA Corporation
-[18:23:46] [info] [31156 - 6916] AVALON:   Renderer: NVIDIA GeForce RTX 3090/PCIe/SSE2
-[18:23:46] [info] [31156 - 6916] AVALON:   Version: 4.6.0 NVIDIA 546.33
+[23:47:31] [info] [38180 - 26428] AVALON: Creating window Avalon App Test (1280, 720)
+[23:47:31] [info] [38180 - 26428] AVALON: OpenGL Info:
+[23:47:31] [info] [38180 - 26428] AVALON:   Vendor: NVIDIA Corporation
+[23:47:31] [info] [38180 - 26428] AVALON:   Renderer: NVIDIA GeForce RTX 3090/PCIe/SSE2
+[23:47:31] [info] [38180 - 26428] AVALON:   Version: 4.6.0 NVIDIA 546.33

@@ -10,6 +10,9 @@
     <Filter Include="src\Avalon\Core">
       <UniqueIdentifier>{B5772AF0-2103-98B4-2A14-1BA9961EF4B4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Avalon\Debug">
+      <UniqueIdentifier>{73C985F5-5FC2-A447-88F4-89CC744C8453}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Avalon\Events">
       <UniqueIdentifier>{814AC9A9-ED60-C73F-36D8-5261A22D98C7}</UniqueIdentifier>
     </Filter>
@@ -42,6 +45,9 @@
     <ClInclude Include="src\Avalon\Core\Application.h">
       <Filter>src\Avalon\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Avalon\Core\Assert.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Avalon\Core\Base.h">
       <Filter>src\Avalon\Core</Filter>
     </ClInclude>
@@ -66,11 +72,17 @@
     <ClInclude Include="src\Avalon\Core\MouseCodes.h">
       <Filter>src\Avalon\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Avalon\Core\PlatformDetection.h">
+      <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Avalon\Core\Timestep.h">
       <Filter>src\Avalon\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Core\Window.h">
       <Filter>src\Avalon\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Debug\Instrumentor.h">
+      <Filter>src\Avalon\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Events\ApplicationEvent.h">
       <Filter>src\Avalon\Events</Filter>
@@ -90,6 +102,12 @@
     <ClInclude Include="src\Avalon\Renderer\Buffer.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\Font.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\FrameBuffer.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Avalon\Renderer\GraphicsContext.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
@@ -105,13 +123,22 @@
     <ClInclude Include="src\Avalon\Renderer\Renderer.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\Renderer2D.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Avalon\Renderer\RendererAPI.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Renderer\Shader.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\SubTexture2D.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Avalon\Renderer\Texture.h">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Avalon\Renderer\UniformBuffer.h">
       <Filter>src\Avalon\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Avalon\Renderer\VertexArray.h">
@@ -123,6 +150,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -130,6 +160,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -144,15 +177,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Avalon\Debug\Instrumentor.h" />
-    <ClInclude Include="src\Avalon\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\Avalon\Renderer\SubTexture2D.h" />
-    <ClInclude Include="src\Avalon\Renderer\FrameBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
-    <ClInclude Include="src\Avalon\Renderer\UniformBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
-    <ClInclude Include="src\Avalon\Core\PlatformDetection.h" />
-    <ClInclude Include="src\Avalon\Core\Assert.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Avalon\Core\Application.cpp">
@@ -167,6 +191,9 @@
     <ClCompile Include="src\Avalon\Core\Log.cpp">
       <Filter>src\Avalon\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Avalon\Core\Window.cpp">
+      <Filter>src\Avalon\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Avalon\ImGui\ImGuiBuild.cpp">
       <Filter>src\Avalon\ImGui</Filter>
     </ClCompile>
@@ -174,6 +201,12 @@
       <Filter>src\Avalon\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\Buffer.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\FrameBuffer.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\GraphicsContext.cpp">
       <Filter>src\Avalon\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\OrthographicCamera.cpp">
@@ -188,13 +221,22 @@
     <ClCompile Include="src\Avalon\Renderer\Renderer.cpp">
       <Filter>src\Avalon\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\Renderer2D.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\RendererAPI.cpp">
       <Filter>src\Avalon\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\Shader.cpp">
       <Filter>src\Avalon\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\SubTexture2D.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\Texture.cpp">
+      <Filter>src\Avalon\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Avalon\Renderer\UniformBuffer.cpp">
       <Filter>src\Avalon\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Avalon\Renderer\VertexArray.cpp">
@@ -206,6 +248,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -213,6 +258,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -230,13 +278,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Avalon\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\Avalon\Renderer\SubTexture2D.cpp" />
-    <ClCompile Include="src\Avalon\Core\Window.cpp" />
-    <ClCompile Include="src\Avalon\Renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\Avalon\Renderer\FrameBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
-    <ClCompile Include="src\Avalon\Renderer\UniformBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
   </ItemGroup>
 </Project>

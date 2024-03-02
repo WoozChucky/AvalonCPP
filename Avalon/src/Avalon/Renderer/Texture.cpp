@@ -11,12 +11,12 @@
 
 namespace Avalon 
 {
-	Ref<Texture2D> Texture2D::Create(U32 width, U32 height)
+	Ref<Texture2D> Texture2D::Create(const TextureSpecification& specification)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:    AV_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL:  return std::make_shared<OpenGLTexture2D>(width, height);
+			case RendererAPI::API::OpenGL:  return CreateRef<OpenGLTexture2D>(specification);
 		}
 
 		AV_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -28,7 +28,7 @@ namespace Avalon
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:    AV_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL:  return std::make_shared<OpenGLTexture2D>(path);
+			case RendererAPI::API::OpenGL:  return CreateRef<OpenGLTexture2D>(path);
 		}
 
 		AV_CORE_ASSERT(false, "Unknown RendererAPI!");

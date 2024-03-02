@@ -12,14 +12,19 @@ namespace Avalon
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const ApplicationSpecification& specification)
+		: m_Specification(specification)
 	{
 		AV_PROFILE_FUNCTION();
 
 		AV_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+
+		// Set working directory here
+		if (!m_Specification.WorkingDirectory.empty())
+			std::filesystem::current_path(m_Specification.WorkingDirectory);
 		
-		m_Window = Window::Create();
+		m_Window = Window::Create(WindowProps(m_Specification.Name));
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 		
 		Renderer::Init();
@@ -35,6 +40,34 @@ namespace Avalon
 		Renderer::Shutdown();
 	}
 
+	void Application::PushLayer(Layer* layer)
+	{
+		AV_PROFILE_FUNCTION();
+
+		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
+	}
+
+	void Application::PushOverlay(Layer* overlay)
+	{
+		AV_PROFILE_FUNCTION();
+
+		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
+	}
+
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
+	void Application::SubmitToMainThread(const std::function<void()>& function)
+	{
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		m_MainThreadQueue.emplace_back(function);
+	}
+
 	void Application::OnEvent(Event& e)
 	{
 		AV_PROFILE_FUNCTION();
@@ -48,6 +81,45 @@ namespace Avalon
 			if (e.Handled)
 				break;
 			(*it)->OnEvent(e);
+		}
+	}
+
+	void Application::Run()
+	{
+		AV_PROFILE_FUNCTION();
+
+		while (m_Running)
+		{
+			AV_PROFILE_SCOPE("RunLoop");
+
+			F32 time = (F32)glfwGetTime(); // Platform::GetTime()
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
+			ExecuteMainThreadQueue();
+
+			if (!m_Minimized)
+			{
+				{
+					AV_PROFILE_SCOPE("LayerStack OnUpdate");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
+
+
+				m_ImGuiLayer->Begin();
+				{
+					AV_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnImGuiRender();
+				}
+				m_ImGuiLayer->End();
+			}
+
+
+			m_Window->OnUpdate();
 		}
 	}
 
@@ -73,62 +145,14 @@ namespace Avalon
 		return false;
 	}
 
-	void Application::Run()
+	void Application::ExecuteMainThreadQueue()
 	{
-		AV_PROFILE_FUNCTION();
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
 
-		while (m_Running)
-		{
-			AV_PROFILE_SCOPE("RunLoop");
+		for (auto& func : m_MainThreadQueue)
+			func();
 
-			F32 time = (F32)glfwGetTime(); // Platform::GetTime()
-			Timestep timestep = time - m_LastFrameTime;
-			m_LastFrameTime = time;
-
-			if (!m_Minimized)
-			{
-				{
-					AV_PROFILE_SCOPE("LayerStack OnUpdate");
-
-					for (Layer* layer : m_LayerStack)
-						layer->OnUpdate(timestep);
-				}
-				
-
-				m_ImGuiLayer->Begin();
-				{
-					AV_PROFILE_SCOPE("LayerStack OnImGuiRender");
-
-					for (Layer* layer : m_LayerStack)
-						layer->OnImGuiRender();
-				}
-				
-				m_ImGuiLayer->End();
-			}
-
-			
-			m_Window->OnUpdate();
-		}
+		m_MainThreadQueue.clear();
 	}
 
-	void Application::Close()
-	{
-		m_Running = false;
-	}
-
-	void Application::PushLayer(Layer* layer)
-	{
-		AV_PROFILE_FUNCTION();
-
-		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
-	}
-
-	void Application::PushOverlay(Layer* overlay)
-	{
-		AV_PROFILE_FUNCTION();
-
-		m_LayerStack.PushOverlay(overlay);
-		overlay->OnAttach();
-	}
 }
