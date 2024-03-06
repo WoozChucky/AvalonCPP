@@ -17,27 +17,27 @@ public:
 
         bool isMoving = false;
 
-        if (sInputManager->IsKeyDown(SDLK_w)) {
+        if (sInputManager->IsKeyDown(1)) {
             Velocity.y = 1.0f; // Positive y velocity for moving up
             _lastMoveDirection = glm::vec2(0.0f, 1.0f);
             isMoving = true;
         }
-        if (sInputManager->IsKeyDown(SDLK_s)) {
+        if (sInputManager->IsKeyDown(2)) {
             Velocity.y = -1.0f; // Negative y velocity for moving down
             _lastMoveDirection = glm::vec2(0.0f, -1.0f);
             isMoving = true;
         }
-        if (sInputManager->IsKeyDown(SDLK_a)) {
+        if (sInputManager->IsKeyDown(3)) {
             Velocity.x = -1.0f; // Negative x velocity for moving left
             _lastMoveDirection = glm::vec2(-1.0f, 0.0f);
             isMoving = true;
         }
-        if (sInputManager->IsKeyDown(SDLK_d)) {
+        if (sInputManager->IsKeyDown(4)) {
             Velocity.x = 1.0f; // Positive x velocity for moving right
             _lastMoveDirection = glm::vec2(1.0f, 0.0f);
             isMoving = true;
         }
-        if (sInputManager->IsKeyDown(SDLK_SPACE)) {
+        if (sInputManager->IsKeyDown(5)) {
             // Running
             Speed = 175.0f;
             _frameTime = 0.10f;

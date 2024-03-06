@@ -2,7 +2,7 @@
 
 #include <Common/Types.h>
 #include <Common/Logging/Log.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <vector>
 #include <Engine/Graphics/Raw/Vertex.h>
 #include <glm/glm.hpp>

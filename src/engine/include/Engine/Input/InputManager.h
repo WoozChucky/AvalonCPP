@@ -11,6 +11,9 @@ public:
         return &instance;
     };
 
+    InputManager(const InputManager&) = delete;
+    InputManager& operator=(const InputManager&) = delete;
+
     void Update() {
         _previousKeys = _keys;
     }
@@ -59,8 +62,6 @@ public:
 private:
     InputManager() = default;
     ~InputManager() = default;
-    InputManager(const InputManager&) = delete;
-    InputManager& operator=(const InputManager&) = delete;
 
     std::unordered_map<U32, bool> _keys;
     std::unordered_map<U32, bool> _previousKeys;

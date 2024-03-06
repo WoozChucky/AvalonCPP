@@ -20,22 +20,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Dependencies
 find_package(fmt REQUIRED)
-find_package(SDL2 REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(Boost REQUIRED)
-find_package(glew REQUIRED)
 find_package(utf8cpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(glm REQUIRED)
 find_package(freetype REQUIRED)
-find_package(box2d REQUIRED)
 find_package(tmxlite REQUIRED)
+find_package(glfw3 REQUIRED)
+
 
 # Third party libraries
 add_subdirectory(vendor/imgui-docking)
-add_subdirectory(vendor/SDL_mixer)
+add_subdirectory(vendor/glad)
 
 if (WIN32)
     add_definitions(-DAV_PLATFORM_WIN)
@@ -49,6 +48,8 @@ elseif(APPLE)
 else()
     message(FATAL_ERROR "Unsupported platform")
 endif()
+
+add_definitions(-DGLFW_INCLUDE_NONE)
 
 # Project libraries
 add_subdirectory(src/proto)

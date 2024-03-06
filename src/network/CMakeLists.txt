@@ -7,11 +7,6 @@ file(GLOB SOURCES "src/*.cpp")
 file(GLOB_RECURSE WIN_SOURCES "src/Windows/*.cpp")
 file(GLOB_RECURSE UNIX_SOURCES "src/Unix/*.cpp")
 
-find_package(fmt REQUIRED)
-find_package(utf8cpp REQUIRED)
-find_package(Boost REQUIRED)
-find_package(OpenSSL REQUIRED)
-
 message(STATUS "SOURCES: ${SOURCES}")
 
 if(WIN32)

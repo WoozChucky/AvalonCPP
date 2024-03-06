@@ -1,19 +1,12 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <imgui.h>
-#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
 #include "NetworkDaemon.h"
 #include "Common/Logging/AppenderConsole.h"
 #include "Game.h"
 #include "Network/SslContext.h"
-
-#include <SDL.h>
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <SDL_opengles2.h>
-#else
-#include <SDL_opengl.h>
-#endif
 
 #include <fmt/core.h>
 #include <google/protobuf/stubs/common.h>
@@ -67,13 +60,11 @@ int main(int argc, char** argv) {
     IMGUI_CHECKVERSION();
     LOG_DEBUG("system", "ImGui library initialized");
 
-    SDL_version version {};
-    SDL_GetVersion(&version);
 
     LOG_DEBUG("system", "> Using SSL version: {}", OPENSSL_VERSION_TEXT);
     LOG_DEBUG("system", "> Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
     LOG_DEBUG("system", "> Using Protobuf version: {}.{}.{}", GOOGLE_PROTOBUF_VERSION / 100000, GOOGLE_PROTOBUF_VERSION / 100 % 1000, GOOGLE_PROTOBUF_VERSION % 100);
-    LOG_DEBUG("system", "> Using SDL version: {}.{}.{} (rev. {})", version.major, version.minor, version.patch, SDL_GetRevision());
+    LOG_DEBUG("system", "> Using SDL version: {} (rev. {})", glfwGetVersionString(), 1);
     LOG_DEBUG("system", "> Using ImGui version: {}.{}.{} (Docking={})", IMGUI_VERSION_NUM / 10000, IMGUI_VERSION_NUM / 100 % 100, IMGUI_VERSION_NUM % 100, true);
 
     boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);

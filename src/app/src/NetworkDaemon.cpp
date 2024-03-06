@@ -345,7 +345,8 @@ void NetworkDaemon::OnAudioPacketReceived(const NetworkPacket &packet) {
      // Here packets are coming in chunks, so we need to concatenate them
      // and then send them to the audio manager
 
-    sAudio->OnAudioReceived(soundBuffer, audioPacket.soundbuffer().size());
+     //FIXME
+    //sAudio->OnAudioReceived(soundBuffer, audioPacket.soundbuffer().size());
 }
 
 void NetworkDaemon::OnPingPacketReceived(const NetworkPacket &packet) {

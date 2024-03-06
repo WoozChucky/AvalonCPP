@@ -21,12 +21,11 @@ target_link_libraries(${This}
         OpenSSL::SSL
         protobuf::protobuf
         nlohmann_json::nlohmann_json
-        SDL2::SDL2
-        SDL2::SDL2main
+        glfw
         Freetype::Freetype
         ZLIB::ZLIB
         Boost::boost
-        GLEW::GLEW
+        glad
         glm::glm
         tmxlite::tmxlite
         imgui

@@ -5,7 +5,7 @@
 
 #include <tmxlite/Map.hpp>
 #include <tmxlite/TileLayer.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include "Common/Logging/Log.h"
 
 namespace {
@@ -43,20 +43,6 @@ static inline void glErrorCheck(const char* file, unsigned int line, const char*
             {
                 error = "GL_INVALID_OPERATION";
                 description = "The specified operation is not allowed in the current state.";
-                break;
-            }
-
-            case GL_STACK_OVERFLOW:
-            {
-                error = "GL_STACK_OVERFLOW";
-                description = "This command would cause a stack overflow.";
-                break;
-            }
-
-            case GL_STACK_UNDERFLOW:
-            {
-                error = "GL_STACK_UNDERFLOW";
-                description = "This command would cause a stack underflow.";
                 break;
             }
 

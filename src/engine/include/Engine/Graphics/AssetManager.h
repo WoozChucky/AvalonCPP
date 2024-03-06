@@ -4,7 +4,7 @@
 
 #include <Engine/Graphics/Raw/Texture.h>
 #include <Engine/Graphics/stb_image.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <map>
 #include <string>
 

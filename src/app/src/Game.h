@@ -1,9 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <GL/glew.h>
 #include <imgui.h>
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 #include "NetworkDaemon.h"
 
 #include <Engine/Settings.h>
@@ -22,8 +21,7 @@ private:
     bool _isRunning;
     boost::asio::io_context &ioContext;
     std::unique_ptr<NetworkDaemon> _networkDaemon;
-    SDL_Window* _window;
-    SDL_GLContext _glContext;
+    GLFWwindow* _window;
     ImGuiIO& _io;
 
     bool show_demo_window = false;

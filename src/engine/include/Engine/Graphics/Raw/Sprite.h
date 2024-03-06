@@ -1,5 +1,5 @@
 #include <Common/Types.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <Engine/Graphics/Raw/Vertex.h>
 #include <Engine/Graphics/Raw/Texture.h>
 #include <Engine/Graphics/AssetManager.h>
@@ -117,8 +117,7 @@ private:
         GLenum err;
         while((err = glGetError()) != GL_NO_ERROR)
         {
-            auto errStr = std::string(reinterpret_cast<const char*>(glewGetErrorString(err)));
-            LOG_WARN("graphics", "OpenGL error: {} - {}", std::to_string(err), errStr);
+            LOG_WARN("graphics", "OpenGL error: {}", std::to_string(err));
         }
     }
 };

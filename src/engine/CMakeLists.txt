@@ -4,12 +4,6 @@ include_directories(include)
 
 file(GLOB_RECURSE SOURCES "src/**/*.cpp" "include/**/*.h")
 
-find_package(fmt REQUIRED)
-find_package(utf8cpp REQUIRED)
-find_package(Boost REQUIRED)
-find_package(OpenSSL REQUIRED)
-find_package(glew REQUIRED)
-
 add_library(${This} SHARED ${SOURCES})
 set_target_properties(${This} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 target_include_directories(${This} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -22,10 +16,10 @@ target_link_libraries(${This}
         Boost::boost
         OpenSSL::SSL
         OpenSSL::Crypto
-        SDL2::SDL2
+        glfw
         Freetype::Freetype
         ZLIB::ZLIB
-        GLEW::GLEW
+        glad
         glm::glm
         tmxlite::tmxlite
         nlohmann_json::nlohmann_json

@@ -24,9 +24,11 @@ public:
         _activeScene = id;
     }
 
+    /*
     void onSDLEvent(SDL_Event& event) {
         _scenes[_activeScene]->onSDLEvent(event);
     }
+    */
 
     void Update(F32 deltaTime) {
         _scenes[_activeScene]->Update(deltaTime);

@@ -1,13 +1,9 @@
 #include "Game.h"
 #include <fmt/core.h>
+#include <glad/glad.h>
 #include <imgui.h>
-#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <SDL_opengles2.h>
-#else
-#include <SDL_opengl.h>
-#endif
 
 #include <Engine/Audio/AudioManager.h>
 #include <Engine/Graphics/AssetManager.h>
@@ -21,9 +17,14 @@
 #include <freetype/freetype.h>
 
 void OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
-    if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
+    // if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
         LOG_WARN("graphics", "OpenGL Debug Message: {}", message);
-    }
+    // }
+}
+
+void GLFWErrorCallback(int code, const char* description)
+{
+    LOG_WARN("GLFW", "[{}]: {}", code, description);
 }
 
 Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContext(ioContext), _io(ImGui::GetIO()){
@@ -33,33 +34,31 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     _networkDaemon = std::make_unique<NetworkDaemon>();
     _networkDaemon->RegisterHandlers();
 
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) < 0) {
+    if (glfwInit() != GLFW_TRUE) {
         // Handle initialization error
-        throw std::runtime_error("SDL_Init failed");
+        throw std::runtime_error("glfwInit() failed");
     }
 
-    const char* glsl_version = "#version 410";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    glfwSetErrorCallback(GLFWErrorCallback);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE); // Should be used for Debug only
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
 
-    // Create a window
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-    _window = SDL_CreateWindow(
-            "SDL Game Loop",
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
+    _window = glfwCreateWindow(
             (S32) _settings.Video.Resolution.Width,
             (S32) _settings.Video.Resolution.Height,
-            _settings.Video.Mode
+            "The Title",
+            nullptr,
+            nullptr
     );
+
+    glfwMakeContextCurrent(_window);
+
+    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    assert(status);
+
+    const char* glsl_version = "#version 410";
 
     if (!_window) {
         throw std::runtime_error("SDL_CreateWindow failed");
@@ -67,14 +66,9 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
 
     _currentResolution = _settings.Video.Resolution.GetResolutionOption();
 
-    _glContext = SDL_GL_CreateContext(_window);
-    if (!_glContext) {
-        // Handle context creation error
-        LOG_ERROR("graphics", "SDL_GL_CreateContext failed. {}", SDL_GetError());
-        throw std::runtime_error("SDL_GL_CreateContext failed");
-    }
-
-    SDL_GL_MakeCurrent(_window, _glContext);
+    int width, height;
+    glfwGetFramebufferSize(_window, &width, &height);
+    glViewport(0, 0, width, height);
 
     glClearDepth(1.0f);
 
@@ -89,45 +83,30 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
     ImGui::StyleColorsDark();
 
     // Setup Platform/Renderer backends
-    ImGui_ImplSDL2_InitForOpenGL(_window, _glContext);
+    ImGui_ImplGlfw_InitForOpenGL(_window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
-
-    // Initialize GLEW
-    glewExperimental = GL_TRUE;
-    GLenum glewError = glewInit();
-    if (glewError != GLEW_OK) {
-        const unsigned char * err = glewGetErrorString(glewError);
-        throw std::runtime_error(fmt::format("GLEW initialization failed: {}", reinterpret_cast<const char*>(err)));
-    }
 
     std::string str(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
     LOG_DEBUG("system", "> Using OpenGL version: {}", str.c_str());
 
-    if (glewIsSupported("GL_KHR_debug")) {
-        glEnable(GL_DEBUG_OUTPUT);
-        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-        glDebugMessageCallback(OpenGLDebugCallback, nullptr);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-    } else if (glewIsSupported("GL_ARB_debug_output")) {
-        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
-        glDebugMessageCallbackARB(OpenGLDebugCallback, nullptr);
-        glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-    }
-
-    SDL_GL_SetSwapInterval(_settings.Video.VSync ? 1 : 0);
+    glfwSwapInterval(_settings.Video.VSync ? 1 : 0);
     LOG_INFO("graphics", "VSync: {}", _settings.Video.VSync ? "Enabled" : "Disabled");
 
-    // Enable alpha blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LINE_SMOOTH);
+
     sAssetManager->Initialize();
 
+#if 0
     sAudio->Initialize(_settings.Audio, [this](U8 *stream, int len) {
         // Audio recorded callback
         auto audioData = std::vector<U8>(stream, stream + len);
         _networkDaemon->SendAudioPacket(audioData);
     });
+#endif
 
     sSceneManager->Initialize();
     sSceneManager->AddScene("Testing", new TestingScene(), _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
@@ -139,7 +118,9 @@ Game::Game(boost::asio::io_context &ioContext, GameSettings &settings): ioContex
 }
 
 Game::~Game() {
+#if 0
     sAudio->Shutdown();
+#endif
     sAssetManager->Shutdown();
     sSceneManager->Shutdown();
 }
@@ -164,7 +145,9 @@ void Game::Run() {
     while (_isRunning) {
         // Calculate time since last simulation update
         auto currentTime = std::chrono::high_resolution_clock::now();
-        double deltaTime = std::chrono::duration<double>(currentTime - startTime).count();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0.1f, 0.1f, 0.1, 1.0f);
 
         const float RENDER_DT = 1.0f / (F32)_settings.Video.TargetFramesPerSecond;
 
@@ -203,7 +186,7 @@ void Game::Run() {
                 double renderFPS = renderFrames / elapsedTimeSinceFPSUpdate;
 
                 // Update window title with frame time
-                SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
+                // SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
                 simulationFrames = 0;
                 renderFrames = 0;
                 lastFPSUpdateTime = currentTime;
@@ -222,6 +205,8 @@ void Game::Run() {
                 Update(SIMULATION_DT);
                 accumulatedSimulationTime -= SIMULATION_DT;
                 simulationFrames++;
+
+                LOG_INFO("Update", "1");
             }
 
             // Calculate time since last render
@@ -234,6 +219,8 @@ void Game::Run() {
                 Render(RENDER_DT);
                 accumulatedRenderTime -= RENDER_DT;
                 renderFrames++;
+
+                LOG_INFO("Render", "2");
             }
 
             // Print actual framerates every second
@@ -245,12 +232,15 @@ void Game::Run() {
                 double renderFPS = renderFrames / elapsedTimeSinceFPSUpdate;
 
                 // Update window title with frame time
-                SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
+                // SDL_SetWindowTitle(_window, fmt::format("SDL Game Loop - {:.1f} ms/frame (Rendering FPS: {:.1f} - Simulation FPS: {:.1f})", 1.0f, renderFPS, simulationFPS).c_str());
                 simulationFrames = 0;
                 renderFrames = 0;
                 lastFPSUpdateTime = currentTime;
             }
         }
+
+        glfwPollEvents();
+        glfwSwapBuffers(_window);
 
         // Sleep to control loop speed
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -273,18 +263,18 @@ void Game::Shutdown() {
     // Cleanup code here
     LOG_INFO("game", "Game shutting down");
     ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
     // Clean up
-    SDL_GL_DeleteContext(_glContext);
-    SDL_DestroyWindow(_window);
-    SDL_Quit();
+    glfwDestroyWindow(_window);
+    glfwTerminate();
 }
 
 void Game::HandleEvents(F32 deltaTime) {
     sInputManager->Update();
     // Event handling
+    /*
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         ImGui_ImplSDL2_ProcessEvent(&event);
@@ -319,12 +309,13 @@ void Game::HandleEvents(F32 deltaTime) {
         }
         sSceneManager->onSDLEvent(event);
     }
+    */
 
-    if (sInputManager->IsKeyPressed(SDLK_F8)) {
+    if (sInputManager->IsKeyPressed(1)) {
         _transitionToDebug = !_transitionToDebug;
     }
 
-    if (sInputManager->IsKeyDown(SDLK_ESCAPE)) {
+    if (sInputManager->IsKeyDown(2)) {
         _isRunning = false;
     }
 }
@@ -333,7 +324,7 @@ void Game::Update(F32 deltaTime) {
     // Start the Dear ImGui frame
     if (_debugWindow) {
         ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         if (ImGui::BeginMainMenuBar())
@@ -391,8 +382,8 @@ void Game::Update(F32 deltaTime) {
                         _settings.Video.Resolution.Height = 1440;
                         break;
                 }
-                SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
-                SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+                //SDL_SetWindowSize(_window, _settings.Video.Resolution.Width, _settings.Video.Resolution.Height);
+                //SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
             }
 
             ImGui::Text("Mode: %s",
@@ -427,6 +418,7 @@ void Game::Update(F32 deltaTime) {
             ImGui::NewLine();
             ImGui::SeparatorText("Audio");
             ImGui::NewLine();
+#if 0
             if (ImGui::BeginCombo("Input Device", sAudio->GetInputDeviceName().empty() ? "Select an input device" : sAudio->GetInputDeviceName().c_str()))
             {
                 for (auto& device : sAudio->GetInputDevices()) {
@@ -475,7 +467,7 @@ void Game::Update(F32 deltaTime) {
             } else {
                 sAudio->StopRecording();
             }
-
+#endif
 
             ImGui::NewLine();
             ImGui::NewLine();
@@ -544,7 +536,7 @@ void Game::Render(F32 deltaTime) {
     }
 
     // 3. Swap buffers
-    SDL_GL_SwapWindow(_window);
+    glfwSwapBuffers(_window);
 }
 
 

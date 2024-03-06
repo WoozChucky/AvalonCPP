@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Scene.h"
-#include "Engine/Graphics/Renderers/MapRenderer.h"
 #include "Engine/Graphics/Camera2D.h"
 
 class MapScene : public IScene {
@@ -15,16 +14,12 @@ public:
         loadMap();
     }
 
-    void onSDLEvent(SDL_Event& event) override {
-
-    }
-
     void Update(F32 deltaTime) override {
         _camera.Update();
     }
 
     void Draw(F32 deltaTime) override {
-        _mapRenderer.Render(_spriteBatch, m_mapLayers, _camera.GetCameraMatrix());
+
     }
 
     void Shutdown() override {
@@ -37,7 +32,6 @@ public:
 private:
     Camera2D _camera;
     SpriteBatch _spriteBatch;
-    MapRenderer _mapRenderer;
     std::vector<MapLayer*> m_mapLayers;
     std::vector<unsigned> m_tileTextures;
 

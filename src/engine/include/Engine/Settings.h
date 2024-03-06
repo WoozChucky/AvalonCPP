@@ -2,7 +2,6 @@
 
 #include <Common/Types.h>
 #include <Common/Utilities/Optional.h>
-#include <SDL_video.h>
 
 #define DEFAULT_GAME_SETTINGS_PATH "settings.json"
 
@@ -36,10 +35,10 @@ namespace Avalon::Engine {
     };
 
     enum VideoMode : U32 {
-        Windowed = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL,
-        Borderless = SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL,
-        Fullscreen = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL,
-        FullscreenBorderless = SDL_WINDOW_BORDERLESS | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL
+        Windowed = 0,
+        Borderless = 1,
+        Fullscreen = 2,
+        FullscreenBorderless = 3
     };
 
     struct VideoResolution {
