@@ -19,6 +19,8 @@
 #include <Engine/Settings.h>
 #include <csignal>
 #include "revision.h"
+#include <Engine/Core/Application.h>
+#include "AvalonGame.h"
 
 using namespace Avalon::Engine;
 
@@ -33,6 +35,18 @@ void SignalHandler(boost::system::error_code const& error, int /*signalNumber*/)
         game->Stop();
         quit = true;
     }
+}
+
+extern Avalon::Application* Avalon::CreateApplication(ApplicationCommandLineArgs args);
+
+Avalon::Application* Avalon::CreateApplication(Avalon::ApplicationCommandLineArgs args)
+{
+    ApplicationSpecification spec;
+    spec.Name = "Avalon App Test";
+    //spec.WorkingDirectory = "../Hazelnut";
+    spec.CommandLineArgs = args;
+
+    return new AvalonGame(spec);
 }
 
 int main(int argc, char** argv) {
@@ -64,7 +78,7 @@ int main(int argc, char** argv) {
     LOG_DEBUG("system", "> Using SSL version: {}", OPENSSL_VERSION_TEXT);
     LOG_DEBUG("system", "> Using Boost version: {}.{}.{}", BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100);
     LOG_DEBUG("system", "> Using Protobuf version: {}.{}.{}", GOOGLE_PROTOBUF_VERSION / 100000, GOOGLE_PROTOBUF_VERSION / 100 % 1000, GOOGLE_PROTOBUF_VERSION % 100);
-    LOG_DEBUG("system", "> Using SDL version: {} (rev. {})", glfwGetVersionString(), 1);
+    LOG_DEBUG("system", "> Using GLFW version: {}", glfwGetVersionString());
     LOG_DEBUG("system", "> Using ImGui version: {}.{}.{} (Docking={})", IMGUI_VERSION_NUM / 10000, IMGUI_VERSION_NUM / 100 % 100, IMGUI_VERSION_NUM % 100, true);
 
     boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
@@ -95,11 +109,9 @@ int main(int argc, char** argv) {
 
     auto settings = LoadGameSettings(DEFAULT_GAME_SETTINGS_PATH);
 
-    ImGui::CreateContext();
-    game = std::make_unique<Game>(*ioContext, settings);
-    game->Run();
-    game->Shutdown();
-    game.reset();
+    auto app = Avalon::CreateApplication({ argc, argv });
+    app->Run();
+    delete app;
 
     LOG_INFO("engine", "Engine stopped");
 

@@ -4,7 +4,7 @@ include_directories(include)
 
 file(GLOB_RECURSE SOURCES "src/**/*.cpp" "include/**/*.h")
 
-add_library(${This} SHARED ${SOURCES})
+add_library(${This} STATIC ${SOURCES})
 set_target_properties(${This} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 target_include_directories(${This} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
@@ -23,6 +23,7 @@ target_link_libraries(${This}
         glm::glm
         tmxlite::tmxlite
         nlohmann_json::nlohmann_json
+        imgui
         Common)
 
 # Add an installation rule to copy the shared library to the output directory

@@ -50,6 +50,7 @@ else()
 endif()
 
 add_definitions(-DGLFW_INCLUDE_NONE)
+add_definitions(-DAV_DEBUG)
 
 # Project libraries
 add_subdirectory(src/proto)

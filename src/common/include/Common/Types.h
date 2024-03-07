@@ -7,6 +7,26 @@
 
 #include <Common/Utilities/advstd.h>
 
+#ifdef AV_DEBUG
+#if defined(AV_PLATFORM_WIN)
+		#define AV_DEBUGBREAK() __debugbreak()
+	#elif defined(AV_PLATFORM_UNIX)
+		#include <csignal>
+		#define AV_DEBUGBREAK() raise(SIGTRAP)
+	#else
+		#error "Platform doesn't support debugbreak yet!"
+	#endif
+		#define AV_ENABLE_ASSERTS
+#else
+#define AV_DEBUGBREAK()
+#endif
+
+#define AV_EXPAND_MACRO(x) x
+#define AV_STRINGIFY_MACRO(x) #x
+
+#define BIT(x) (1 << x)
+
+#define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 using S8 = int8_t;
 using S16 = int16_t;

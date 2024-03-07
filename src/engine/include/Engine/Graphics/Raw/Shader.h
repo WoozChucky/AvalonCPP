@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Common/Types.h>
+#include <Common/Logging/Log.h>
 #include <glad/glad.h>
 #include <fstream>
 
