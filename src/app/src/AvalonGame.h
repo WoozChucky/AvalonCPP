@@ -3,15 +3,15 @@
 #include <Engine/Core/Application.h>
 #include <Engine/Graphics/Renderers/RendererAPI.h>
 #include <Engine/Graphics/Renderers/Renderer2D.h>
-#include <Engine/Graphics/Raw//Texture2D.h>
-#include <Engine/Graphics/OrthographicCamera.h>
+#include <Engine/Graphics/Raw/Texture2D.h>
+#include <Engine/Graphics/OrthographicCameraController.h>
 
 class TestLayer : public Avalon::Layer
 {
 public:
-    TestLayer() : Layer("Test"), m_Camera() {}
+    TestLayer() : Layer("Test"), m_Camera(16.0f / 9.0f) {}
     void OnAttach() override {
-        m_Texture = Avalon::Texture2D::Create("assets/textures/Checkerboard.png");
+        m_Texture = Avalon::Texture2D::Create("assets/textures/icon.png");
     }
     void OnEvent(Avalon::Event& event) override {
 
@@ -21,7 +21,7 @@ public:
         Avalon::RendererAPI::SetClearColor({ 0.25f, 0.25f, 0.25f, 0.85f });
         Avalon::RendererAPI::Clear();
 
-        Avalon::Renderer2D::BeginScene();
+        Avalon::Renderer2D::BeginScene(m_Camera.GetCamera());
         Avalon::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Texture);
         Avalon::Renderer2D::EndScene();
 
@@ -31,7 +31,7 @@ public:
     }
 
 private:
-    Avalon::OrthographicCamera m_Camera;
+    Avalon::OrthographicCameraController m_Camera;
     Ref<Avalon::Texture2D> m_Texture;
 };
 

@@ -1,3 +1,5 @@
+#if 0
+
 #pragma once
 
 #include <memory>
@@ -37,3 +39,5 @@ private:
     void Update(F32 deltaTime);
     void Render(F32 deltaTime);
 };
+
+#endif

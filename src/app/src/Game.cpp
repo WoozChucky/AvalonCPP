@@ -1,3 +1,4 @@
+#if 0
 #include "Game.h"
 #include <fmt/core.h>
 #include <glad/glad.h>
@@ -539,5 +540,4 @@ void Game::Render(F32 deltaTime) {
     glfwSwapBuffers(_window);
 }
 
-
-
+#endif

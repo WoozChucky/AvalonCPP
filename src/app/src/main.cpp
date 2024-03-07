@@ -24,16 +24,14 @@
 
 using namespace Avalon::Engine;
 
-std::unique_ptr<Game> game;
+Avalon::Application* app;
 
-int quit = false;
 
 void SignalHandler(boost::system::error_code const& error, int /*signalNumber*/)
 {
     if (!error) {
         LOG_INFO("engine", "Signal received, shutting down.");
-        game->Stop();
-        quit = true;
+        app->Close();
     }
 }
 
@@ -109,7 +107,7 @@ int main(int argc, char** argv) {
 
     auto settings = LoadGameSettings(DEFAULT_GAME_SETTINGS_PATH);
 
-    auto app = Avalon::CreateApplication({ argc, argv });
+    app = Avalon::CreateApplication({ argc, argv });
     app->Run();
     delete app;
 
