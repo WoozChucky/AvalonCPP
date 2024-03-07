@@ -131,7 +131,7 @@ private:
         while (pos != std::string::npos)
         {
             size_t eol = source.find_first_of("\r\n", pos);
-            if (eol != std::string::npos)
+            if (eol == std::string::npos)
             {
                 throw std::runtime_error("Syntax error");
             }
@@ -183,7 +183,7 @@ private:
                 glDeleteShader(shader);
 
                 LOG_WARN("Shader", "Shader compilation failure: {0}", infoLog.data());
-                throw std::runtime_error("Shader compilation failure!");
+                assert(false);
                 return;
             }
 
